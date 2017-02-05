@@ -1,0 +1,58 @@
+[{
+  "dataType":"GRID_SECTORS",
+  "sectors":{
+    "data":[
+      {"id":"sparse",
+        "weight":4,
+        "spawn":[
+          {"pieceType":"small_space_rock_piece", "min":2, "max":3},
+          {"pieceType":"big_space_rock_piece", "min":0, "max":1},
+          {"pieceType":"plasma_blob_piece", "min":0, "max":1},
+          {"pieceType":"clay_blob_piece", "min":0, "max":0}
+      ]},
+
+      {"id":"average",
+        "weight":3,
+        "spawn":[
+          {"pieceType":"small_space_rock_piece", "min":2, "max":3},
+          {"pieceType":"big_space_rock_piece", "min":1, "max":2},
+          {"pieceType":"plasma_blob_piece", "min":1, "max":1},
+          {"pieceType":"clay_blob_piece", "min":0, "max":1}
+        ]},
+
+      {"id":"dense",
+        "weight":3,
+        "spawn":[
+          {"pieceType":"small_space_rock_piece", "min":2, "max":5},
+          {"pieceType":"big_space_rock_piece", "min":1, "max":4},
+          {"pieceType":"plasma_blob_piece", "min":1, "max":3},
+          {"pieceType":"clay_blob_piece", "min":0, "max":5}
+        ]},
+
+      {"id":"crowded",
+        "weight":2,
+        "spawn":[
+          {"pieceType":"small_space_rock_piece", "min":4, "max":5},
+          {"pieceType":"big_space_rock_piece", "min":1, "max":3},
+          {"pieceType":"plasma_blob_piece", "min":1, "max":3},
+          {"pieceType":"clay_blob_piece", "min":1, "max":4}
+      ]},
+      {"id":"plasmatic",
+        "weight":1,
+        "spawn":[
+          {"pieceType":"small_space_rock_piece", "min":2, "max":5},
+          {"pieceType":"big_space_rock_piece", "min":1, "max":2},
+          {"pieceType":"plasma_blob_piece", "min":3, "max":8}
+        ]},
+      {"id":"rockness",
+        "weight":1,
+        "spawn":[
+          {"pieceType":"small_space_rock_piece", "min":2, "max":5},
+          {"pieceType":"big_space_rock_piece", "min":1, "max":2},
+          {"pieceType":"plasma_blob_piece", "min":2, "max":7},
+          {"pieceType":"clay_blob_piece", "min":1, "max":2}
+        ]}
+    ]
+
+  }
+}]

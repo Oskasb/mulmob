@@ -1,0 +1,59 @@
+[{
+  "dataType":"PIECE_DATA",
+  "pieces":{
+    "player_ship":{
+      "controls":{
+        "input": {
+          "pointer":"InputSegmentRadial",
+          "data":{
+            "radialSegments":32,
+            "distanceSegments":3,
+            "radius":150,
+            "width":20,
+            "streamTimeout":0.2
+          }
+        },
+        "actions": {
+          "applySteering":0,
+          "applyThrottle":0,
+          "applyForward":0,
+          "applyShields":0,
+          "fireCannon":false
+        },
+        "constants":{
+          "shieldEnergy":50,
+          "radialSegments":32,
+          "throttleSegments": 3,
+          "velocityDrag":1.1,
+          "radialDrag":0.45,
+          "radialVelocityClamp":1.8,
+          "radialLerpFactor":1,
+          "throttleLimit": 0.2,
+          "throttleAmplitude": 30
+        }
+      },
+      "attachment_points":[
+        {"slot":"hull",    "transform":{ "rot":[0, 0, 1], "pos":[0,       0  ,  2.1]}},
+        {"slot":"shield",  "transform":{ "rot":[0, 0, 0], "pos":[0,       0  ,  0.1]}},
+        {"slot":"drive",   "transform":{ "rot":[0, 0, 1], "pos":[0,       0  , -0.6]}},
+        {"slot":"drive",   "transform":{ "rot":[0, 0, 1], "pos":[0,       0  , -0.6]}},
+        {"slot":"weapon",  "transform":{ "rot":[0, 0, 0], "pos":[0,       2.5, -5.3]}},
+        {"slot":"weapon",  "transform":{ "rot":[0, 0, 0], "pos":[-9.2,    0  , -1.7]}},
+        {"slot":"engine",  "transform":{ "rot":[0, 0, 1], "pos":[0,       0  ,  2.8]}},
+        {"slot":"control"  },
+        {"slot":"name"     }
+      ],
+      "default_modules":[
+        "hull",
+        "shield",
+        "hyper_drive",
+        "warp_drive",
+        "plasma_cannon",
+        "auto_cannon",
+        "engine",
+        "inputControls",
+        "nameplate"
+      ]
+    }
+  }
+}]
