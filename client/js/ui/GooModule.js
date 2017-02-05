@@ -83,7 +83,7 @@ define([
             if (this.applies.game_effect) {
 
                 var getRotation = function() {
-                    return piece.spatial.rot[0]+_this.getModuleRotation();
+                    return -piece.spatial.rot[0]+_this.getModuleRotation();
                 };
 
                 var getPosition = function() {
@@ -303,7 +303,7 @@ define([
 
                 } else {
                     this.tempSpatial.pos.setVec(this.piece.spatial.pos);
-                    this.tempSpatial.rot.setZ(this.piece.spatial.rot);
+                    this.tempSpatial.rot.setY(this.piece.spatial.rot);
                 }
                 
                    if (this.module.on) {
