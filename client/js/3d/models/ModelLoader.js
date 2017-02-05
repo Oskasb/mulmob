@@ -20,7 +20,7 @@ define([
 
 
             var attachBundleEntity = function(clonedEntity, parent) {
-                console.log(clonedEntity, parent);
+                console.log("New Clone:",clonedEntity.name);
             //    clonedEntity.transformComponent.transform.rotation.rotateX(Math.PI*0.5);
                 parent.transformComponent.attachChild(clonedEntity.transformComponent);
                 clonedEntity.addToWorld();

@@ -114,23 +114,14 @@
     "clay_blob_module":{
       "id":"clay_blob_module",
       "type":"hull",
-      "size":4,
+      "size":1,
       "source":"initiate",
       "initState": true,
       "applies":{
         "type":"string",
         "state":true,
         "action":"applyAppearance",
-        "emit_effect":"cheap_rock_effect",
-        "effect_data":{
-          "intensity":1,
-          "size": 5,
-          "lifeSpan":0.4,
-          "strength":20,
-          "acceleration":0.5,
-          "growth": [330, 1500]
-        },
-        "remove_effect":"shell_detonate"
+        "bundle_model":"ground"
       }
     }
   }

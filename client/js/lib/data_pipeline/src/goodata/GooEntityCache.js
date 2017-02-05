@@ -26,7 +26,6 @@ define([
 			var boundingSystem = world.getSystem('BoundingUpdateSystem');
 			var animationSystem = world.getSystem('AnimationSystem');
 			var renderSystem = world.getSystem('RenderSystem');
-console.log(boundingSystem,animationSystem,renderSystem)
 
 			var processCount = 0;
 			var doneCount = 0;
@@ -227,7 +226,7 @@ console.log(boundingSystem,animationSystem,renderSystem)
 					var eClone = EntityUtils.clone(gooWorld, entity, cloneSettings);
 
 					processForClone(eClone);
-					console.log("Built Clone: ",eClone )
+				//	console.log("Built Clone: ",eClone )
 					cb(eClone);
 				}, 0)
 			};

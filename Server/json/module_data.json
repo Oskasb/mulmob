@@ -7,7 +7,7 @@
       "id":"hull",
       "source":"initiate",
       "initState": true,
-      "size":6,
+      "size":4,
       "applies":{
         "type":"string",
         "state":true,
@@ -56,10 +56,10 @@
         "type":"toggle",
         "state":true,
         "control_constants":{
-          "throttleAmplitude":10,
+          "throttleAmplitude":80,
           "radialVelocityClamp":-0.14,
           "radialDrag":-1,
-          "velocityDrag":-0.7
+          "velocityDrag":-0.9
         },
         "drain":2,
         "flicker":0.4,
@@ -169,7 +169,7 @@
         "state_factor":30,
         "emit_effect":"tank_track_fx",
         "effect_data":{
-          "intensity":0.4,
+          "intensity":0.04,
           "strength":10,
           "lifeSpan":0.4
         },

@@ -23,13 +23,13 @@
         "constants":{
           "shieldEnergy":50,
           "radialSegments":32,
-          "throttleSegments": 3,
-          "velocityDrag":1.1,
+          "throttleSegments": 5,
+          "velocityDrag":2.1,
           "radialDrag":0.45,
           "radialVelocityClamp":1.8,
           "radialLerpFactor":1,
-          "throttleLimit": 0.2,
-          "throttleAmplitude": 30
+          "throttleLimit": 0.6,
+          "throttleAmplitude": 50
         }
       },
       "attachment_points":[

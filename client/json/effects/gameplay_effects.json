@@ -24,6 +24,9 @@
             {
                 "id":"tank_track_fx",
                 "effect_data":[{
+                    "effect":"explosion_smoke",
+                    "simulator":"CheapParticles"
+                },{
                     "effect":"no_blend_dirt_rock",
                     "simulator":"CheapParticles"
                 }]
@@ -349,12 +352,8 @@
                     {
                         "effect":"fast_tail_hyper",
                         "simulator":"FastAdditiveTrail"
-                    },
-                    {
-                        "effect":"hyper_flare",
-                        "simulator":"AdditiveParticle"
-
-                    }]
+                    }
+                ]
 
             },
 

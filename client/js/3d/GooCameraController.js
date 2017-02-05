@@ -99,7 +99,7 @@ define(['Events',
         // forVec.scale(0.4);
 
 
-        calcVec.setDirect(0, 5 + (Math.sqrt(Math.abs(playerPiece.spatial.vel.getZ()+0.1))), 0);
+        calcVec.setDirect(0, 3 + (Math.sqrt(Math.abs(playerPiece.spatial.vel.getZ()*0.5))), 0);
         calcVec.addDirect(forVec.getX(), forVec.getY(), forVec.getZ());
         calcVec2.setDirect(playerPiece.spatial.pos.getX(), playerPiece.spatial.pos.getY(), playerPiece.spatial.pos.getZ());
     //    calcVec.subVector(lastPos);
@@ -108,7 +108,7 @@ define(['Events',
         cameraEntity.transformComponent.transform.translation.setVector(calcVec2);
     //    cameraEntity.transformComponent.transform.translation.x -= playerPiece.spatial.vel.getX()*3;
 
-        cameraEntity.transformComponent.transform.translation.y += 29 - playerPiece.spatial.vel.getZ()+0.1 + Math.abs(playerPiece.spatial.vel.getX());
+        cameraEntity.transformComponent.transform.translation.y += Math.max(29 - playerPiece.spatial.vel.getZ()+0.1 + Math.abs(playerPiece.spatial.vel.getX()), 7);
 
         cameraEntity.transformComponent.transform.translation.z -= 40 - playerPiece.spatial.vel.getZ()*0.3;
         cameraEntity.transformComponent.transform.translation.x -= playerPiece.spatial.vel.getX()*0.3;

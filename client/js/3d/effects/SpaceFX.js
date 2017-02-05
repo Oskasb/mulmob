@@ -58,6 +58,8 @@ define([
         function cameraReady(e) {
             camera = evt.args(e).camera;
         //    evt.removeListener(evt.list().CAMERA_READY, cameraReady);
+
+
         }
 
         evt.once(evt.list().CAMERA_READY, cameraReady);
@@ -76,6 +78,7 @@ define([
 
         var controlledPieceUpdated = function(e) {
             modulationSpatial = evt.args(e).spatial;
+        //    evt.fire(evt.list().ATTACH_BUNDLE_ENTITY, {entityName:"Blue Skysphere", parent:camera});
         };
 
         evt.once(evt.list().CONTROLLED_PIECE_UPDATED, controlledPieceUpdated);

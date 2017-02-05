@@ -7,6 +7,12 @@
 				"folder":"assets/bundles/tank/",
 				"file":"root.bundle",
 				"entities":["sherman"]
+			},
+			{
+				"id":"environment",
+				"folder":"assets/bundles/env/",
+				"file":"root.bundle",
+				"entities":["ground", "Blue Skysphere"]
 			}
 		]
 	}

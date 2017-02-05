@@ -85,7 +85,7 @@ define([
             letterConfig.size[0] = textMessage.size*textMessage.config.size;
             letterConfig.size[1] = textMessage.size*textMessage.config.size;
 
-            particleData.pos.setDirect(textMessage.posx + textMessage.printCount * textMessage.config.spacing, 0, textMessage.posy);
+            particleData.pos.setDirect(textMessage.text.length + textMessage.posx - textMessage.printCount * textMessage.config.spacing, 0, textMessage.posy);
 
             this.simpleParticles.spawn(this.simId, particleData.pos, particleData.vel, letterConfig, null, 1);
             textMessage.printCount++;
