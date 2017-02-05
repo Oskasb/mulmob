@@ -12,7 +12,8 @@ require.config({
         PipelineAPI:'./lib/data_pipeline/src/PipelineAPI',
         gui:'./lib/canvas_gui/',
         particle_system:'./lib/particles',
-        data_pipeline:'./lib/data_pipeline/src/'
+        data_pipeline:'./lib/data_pipeline/src/',
+        goo_datapipe:'./lib/data_pipeline/src/goodata'
     }
 });
 

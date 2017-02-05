@@ -1,5 +1,5 @@
 define([
-	'data_pipeline/goodata/GooEntityListCombiner'
+	'goo_datapipe/GooEntityListCombiner'
 ],
 	function(
 		GooEntityListCombiner
