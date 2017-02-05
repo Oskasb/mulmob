@@ -121,9 +121,8 @@
         "type":"string",
         "action":"fireCannon",
         "bullet":"cannon_bullet",
-        "exitVelocity":95,
-        "lifeTime":0.4,
-        "game_effect":"cannon_auto_module"
+        "exitVelocity":125,
+        "lifeTime":0.7
       }
     },
 
@@ -168,10 +167,10 @@
         "state":true,
         "action":"applyForward",
         "state_factor":30,
-        "emit_effect":"ship_engine",
+        "emit_effect":"tank_track_fx",
         "effect_data":{
-          "intensity":0.3,
-          "strength":15,
+          "intensity":0.4,
+          "strength":10,
           "lifeSpan":0.4
         },
         "threshold":0.2,

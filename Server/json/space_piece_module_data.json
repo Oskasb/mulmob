@@ -25,6 +25,58 @@
         "remove_effect":"shell_detonate"
       }
     },
+
+    "big_tree_module":{
+      "id":"big_tree_module",
+      "type":"hull",
+      "size":8,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "action":"applyAppearance",
+        "game_effect":"big_tree_effect",
+        "effect_data":{
+          "intensity":1
+        },
+        "remove_effect":"shell_detonate"
+      }
+    },
+    "medium_tree_module":{
+      "id":"medium_tree_module",
+      "type":"hull",
+      "size":5,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "action":"applyAppearance",
+        "game_effect":"medium_tree_effect",
+        "effect_data":{
+          "intensity":1
+        },
+        "remove_effect":"shell_detonate"
+      }
+    },
+    "small_tree_module":{
+      "id":"small_tree_module",
+      "type":"hull",
+      "size":3,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "action":"applyAppearance",
+        "game_effect":"small_tree_effect",
+        "effect_data":{
+          "intensity":1
+        },
+        "remove_effect":"shell_detonate"
+      }
+    },
     "big_space_rock_module":{
       "id":"big_space_rock_module",
       "type":"hull",

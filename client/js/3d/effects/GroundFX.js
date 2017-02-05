@@ -23,7 +23,7 @@ define([
         shield:'shield'
     };
 
-    var OceanFX = function() {
+    var GroundFX = function() {
         var pipeObj;
         var bkPipe;
 
@@ -68,7 +68,7 @@ define([
         };
 
 
-        pipeObj = new PipelineObject('effects','ocean', fxConfig);
+        pipeObj = new PipelineObject('effects','ground', fxConfig);
 
         var controlledPieceUpdated = function(e) {
             modulationSpatial = evt.args(e).spatial;
@@ -79,16 +79,16 @@ define([
     };
 
 
-    OceanFX.prototype.applyVolumeVector = function(confData, vec3) {
+    GroundFX.prototype.applyVolumeVector = function(confData, vec3) {
 
+        vec3.addDirect(confData[0]*(Math.random()-0.5)*(Math.random()-0.5), confData[1]*(Math.random()-0.5), confData[2]*(Math.random()-0.5)*(Math.random()-0.5));
+    };
+
+    GroundFX.prototype.applyFXVector = function(confData, vec3) {
         vec3.addDirect(confData[0]*(Math.random()-0.5), confData[1]*(Math.random()-0.5), confData[2]*(Math.random()-0.5));
     };
 
-    OceanFX.prototype.applyFXVector = function(confData, vec3) {
-        vec3.addDirect(confData[0]*(Math.random()-0.5), confData[1]*(Math.random()-0.5), confData[2]*(Math.random()-0.5));
-    };
-
-    OceanFX.prototype.updateColorFX = function(confMin, confMax, vec3) {
+    GroundFX.prototype.updateColorFX = function(confMin, confMax, vec3) {
         vec3.setDirect(
             confMin[0] + (confMax[0] - confMin[0])*Math.random(),
             confMin[1] + (confMax[1] - confMin[1])*Math.random(),
@@ -96,7 +96,7 @@ define([
         );
     };
 
-    OceanFX.prototype.spawnConfigureSpaceFX = function(conf, time) {
+    GroundFX.prototype.spawnConfigureSpaceFX = function(conf, time) {
 
 
         if (!this.camPos.x) {
@@ -104,15 +104,18 @@ define([
             return;
         }
 
+        this.calcVec.setDirect(modulationSpatial.vel.getX(), modulationSpatial.vel.getY(), modulationSpatial.vel.getZ());
 
         this.posVec.set(this.camPos);
         //
         this.posVec.y = 0;
 
+        this.posVec.add(this.calcVec);
+
         this.applyVolumeVector(conf.volume, this.posVec);
 
 
-        this.calcVec.setDirect(modulationSpatial.vel.getX(), modulationSpatial.vel.getY(), modulationSpatial.vel.getZ());
+
 
 
         var distFactor = (this.camPos.y-this.posVec.y) * 0.006;
@@ -122,13 +125,13 @@ define([
         this.posVec.add(this.calcVec);
 
 
-        this.applyFXVector(conf.speed, this.velVec);
+    //    this.applyFXVector(conf.speed, this.velVec);
         this.updateColorFX(conf.colorMin, conf.colorMax, this.colorVec);
 
         evt.fire(evt.list().GAME_EFFECT, {effect:conf.game_effect, pos:this.posVec, vel:this.velVec, params:this.effectData});
     };
 
-    OceanFX.prototype.processConfFX = function(conf, time, tpf) {
+    GroundFX.prototype.processConfFX = function(conf, time, tpf) {
         for (var i = 0; i < conf.length; i++) {
 
             if (Math.random() < conf[i].frequency) {
@@ -142,7 +145,7 @@ define([
 
     };
 
-    OceanFX.prototype.processBackground = function(tpf) {
+    GroundFX.prototype.processBackground = function(tpf) {
         this.time += tpf;
 
         //    var blend = MATH.calcFraction(0, this.flashTime, this.time)
@@ -169,7 +172,7 @@ define([
         );
     };
 
-    OceanFX.prototype.applyBackgroundFx = function(conf) {
+    GroundFX.prototype.applyBackgroundFx = function(conf) {
 
         this.time = 0;
 
@@ -185,9 +188,9 @@ define([
         this.adsr = conf.adsr;
     };
 
-    OceanFX.prototype.updateSpaceFX = function(time, tpf) {
+    GroundFX.prototype.updateSpaceFX = function(time, tpf) {
 
-        this.camPos.set(camera.transformComponent.transform.translation);
+        this.camPos.set(camera.lookAtPoint);
 
         for (var key in configs) {
             this.processConfFX(configs[key], time, tpf);
@@ -196,7 +199,7 @@ define([
     };
 
     var sysTime = 0;
-    OceanFX.prototype.enableOceanFx = function() {
+    GroundFX.prototype.enableGroundFx = function() {
 
         var _this = this;
 
@@ -210,11 +213,11 @@ define([
     };
 
 
-    OceanFX.prototype.setupOceanFxScene = function() {
-        this.enableOceanFx();
+    GroundFX.prototype.setupGroundFxScene = function() {
+        this.enableGroundFx();
     };
 
 
-    return OceanFX;
+    return GroundFX;
 
 });

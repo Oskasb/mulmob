@@ -57,8 +57,8 @@ GridSector.prototype.spawnSelection = function(spawnData) {
     for (var i = 0; i < amount; i++) {
         var posx = this.sectorData.minX + ((Math.random()*0.6)+0.4) * this.sectorData.size;
         var posz = this.sectorData.minY + ((Math.random()*0.8)+0.2) * this.sectorData.size;
-        var rot = Math.random()*MATH.TWO_PI;
-        var rotVel = (Math.random()-0.5)*3;
+        var rot = 0; //Math.random()*MATH.TWO_PI;
+        var rotVel = 0; // (Math.random()-0.5)*3;
         var piece = this.serverWorld.createWorldPiece(spawnData.pieceType, posx, posz, rot, rotVel);
         this.activeSectorPieces.push(piece)
     }

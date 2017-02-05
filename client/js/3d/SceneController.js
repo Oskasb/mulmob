@@ -7,7 +7,7 @@ define([
     '3d/effects/ParticlePlayer',
     '3d/effects/GooCameraEffects',
     '3d/effects/SpaceFX',
-    '3d/effects/OceanFX',
+    '3d/effects/GroundFX',
     '3d/models/ModelLoader',
     'Events'
 
@@ -17,7 +17,7 @@ define([
     ParticlePlayer,
     GooCameraEffects,
     SpaceFX,
-    OceanFX,
+    GroundFX,
     ModelLoader,
     evt
 ) {
@@ -26,7 +26,7 @@ define([
     var gooController;
     var particlePlayer;
     var spaceFX;
-    var oceanFX;
+    var groundFX;
     var modelLoader;
 
     new GooCameraEffects();
@@ -34,7 +34,7 @@ define([
     var SceneController = function() {
         gooController = new GooController();
         spaceFX = new SpaceFX();
-        oceanFX = new OceanFX();
+        groundFX = new GroundFX();
         function rendererReady(e) {
             GooEntityFactory.setGoo(evt.args(e).goo);
             world = evt.args(e).goo.world;
@@ -64,7 +64,7 @@ define([
     function tickListen() {
 
         spaceFX.setupSpaceFxScene();
-        oceanFX.setupOceanFxScene();
+        groundFX.setupGroundFxScene();
     }
     
     

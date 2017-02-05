@@ -84,6 +84,31 @@
           "frequency":0.03
         }]
       }
+    ],
+    "ground":[
+      {
+        "id":"tufts",
+        "effect_data":[{
+          "game_effect":"cheap_grass",
+          "volume":[241, 0, 240],
+          "distance": 0,
+          "speed":[0, 0, 0],
+          "colorMin":[0.5, 0.8, 0.85],
+          "colorMax":[0.8, 0.99,0.95],
+          "frequency":0.2
+        }]
+      },{
+        "id":"rocks",
+        "effect_data":[{
+          "game_effect":"cheap_rock_effect",
+          "volume":[81,0, 80],
+          "distance": 0,
+          "speed":[0, 0, 0],
+          "colorMin":[0.5, 0.8, 0.85],
+          "colorMax":[0.8, 0.99,0.95],
+          "frequency":0.1
+        }]
+      }
     ]
   }
 }]

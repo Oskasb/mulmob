@@ -71,7 +71,7 @@ define({
 			"renderers": [
 				"ParticleRenderer"
 			],
-			"poolCount": 350,
+			"poolCount": 450,
 			"blending": {
 				"value": "NoBlending",
 				"type": "option",

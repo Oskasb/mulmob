@@ -297,10 +297,21 @@ define([
                         }
                     }
 
-                    this.readWorldTransform(this.transform.pos);
-                    this.tempSpatial.rot.setXYZ(this.transform.rot[0], this.transform.rot[1], this.transform.rot[2]);
-                    this.tempSpatial.rot.rotateY(this.piece.spatial.rot);
+                    this.tempSpatial.pos.setArray(this.transform.pos)
 
+                    if (this.transform.size) {
+                    //    console.log("has size:", this.transform.size)
+
+                        this.tempSpatial.pos.data[0] += this.transform.size[0]*(Math.random()-0.5);
+                        this.tempSpatial.pos.data[1] += this.transform.size[1]*(Math.random()-0.5);
+                        this.tempSpatial.pos.data[2] += this.transform.size[2]*(Math.random()-0.5);
+                    }
+
+                    this.readWorldTransform(this.tempSpatial.pos.data);
+
+                    this.tempSpatial.rot.setXYZ(this.transform.rot[0], this.transform.rot[1]*Math.random(), this.transform.rot[2]);
+                    this.tempSpatial.rot.rotateY(this.piece.spatial.rot);
+                //    this.tempSpatial.rot.setY()
                 } else {
                     this.tempSpatial.pos.setVec(this.piece.spatial.pos);
                     this.tempSpatial.rot.setY(this.piece.spatial.rot);
@@ -321,6 +332,8 @@ define([
                                 var intensity = this.applies.effect_data.intensity || 0.5;
                                 this.populateEffectData(Math.random()*intensity);
                             }
+
+
 
 
                             evt.fire(evt.list().GAME_EFFECT, {effect:this.applies.emit_effect, pos:this.tempSpatial.pos, vel:this.tempSpatial.rot, params:this.effectData.state});

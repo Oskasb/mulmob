@@ -743,6 +743,64 @@
                     "sprite":"space_rock"
                 }
             },
+
+            {
+                "id":"basic_tree_particles",
+                "effect_data":{
+                    "color0":[0.9, 0.96, 0.96],
+                    "color1":[0.98, 0.99, 0.99],
+                    "colorCurve":[[1, 1], [1, 1]],
+                    "colorRandom":0.1,
+                    "count":1,
+                    "opacity":[1, 1],
+                    "alpha":"oneToZero",
+                    "size":[16, 16],
+                    "growthFactor":[1.01, 0.7],
+                    "growth":"posToNeg",
+                    "rotation":[0,7],
+                    "spin":"posToNeg",
+                    "lifespan":[2, 2],
+                    "sprite":"tree_sprite_1"
+                }
+            },
+            {
+                "id":"small_tree_particles",
+                "effect_data":{
+                    "color0":[0.9, 0.96, 0.96],
+                    "color1":[0.98, 0.99, 0.99],
+                    "colorCurve":[[1, 1], [1, 1]],
+                    "colorRandom":0.1,
+                    "count":1,
+                    "opacity":[1, 1],
+                    "alpha":"oneToZero",
+                    "size":[5, 5],
+                    "growthFactor":[1.01, 0.7],
+                    "growth":"posToNeg",
+                    "rotation":[0,7],
+                    "spin":"posToNeg",
+                    "lifespan":[2, 2],
+                    "sprite":"tree_sprite_2"
+                }
+            },
+            {
+                "id":"medium_tree_particles",
+                "effect_data":{
+                    "color0":[0.9, 0.96, 0.96],
+                    "color1":[0.98, 0.99, 0.99],
+                    "colorCurve":[[1, 1], [1, 1]],
+                    "colorRandom":0.1,
+                    "count":1,
+                    "opacity":[1, 1],
+                    "alpha":"oneToZero",
+                    "size":[8, 8],
+                    "growthFactor":[1.01, 0.7],
+                    "growth":"posToNeg",
+                    "rotation":[0,7],
+                    "spin":"posToNeg",
+                    "lifespan":[2, 2],
+                    "sprite":"tree_sprite_3"
+                }
+            },
             {
                 "id":"space_rock_big_particles",
                 "effect_data":{

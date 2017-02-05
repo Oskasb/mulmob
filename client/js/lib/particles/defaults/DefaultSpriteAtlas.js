@@ -152,7 +152,18 @@ define({
 				"id":"s11_center",
 				"tiles":[[5, 11]]
 			},
-
+			{
+				"id":"tree_sprite_1",
+				"tiles":[[1, 5]]
+			},
+			{
+				"id":"tree_sprite_2",
+				"tiles":[[2, 5]]
+			},
+			{
+				"id":"tree_sprite_3",
+				"tiles":[[3, 5]]
+			},
 			{
 				"id":"space_rock",
 				"tiles":[[0, 10]]

@@ -22,6 +22,14 @@
 
             },
             {
+                "id":"tank_track_fx",
+                "effect_data":[{
+                    "effect":"no_blend_dirt_rock",
+                    "simulator":"CheapParticles"
+                }]
+
+            },
+            {
                 "id":"cannon_lazer_module",
                 "effect_data":[{
                     "effect":"cannon_lazer_particle",
@@ -53,16 +61,13 @@
                     "simulator":"AdditiveParticle"
 
                 }]
-
             },
-
             {
                 "id":"blue_star_effect",
                 "effect_data":[{
                     "effect":"no_blend_star",
                     "simulator":"CheapParticles"
                 }]
-
             },
             {
                 "id":"hyper_space_sparks",
@@ -70,7 +75,13 @@
                     "effect":"space_sparks",
                     "simulator":"CheapParticles"
                 }]
-
+            },
+            {
+                "id":"cheap_grass",
+                "effect_data":[{
+                    "effect":"cheap_plain_grass",
+                    "simulator":"CheapParticles"
+                }]
             },
             {
                 "id":"ocean_waves",
@@ -290,6 +301,33 @@
 
             }]
           },
+            {
+                "id":"small_tree_effect",
+                "effect_data":[{
+                    "effect":"small_tree_particles",
+                    "simulator":"OpaqueParticle",
+                    "density":1
+
+                }]
+            },
+            {
+                "id":"medium_tree_effect",
+                "effect_data":[{
+                    "effect":"medium_tree_particles",
+                    "simulator":"OpaqueParticle",
+                    "density":1
+
+                }]
+            },
+            {
+                "id":"big_tree_effect",
+                "effect_data":[{
+                    "effect":"basic_tree_particles",
+                    "simulator":"OpaqueParticle",
+                    "density":1
+
+                }]
+            },
             {
                 "id":"clay_blob_splatter",
                 "effect_data":[{

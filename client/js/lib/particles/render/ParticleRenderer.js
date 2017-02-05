@@ -59,7 +59,15 @@ function (
 		material.uniforms.alphakill = simConf.alphakill.value;
 		material.blendState.blending = simConf.blending.value;
 
-		material.depthState.write = false;
+		if (material.blendState.blending == "NoBlending") {
+			material.depthState.write = true;
+		} else {
+			material.depthState.write = false;
+		}
+
+
+
+
 		material.renderQueue = 3010;
 		var entity = this.entity = goo.world.createEntity(meshData);
 		entity.set(new MeshRendererComponent(material));
