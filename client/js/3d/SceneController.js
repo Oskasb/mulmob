@@ -51,6 +51,9 @@ define([
 
         function bundlesReady(e) {
             console.log("BUNDLES_READY,", evt.args(e));
+            setTimeout(function() {
+                evt.fire(evt.list().PLAYER_READY, {});
+            },20);
         }
 
 

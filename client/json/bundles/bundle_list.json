@@ -12,7 +12,7 @@
 				"id":"environment",
 				"folder":"assets/bundles/env/",
 				"file":"root.bundle",
-				"entities":["ground", "Blue Skysphere"]
+				"entities":["ground"]
 			}
 		]
 	}

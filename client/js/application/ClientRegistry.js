@@ -41,9 +41,7 @@ define([
             this.data.CLIENT_ID = data.clientId;
 		//	PipelineAPI.setCategoryData('PIECE_DATA', data.pieceData);
 			PipelineAPI.setCategoryData('REGISTRY', this.data);
-			setTimeout(function() {
-				evt.fire(evt.list().PLAYER_READY, {});
-			},2000);
+
 
 			setTimeout(function() {
 			//	handleResize();

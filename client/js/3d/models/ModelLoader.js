@@ -71,6 +71,13 @@ define([
             
             var bundlesReady = function(sourceKey, res) {
                 console.log("Bundle update OK", sourceKey, res);
+
+                if (this.loadedEntities["sherman"] && this.loadedEntities["ground"]) {
+                    
+                    evt.fire(evt.list().BUNDLES_READY, {});
+
+                }
+
             }.bind(this);
 
             var bundleFail = function(err) {
@@ -84,7 +91,7 @@ define([
 
             setTimeout(function(){
                 bundles()
-            }, 100)
+            }, 25)
 
         };
 

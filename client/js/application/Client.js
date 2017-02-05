@@ -83,7 +83,7 @@ define([
                 evt.removeListener(evt.list().SEND_SERVER_REQUEST, handleSendRequest);
                 setTimeout(function() {
                     connect();
-                }, 100)
+                }, 200)
             }.bind(this);
 
             var handleSendRequest = function(e) {
@@ -162,9 +162,7 @@ define([
                 this.setClientState(GAME.ENUMS.ClientStates.CLIENT_REQUESTED);
 
                 connectionReady();
-
-                evt.fire(evt.list().PLAYER_READY, {});
-
+                
             }.bind(this);
 
 
@@ -173,7 +171,7 @@ define([
 			//	this.setClientState(GAME.ENUMS.ClientStates.READY);
 				setTimeout(function() {
 					requestClient();
-				}, 100);
+				}, 10);
 
 			//	evt.removeListener(evt.list().CONNECTION_OPEN, clientReady)
 			}.bind(this);
