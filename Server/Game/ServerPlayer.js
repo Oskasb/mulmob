@@ -183,7 +183,7 @@ ServerPlayer.prototype.notifyCurrentGridSector = function(gridSector) {
         }
         
         var iHidePacket = this.makeHidePacket();
-        var iAppearPacket = this.makeHidePacket();
+        var iAppearPacket = this.makeAppearPacket();
 
         for (var i = 0; i < playersRemove.length; i++) {
             playersRemove[i].client.sendToClient(iHidePacket);

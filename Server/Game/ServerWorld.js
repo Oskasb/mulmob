@@ -4,6 +4,7 @@ ServerWorld = function(sectorGrid) {
 	this.players = {};
 	this.playerCount = 0;
 	this.pieces = [];
+    this.terrains = [];
 	this.stars = [];
 	this.actionHandlers;
 	this.pieceCount = 0;
@@ -39,9 +40,23 @@ ServerWorld.prototype.applyControlModule = function(sourcePiece, moduleData, act
 
 ServerWorld.prototype.createWorldPiece = function(pieceType, posx, posz, rot, rotVel) {
     
-    piece = this.pieceSpawner.spawnWorldPiece(pieceType, posx, posz, rot, rotVel)
+    piece = this.pieceSpawner.spawnWorldPiece(pieceType, posx, posz, rot, rotVel);
     this.addWorldPiece(piece);
     return piece;
+};
+
+ServerWorld.prototype.createWorldTerrainPiece = function(pieceType, posx, posz, rot, rotVel) {
+
+    piece = this.pieceSpawner.spawnWorldPiece(pieceType, posx, posz, rot, rotVel);
+    this.addWorldTerrainPiece(piece);
+    return piece;
+};
+
+ServerWorld.prototype.addWorldTerrainPiece = function(piece) {
+
+    this.broadcastPieceState(piece);
+    piece.setState(GAME.ENUMS.PieceStates.MOVING);
+    this.terrains.push(piece);
 };
 
 ServerWorld.prototype.addWorldPiece = function(piece) {
@@ -64,11 +79,7 @@ ServerWorld.prototype.removePlayer = function(playerId) {
 	delete this.players[playerId];
 };
 
-ServerWorld.prototype.removePiece = function(piece) {
-	this.pieces.splice(this.pieces.indexOf(piece), 1);
-	this.broadcastPieceState(piece);
-    piece.setRemoved()
-};
+
 
 ServerWorld.prototype.fetch = function(data) {
 	return this.stars;
@@ -105,6 +116,11 @@ ServerWorld.prototype.updateWorldPiece = function(piece, currentTime) {
 */
 };
 
+ServerWorld.prototype.removePiece = function(piece) {
+    this.pieces.splice(this.pieces.indexOf(piece), 1);
+    this.broadcastPieceState(piece);
+    piece.setRemoved()
+};
 
 ServerWorld.prototype.updatePieces = function(currentTime) {
 	var timeouts = [];
@@ -121,6 +137,28 @@ ServerWorld.prototype.updatePieces = function(currentTime) {
 	}
 };
 
+ServerWorld.prototype.removeTerrain = function(piece) {
+    this.terrains.splice(this.pieces.indexOf(piece), 1);
+    this.broadcastPieceState(piece);
+    piece.setRemoved()
+};
+
+ServerWorld.prototype.updateTerrains = function(currentTime) {
+    var timeouts = [];
+
+
+    for (var i = 0; i < this.terrains.length; i++) {
+        this.updateWorldPiece(this.terrains[i], currentTime);
+        if (this.terrains[i].getState() == GAME.ENUMS.PieceStates.TIME_OUT) {
+            timeouts.push(this.terrains[i]);
+        }
+    }
+
+    for (var i = 0; i < timeouts.length; i++) {
+        this.removeTerrain(timeouts[i]);
+    }
+
+};
 
 ServerWorld.prototype.updateSectorStatus = function(player) {
     var sector = player.notifyCurrentGridSector(this.sectorGrid.getGridSectorForSpatial(player.piece.spatial));
@@ -145,7 +183,7 @@ ServerWorld.prototype.updatePlayers = function(currentTime) {
 
 
 ServerWorld.prototype.tickSimulationWorld = function(currentTime) {
-
+    this.updateTerrains(currentTime);
     this.updatePieces(currentTime);
     this.updatePlayers(currentTime);
     this.serverPieceProcessor.checkProximity(this.players, this.pieces);

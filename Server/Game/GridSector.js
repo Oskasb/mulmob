@@ -45,9 +45,24 @@ GridSector.prototype.makeHidePacket = function(piece) {
 
 GridSector.prototype.activateSector = function() {
 
+
+    for (var i = 0; i < this.sectorConfig.ground.length; i++) {
+        this.spawnGround(this.sectorConfig.ground[i])
+    }
+
     for (var i = 0; i < this.sectorConfig.spawn.length; i++) {
         this.spawnSelection(this.sectorConfig.spawn[i])
     }
+};
+
+GridSector.prototype.spawnGround = function(spawnData) {
+
+    var posx = this.sectorData.minX + 0.5 * this.sectorData.size;
+    var posz = this.sectorData.minY + 0.5 * this.sectorData.size;
+    var rot = 0; //Math.random()*MATH.TWO_PI;
+    var rotVel = 0; // (Math.random()-0.5)*3;
+    var piece = this.serverWorld.createWorldTerrainPiece(spawnData.pieceType, posx, posz, rot, rotVel);
+    this.activeSectorPieces.push(piece)
 };
 
 GridSector.prototype.spawnSelection = function(spawnData) {
@@ -92,9 +107,11 @@ GridSector.prototype.notifyPlayerLeave = function(player) {
     this.activeSectorPlayers.splice(this.activeSectorPlayers.indexOf(player), 1);
     this.sectorData.presentPlayers = this.activeSectorPlayers.length;
 
-    for (var i = 0; i < this.activeSectorPieces.length; i++) {
-        player.client.sendToClient(this.makeHidePacket(this.activeSectorPieces[i]));
-    }
+
+    // clears the sector, makes it glitch... out and back
+ //   for (var i = 0; i < this.activeSectorPieces.length; i++) {
+//        player.client.sendToClient(this.makeHidePacket(this.activeSectorPieces[i]));
+ //   }
 
     this.visiblePlayers.length = 0;
 
