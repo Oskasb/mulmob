@@ -62,7 +62,7 @@ define(['Events',
         cameraEntity.setComponent(cameraComponent);
         cameraEntity.addToWorld();
 
-        cameraEntity.transformComponent.transform.translation.setDirect(0, 90, 0);
+        cameraEntity.transformComponent.transform.translation.setDirect(0, 10, 0);
         cameraEntity.transformComponent.setUpdated();
 
         evt.fire(evt.list().CAMERA_READY, {goo:g00, camera:cameraEntity});
@@ -86,6 +86,10 @@ define(['Events',
     var lastPos;
     var ownPiece;
 
+
+    var lookAtPoint = new goo.Vector3();
+    var camPos = new goo.Vector3();
+
 	var updateCamera = function(e) {
         if (!on) return;
         EnvironmentAPI.updateCameraFrame(evt.args(e).tpf, cameraEntity);
@@ -96,7 +100,7 @@ define(['Events',
         
         playerPiece.spatial.getForwardVector(forVec);
 
-        forVec.scale(10);
+        forVec.scale(20);
         // forVec.addVec(playerPiece.spatial.vel);
         // forVec.scale(0.4);
 
@@ -107,21 +111,32 @@ define(['Events',
     //    calcVec.subVector(lastPos);
 
 
-        cameraEntity.transformComponent.transform.translation.setVector(calcVec2);
+        camPos.setVector(calcVec2)
+
+        camPos.y += Math.max(19 - playerPiece.spatial.vel.getZ()+0.1 + Math.abs(playerPiece.spatial.vel.getX()), 7);
+        camPos.z -= 40 - playerPiece.spatial.vel.getZ()*0.3;
+        camPos.x -= playerPiece.spatial.vel.getX()*0.3;
+
+        cameraEntity.transformComponent.transform.translation.setVector(camPos);
+
+
     //    cameraEntity.transformComponent.transform.translation.x -= playerPiece.spatial.vel.getX()*3;
 
-        cameraEntity.transformComponent.transform.translation.y += Math.max(29 - playerPiece.spatial.vel.getZ()+0.1 + Math.abs(playerPiece.spatial.vel.getX()), 7);
 
-        cameraEntity.transformComponent.transform.translation.z -= 40 - playerPiece.spatial.vel.getZ()*0.3;
-        cameraEntity.transformComponent.transform.translation.x -= playerPiece.spatial.vel.getX()*0.3;
+    //    cameraEntity.transformComponent.transform.translation.setVector(calcVec2);
+    //    cameraEntity.transformComponent.transform.translation.y += Math.max(19 - playerPiece.spatial.vel.getZ()+0.1 + Math.abs(playerPiece.spatial.vel.getX()), 7);
+    //    cameraEntity.transformComponent.transform.translation.z -= 40 - playerPiece.spatial.vel.getZ()*0.3;
+    //    cameraEntity.transformComponent.transform.translation.x -= playerPiece.spatial.vel.getX()*0.3;
 
 
 
         calcVec2.addVector(calcVec);
 
-        cameraEntity.lookAtPoint = calcVec2;
+        lookAtPoint.lerp(calcVec2, 0.1);
+        
+        cameraEntity.lookAtPoint = lookAtPoint;
 
-        cameraEntity.transformComponent.transform.lookAt(calcVec2, Vector3.UNIT_Y);
+        cameraEntity.transformComponent.transform.lookAt(cameraEntity.lookAtPoint, Vector3.UNIT_Y);
 
     //    cameraEntity.transformComponent.transform.lookAt(calcVec, Vector3.UNIT_Y);
     //    cameraEntity.transformComponent.transform.rotation.toAngles(calcVec);

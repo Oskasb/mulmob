@@ -32,7 +32,7 @@ define([
 	    this.tempVec = new MATH.Vec3(0, 0, 0);
 	    this.environments = EnvironmentData.cycles;
 	    this.globals = EnvironmentData.globals;
-	    this.lastUpdate = 5;
+	    this.lastUpdate = 2;
 
 
 		this.lighting.setBaseFogNearFar(this.globals.baseFogNear, this.globals.baseFogFar);
