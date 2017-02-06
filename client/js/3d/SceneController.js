@@ -9,6 +9,7 @@ define([
     '3d/effects/SpaceFX',
     '3d/effects/GroundFX',
     '3d/models/ModelLoader',
+    'EnvironmentAPI',
     'Events'
 
 ], function(
@@ -19,6 +20,7 @@ define([
     SpaceFX,
     GroundFX,
     ModelLoader,
+    EnvironmentAPI,
     evt
 ) {
     
@@ -40,6 +42,7 @@ define([
             world = evt.args(e).goo.world;
             particlePlayer = new ParticlePlayer(evt.args(e).goo);
             modelLoader = new ModelLoader(evt.args(e).goo);
+            EnvironmentAPI.setupEnvironment(evt.args(e).goo);
     //        evt.removeListener(evt.list().ENGINE_READY, rendererReady);
         }
 

@@ -138,7 +138,7 @@ ServerWorld.prototype.updatePieces = function(currentTime) {
 };
 
 ServerWorld.prototype.removeTerrain = function(piece) {
-    this.terrains.splice(this.pieces.indexOf(piece), 1);
+    this.terrains.splice(this.terrains.indexOf(piece), 1);
     this.broadcastPieceState(piece);
     piece.setRemoved()
 };

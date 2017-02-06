@@ -6,13 +6,7 @@
 				"id":"sherman",
 				"folder":"assets/bundles/tank/",
 				"file":"root.bundle",
-				"entities":["sherman"]
-			},
-			{
-				"id":"environment",
-				"folder":"assets/bundles/env/",
-				"file":"root.bundle",
-				"entities":["ground"]
+				"entities":["sherman", "ground"]
 			}
 		]
 	}

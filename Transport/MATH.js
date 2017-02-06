@@ -112,6 +112,12 @@ if(typeof(MATH) == "undefined"){
 		return this;
 	};
 
+	MATH.Vec3.prototype.lerp = function(towardsVec, fraction) {
+		MATH.blendArray(this.data, towardsVec.data, fraction, this.data);
+		return this;
+	};
+
+
 	MATH.Vec3.prototype.setX = function(x) {
 		this.data[0] = x;
 		return this;

@@ -2,10 +2,12 @@
 
 
 define(['Events',
-    'PipelineAPI'
+    'PipelineAPI',
+    'EnvironmentAPI'
 ], function(
     evt,
-    PipelineAPI
+    PipelineAPI,
+    EnvironmentAPI
 
     ) {
 
@@ -28,9 +30,7 @@ define(['Events',
 
 	};
 
-	GooCameraController.prototype.updateCamera = function() {
-		updateCamera()
-	};
+
 
 	GooCameraController.prototype.getCamera = function() {
 		return camera;
@@ -74,6 +74,7 @@ define(['Events',
         var camTick = function() {
             cameraEntity.transformComponent.updateTransform();
             cameraComponent.updateCamera(cameraEntity.transformComponent.transform);
+
         };
         
         
@@ -85,8 +86,9 @@ define(['Events',
     var lastPos;
     var ownPiece;
 
-	var updateCamera = function() {
+	var updateCamera = function(e) {
         if (!on) return;
+        EnvironmentAPI.updateCameraFrame(evt.args(e).tpf, cameraEntity);
 
         ownPiece = PipelineAPI.readCachedConfigKey('GAME_DATA', 'OWN_PLAYER').ownPiece;
 

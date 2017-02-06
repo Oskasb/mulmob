@@ -91,11 +91,7 @@ define([
         window.addEventListener('resize', notifyRezize);
         notifyRezize();
     };
-
-    GooController.prototype.updateWorld = function(tpf) {
-        this.gooCameraController.updateCamera()
-    };
-
+    
     GooController.prototype.registerGooUpdateCallback = function(callback) {
         this.goo.callbacksPreRender.push(callback);
         //	this.updateCallbacks.push(callback);

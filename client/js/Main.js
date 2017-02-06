@@ -12,6 +12,8 @@ require.config({
         PipelineAPI:'./lib/data_pipeline/src/PipelineAPI',
         gui:'./lib/canvas_gui/',
         particle_system:'./lib/particles',
+        environment:'./lib/environment/src/',
+        EnvironmentAPI:'./lib/environment/src/EnvironmentAPI',
         data_pipeline:'./lib/data_pipeline/src/'
     }
 });
