@@ -1,10 +1,9 @@
 "use strict";
 
-
 define([
         'Events',
         'PipelineObject',
-    'PipelineAPI',
+        'PipelineAPI',
         'gui/CanvasGuiAPI',
         'ui/GameScreen',
         'ui/canvas/CanvasElement'

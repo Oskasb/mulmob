@@ -74,12 +74,23 @@
           "text":"HYPER"
         }
       },{
-        "id":"mapContainer",
+        "id":"canvasSteeringMonitor",
         "data":{
-          "parentId":"rightRoot",
-          "style":["main_button_container", "coloring_dark"],
           "canvas3d": {
             "configId": "canvas_input_monitor_3d"
+          }
+        }
+      },{
+        "id":"inputSelectMonitor",
+        "data":{
+          "canvas3d": {
+            "configId": "canvas_input_select"
+          }
+        }      },{
+        "id":"targetSelectMonitor",
+        "data":{
+          "canvas3d": {
+            "configId": "canvas_target_select"
           }
         }
       },{

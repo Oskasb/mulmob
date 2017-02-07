@@ -46,7 +46,7 @@ define([
             this.handlers.gameMain = this.gameMain;
             this.handlers.timeTracker = this.timeTracker;
             this.handlers.clientWorld = new ClientWorld();
-
+            PipelineAPI.setCategoryData('POINTER_STATE', this.pointerCursor.inputState);
 		};
 
         Client.prototype.handleServerMessage = function(res) {

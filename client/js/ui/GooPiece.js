@@ -33,6 +33,11 @@ define([
 			this.entity.removeFromWorld();
 		};
 
+		GooPiece.prototype.getFrustumCoordinates = function(store) {
+			this.entity.getScreenCoordinates(store);
+		};
+		
+		
 
 		GooPiece.prototype.sampleSpatial = function(spatial) {
 

@@ -13,6 +13,7 @@ define([
 			this.canvasGuiMain = new CanvasGuiMain();
 			this.uiTxResolution = uiTxResolution || defaultResolution;
 		//	this.pointerCursor = this.canvasGuiMain.pointerCursor;
+			this.enabled = true;
 
 			this.is2d = false;
 			this.is3d = false;
@@ -32,6 +33,10 @@ define([
 			this.canvasGuiMain.setMainUiState(state);
 		};
 
+		CanvasGuiAPI.prototype.setElementPosition = function(x, y) {
+			this.canvasGuiMain.setCanvas3dCoords(x, y);
+		};
+
 		CanvasGuiAPI.prototype.adjustCanvasBlendMode = function(modeValue, callback) {
 			this.canvasGuiMain.adjustCanvasBlendMode(modeValue, callback);
 		};
@@ -41,7 +46,9 @@ define([
 		};
 
 		CanvasGuiAPI.prototype.updateCanvasGui = function(tpf) {
-			this.canvasGuiMain.tickGuiMain(tpf)
+			if (this.enabled) {
+				this.canvasGuiMain.tickGuiMain(tpf)
+			}
 		};
 
 		CanvasGuiAPI.prototype.getPointerCursor = function() {
@@ -73,6 +80,7 @@ define([
 		};
 
 		CanvasGuiAPI.prototype.toggleGuiEnabled = function(bool) {
+			this.enabled = bool;
 			this.canvasGuiMain.toggleEnabled(bool, this.is3d);
 		};
 

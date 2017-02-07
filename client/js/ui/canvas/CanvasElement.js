@@ -46,7 +46,7 @@ define([
 
 
         CanvasElement.prototype.applyElementConfig = function(parent, configs) {
-            this.canvasFunctions = new CanvasFunctions();
+            this.canvasFunctions = new CanvasFunctions(this.canvasApi);
             this.canvasFunctions.setupCallbacks(this.canvasParams.id, configs, this.canvasGuiConfig.callbacks);
 
             this.configs = configs;

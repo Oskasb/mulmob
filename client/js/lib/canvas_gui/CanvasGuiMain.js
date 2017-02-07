@@ -63,6 +63,10 @@ define([
 		CanvasGuiMain.prototype.adjustCanvasBlendMode = function(modeValue, callback) {
 			this.canvasCalls.canvasGui3d.applyBlendModeSelection(modeValue, callback);
 		};
+		
+		CanvasGuiMain.prototype.setCanvas3dCoords = function(x, y) {
+			this.canvasCalls.canvasGui3d.setElementPos(x, y);
+		};
 
 		CanvasGuiMain.prototype.tickGuiMain = function(tpf) {
 	//		this.inputState.initFrameSample();

@@ -30,6 +30,34 @@
         }
       },
       {
+        "id": "canvas_input_select",
+        "data": {
+          "renderModel": "canvas3d",
+          "config":{
+            "callbacks":["followPointer", "inputVector"],
+            "element":{
+              "pos":[10, 10],
+              "size":[15, 15],
+              "blendMode":"add_color"
+            }
+          }
+        }
+      },
+      {
+        "id": "canvas_target_select",
+        "data": {
+          "renderModel": "canvas3d",
+          "config":{
+            "callbacks":["hoverTargets","temporalState"],
+            "element":{
+              "pos":[0, 0],
+              "size":[10, 10],
+              "blendMode":"add_color"
+            }
+          }
+        }
+      },
+      {
         "id": "canvas_controls",
         "data": {
           "renderModel": "canvas3d",

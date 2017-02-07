@@ -1,11 +1,11 @@
 "use strict";
 
 define([
-	'data_pipeline/PipelineAPI'
-],
+		'data_pipeline/PipelineAPI'
+	],
 	function(
 		PipelineAPI
-		) {
+	) {
 
 		var MathUtils = goo.MathUtils;
 		var Texture	= goo.Texture;
@@ -15,21 +15,21 @@ define([
 		var ShaderLib = goo.ShaderLib;
 		var FullscreenUtil = goo.FullscreenUtil;
 
-        var CanvasGui3D = function(cameraEntity, resolution, canvasGuiConfig) {
+		var CanvasGui3D = function(cameraEntity, resolution, canvasGuiConfig) {
 			//		console.log(cameraEntity)
 
-            this.guiConfig = {
-                element:{
-                    pos:[70, 70],
-                    size:[20, 20],
-                    blendMode:'color_add'
-                }
-            };
+			this.guiConfig = {
+				element:{
+					pos:[70, 70],
+					size:[20, 20],
+					blendMode:'color_add'
+				}
+			};
 
 
-            if (canvasGuiConfig) {
-                this.guiConfig = canvasGuiConfig;
-            }
+			if (canvasGuiConfig) {
+				this.guiConfig = canvasGuiConfig;
+			}
 
 			this.cameraEntity = cameraEntity;
 			this.camera = cameraEntity.cameraComponent.camera;
@@ -42,12 +42,12 @@ define([
 			this.blendSelection = 0;
 
 			this.resolution = resolution;
-		    this.size = 1;
+			this.size = 1;
 			this.txScale = 1;
 			this.aspect = 1;
-		    this.scalePercentToX = 1;
-		    this.scalePxToX = 1;
-		    this.scalePercentToY = 1;
+			this.scalePercentToX = 1;
+			this.scalePxToX = 1;
+			this.scalePercentToY = 1;
 
 			this.materialSettings = {
 				blending : 'CustomBlending',
@@ -63,11 +63,11 @@ define([
 
 			var configUpdated = function(url, config) {
 				this.handleConfigUpdate(url, config);
-                this.setBlendModeId(this.guiConfig.element.blendMode);
+				this.setBlendModeId(this.guiConfig.element.blendMode);
 			}.bind(this);
 
-		   PipelineAPI.subscribeToCategoryKey('setup', 'page', configUpdated);
-            
+			PipelineAPI.subscribeToCategoryKey('setup', 'page', configUpdated);
+
 		};
 
 		CanvasGui3D.prototype.setupParts = function() {
@@ -102,8 +102,8 @@ define([
 
 		CanvasGui3D.prototype.createQuadEntity = function(parent) {
 			this.meshData = FullscreenUtil.quad;
-            this.entity = parent._world.createEntity('canvas_gui_quad', this.meshData);
-            this.entity.addToWorld();
+			this.entity = parent._world.createEntity('canvas_gui_quad', this.meshData);
+			this.entity.addToWorld();
 			return this.entity;
 		};
 
@@ -117,7 +117,7 @@ define([
 
 		CanvasGui3D.prototype.setupMesh = function() {
 			this.texture = new Texture(this.canvas, null, this.canvas.width, this.canvas.height);
-		//	console.log("Setup gui TX: ", this.canvas.width, this.canvas.height);
+			//	console.log("Setup gui TX: ", this.canvas.width, this.canvas.height);
 			this.material.setTexture('DIFFUSE_MAP', this.texture);
 			this.texture.setNeedsUpdate();
 		};
@@ -150,31 +150,30 @@ define([
 			this.top = this.camera._frustumTop;
 			this.left = Math.abs(this.camera._frustumLeft);
 
-            if (this.top > this.left) {
-                this.aspectMarginLeft = this.left * (this.guiConfig.element.pos[1]+this.guiConfig.element.size[1])*1.01;
-                this.aspectMarginTop = this.top * (this.guiConfig.element.pos[0]+this.guiConfig.element.size[0])*1.01;
-                this.size = this.left * this.guiConfig.element.size[1]*1.01;
-                this.uiQuad.transformComponent.transform.translation.set(this.aspectMarginLeft, this.aspectMarginTop, -this.camera.near*100.01);
-                this.scalePxToX =  this.top / this.size;
-            } else {
-                this.aspectMarginLeft = this.left * (this.guiConfig.element.pos[1]+this.guiConfig.element.size[1])*1.01;
-                this.aspectMarginTop = this.top * (this.guiConfig.element.pos[0]+this.guiConfig.element.size[0])*1.01;
-                this.size = this.top * this.guiConfig.element.size[0]*1.01;
-                this.uiQuad.transformComponent.transform.translation.set(this.aspectMarginLeft, this.aspectMarginTop, -this.camera.near*100.01);
-                this.scalePxToX = this.left / this.size;
-            }
+			if (this.top > this.left) {
+				this.aspectMarginLeft = this.left * (this.guiConfig.element.pos[1]+this.guiConfig.element.size[1])*0.02;
+				this.aspectMarginTop = this.top * (this.guiConfig.element.pos[0]+this.guiConfig.element.size[0])*.02;
+				this.size = this.left * this.guiConfig.element.size[1]*2;
+				this.scalePxToX =  this.top / this.size;
+			} else {
+				this.aspectMarginLeft = this.left * (this.guiConfig.element.pos[1]+this.guiConfig.element.size[1])*0.02;
+				this.aspectMarginTop = this.top * (this.guiConfig.element.pos[0]+this.guiConfig.element.size[0])*0.02;
+				this.size = this.top * this.guiConfig.element.size[0]*2;
+				this.scalePxToX = this.left / this.size;
+			}
 
+			this.uiQuad.transformComponent.transform.translation.set(this.aspectMarginLeft, this.aspectMarginTop, -this.camera.near*2);
 			this.aspect = this.left / this.top;
 
 			this.scalePercentToX = 1.01*this.canvas.width / (this.size / this.left);
 			this.scalePercentToY = 1.01*this.canvas.height / (this.size / this.top);
 
-		//	this.canvasCalls.frustumUpdated(this.resolution, this.scalePercentToX, this.scalePercentToY, this.scalePxToX);
+			//	this.canvasCalls.frustumUpdated(this.resolution, this.scalePercentToX, this.scalePercentToY, this.scalePxToX);
 			//	this.canvas.width = this.resolution;
 			//	this.canvas.height = Math.floor(Math.abs(this.resolution/this.aspect));
 
 			this.uiQuad.transformComponent.transform.rotation.fromAngles(0, 0, 0);
-			this.uiQuad.transformComponent.transform.scale.set(this.size*1.01, this.size*1.01, -1);
+			this.uiQuad.transformComponent.transform.scale.set(this.size*0.01, this.size*0.01, -1);
 			this.uiQuad.transformComponent.setUpdated();
 			this.onFrustumUpdate();
 		};
@@ -192,6 +191,16 @@ define([
 			callback(this.config.blending.modes[selection].data);
 		};
 
+		CanvasGui3D.prototype.setElementPos = function(x, y) {
+
+			this.guiConfig.element.pos[0] = x *  4 * this.left;
+			this.guiConfig.element.pos[1] = y * -4 * this.top;
+
+			this.uiQuad.transformComponent.transform.translation.x = this.guiConfig.element.pos[0];
+			this.uiQuad.transformComponent.transform.translation.y = this.guiConfig.element.pos[1];
+			this.uiQuad.transformComponent.setUpdated();
+		};
+
 		CanvasGui3D.prototype.updateBlendMode = function() {
 			var blendState = this.blendModes[this.blendModeId].blendState;
 			var uniforms = this.blendModes[this.blendModeId].uniforms;
@@ -206,7 +215,7 @@ define([
 			} else {
 				for (var index in blendState) {
 					this.material.blendState[index] = blendState[index];
-				};
+				}
 				for (var index in uniforms) {
 					this.material.uniforms[index] = uniforms[index];
 				}
@@ -251,15 +260,15 @@ define([
 			}
 		};
 
-	//	var cd = 59;
+		//	var cd = 59;
 		CanvasGui3D.prototype.applyChanges = function() {
-		//	       cd --
-		//	if (cd > 0) return;
+			//	       cd --
+			//	if (cd > 0) return;
 			//	var buffer = new Uint8Array(this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height).data);
-				//	console.log(this.texture)
+			//	console.log(this.texture)
 			//		this.texture.addSubImageDataUpdate(0, 0, this.canvas.width, this.canvas.height, null, null, buffer)
 			//				this.texture.addSubImageDataUpdate(0, 0,null, null, null, null, this.canvas)
-					this.texture.setNeedsUpdate();
+			this.texture.setNeedsUpdate();
 		};
 
 		CanvasGui3D.prototype.onFrustumUpdate = function() {
@@ -268,20 +277,20 @@ define([
 			}
 		};
 
-        CanvasGui3D.prototype.toggle3dGui = function(bool) {
+		CanvasGui3D.prototype.toggle3dGui = function(bool) {
 
-            if (bool) {
-                this.uiQuad.show();
-            } else {
-                this.uiQuad.hide();
-            }
-        };
+			if (bool) {
+				this.uiQuad.show();
+			} else {
+				this.uiQuad.hide();
+			}
+		};
 
 
-        CanvasGui3D.prototype.remove3dGuiHost = function() {
-            this.uiQuad.removeFromWorld();
-            this.canvas.removeElement();
-        };
+		CanvasGui3D.prototype.remove3dGuiHost = function() {
+			this.uiQuad.removeFromWorld();
+			this.canvas.removeElement();
+		};
 
 		return CanvasGui3D
 

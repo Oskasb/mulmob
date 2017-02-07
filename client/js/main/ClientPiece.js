@@ -28,6 +28,8 @@ define([
 			textConfig:'text_config'
 		};
 
+		var camera;
+		
 		var ClientPiece = function(serverState, removeCallback) {
 
             var _this = this;
@@ -59,8 +61,14 @@ define([
             
             this.pipelineObject = new PipelineObject('PIECE_DATA', piece.type, applyPieceData);
             this.notifyServerState(serverState)
+			camera = PipelineAPI.readCachedConfigKey('GAME_DATA', 'CAMERA').cameraComponent.camera;
 		};
 
+		ClientPiece.prototype.getScreenPosition = function(store) {
+			camera.getFrustumCoordinates(this.gooPiece.entity.transformComponent.transform.translation, store);
+			store.scale(1/camera.near);
+		};
+		
         ClientPiece.prototype.addAttachmentPoints = function(attachmentPoints, defaultModules) {
 
             this.detachModules();

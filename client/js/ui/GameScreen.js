@@ -10,6 +10,8 @@ define([
 		var landscape;
 		var width;
 		var height;
+		var top;
+		var left;
 		var resolution;
 		var element;
 		var scalePercentToX;
@@ -47,6 +49,8 @@ define([
 		var handleResize = function() {
 			width = gameScreen.offsetWidth;
 			height = gameScreen.offsetHeight;
+			left = gameScreen.offsetLeft;
+			top = gameScreen.offsetTop;
 			resolution = getResolution(width, height);
 			sizeFactor = resolution / percentZoom;
 			document.body.style.fontSize = sizeFactor+"px";
@@ -58,9 +62,20 @@ define([
 
 		};
 
+		var getAspect = function() {
+			return width/height;
+		};
 
 		var getElement = function() {
 			return gameScreen;
+		};
+
+		var getTop = function() {
+			return top;
+		};
+
+		var getLeft = function() {
+			return left;
 		};
 
 		var getWidth = function() {
@@ -134,7 +149,10 @@ define([
 			getElement:getElement,
 			getWidth:getWidth,
 			getHeight:getHeight,
+			getTop:getTop,
+			getLeft:getLeft,
 			getZoom:getZoom,
+			getAspect:getAspect,
 			percentX:percentX,
 			percentY:percentY,
 			widthRatio:widthRatio,
