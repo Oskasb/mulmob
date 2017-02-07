@@ -26,6 +26,7 @@ define([
         var camera;
         var ownPiece;
         var widgetConfigs;
+        var pointerFrustumPos = new goo.Vector3();
 
         var CanvasFunctions = function(canvasGuiApi) {
 
@@ -100,7 +101,7 @@ define([
             var canvasGuiApi = this.canvasGuiApi;
             var mouseState;
 
-            var pointerFrustumPos = new goo.Vector3();
+
 
             var followPointerCallback = function(tpf, ctx) {
                 mouseState = PipelineAPI.readCachedConfigKey('POINTER_STATE', 'mouseState');
@@ -112,8 +113,8 @@ define([
                     }
 
                     pointerFrustumPos.setDirect(
-                    ((mouseState.x-GameScreen.getLeft()) / GameScreen.getWidth()) - 0.5,
-                    ((mouseState.y-GameScreen.getTop()) / GameScreen.getHeight()) - 0.5,
+                        ((mouseState.x-GameScreen.getLeft()) / GameScreen.getWidth()) - 0.5,
+                        ((mouseState.y-GameScreen.getTop()) / GameScreen.getHeight()) - 0.5,
                         0
                     );
 
@@ -131,30 +132,41 @@ define([
 
 
             var fitView = function(vec3) {
-                vec3.x *= 1.05 / GameScreen.getAspect();
-                vec3.v *= -1.05
+                vec3.x *= 1.22 / GameScreen.getAspect();
+                vec3.v *= -1.22;
+                vec3.z = 0;
             };
+
+            var distsq;
 
             var checkPieceForHover = function(piece) {
 
                 piece.getScreenPosition(frustumCoordinates);
                 fitView(frustumCoordinates);
 
-                if (piece.isOwnPlayer) {
+            //    if (piece.isOwnPlayer) {
                     hoverPiece = piece;
-                    hoverCoords.setVector(frustumCoordinates)
+
+
+                distsq = goo.Vector3.distanceSquared(frustumCoordinates, pointerFrustumPos);
+
+                if (pointerDistance > distsq) {
+                    hoverCoords.setVector(frustumCoordinates);
+                    pointerDistance = distsq
                 }
 
+       //        }
             };
 
             var pieces;
             var hoverPiece;
             var frustumCoordinates = new goo.Vector3(0, 0, 0);
             var hoverCoords = new goo.Vector3(0, 0, 0);
+            var pointerDistance;
 
             var hoverTargetsCallback = function(tpf, ctx) {
                 mouseState = PipelineAPI.readCachedConfigKey('POINTER_STATE', 'mouseState');
-
+                pointerDistance = 999999999999999999;
                 if (mouseState.action[0]) {
 
                     if (!canvasGuiApi.enabled) {
