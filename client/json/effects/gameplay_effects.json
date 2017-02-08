@@ -359,10 +359,7 @@
 
             {
                 "id":"muzzle_flash_cannon",
-                "effect_data":[{
-                    "effect":"explosion_fire",
-                    "simulator":"CheapParticles"
-                }]
+                "effect_data":[]
 
             },
             {

@@ -98,9 +98,9 @@
       }
     },
 
-    "main_turret":{
+    "tank_turret":{
       "type":"turret",
-      "id":"main_turret",
+      "id":"tank_turret",
       "initState": 0.01,
       "applies":{
         "type":"float",
@@ -108,7 +108,8 @@
         "bullet":"cannon_bullet",
         "exitVelocity":95,
         "lifeTime":0.4,
-        "game_effect":"cannon_auto_module"
+        "game_effect":"cannon_auto_module",
+        "entity_name":"turret"
       }
     },
 
@@ -169,9 +170,10 @@
         "state_factor":30,
         "emit_effect":"tank_track_fx",
         "effect_data":{
-          "intensity":0.04,
+          "intensity":1,
           "strength":10,
           "lifeSpan":0.4
+
         },
         "threshold":0.2,
         "message":"wroom"

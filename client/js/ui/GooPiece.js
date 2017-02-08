@@ -3,7 +3,7 @@
 
 define([
 		'3d/GooEntityFactory',
-		'ui/GooModule',
+		'game/modules/GooModule',
 		'Events'
 	],
 	function(

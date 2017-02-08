@@ -228,6 +228,22 @@ define([
                 this.handleServerMessage(responseStack.shift());
             }
 
+            if (responseStack.length > 5) {
+                this.handleServerMessage(responseStack.shift());
+                this.handleServerMessage(responseStack.shift());
+                this.handleServerMessage(responseStack.shift());
+            }
+            if (responseStack.length > 5) {
+                this.handleServerMessage(responseStack.shift());
+                this.handleServerMessage(responseStack.shift());
+                this.handleServerMessage(responseStack.shift());
+            }
+            if (responseStack.length > 5) {
+                this.handleServerMessage(responseStack.shift());
+                this.handleServerMessage(responseStack.shift());
+                this.handleServerMessage(responseStack.shift());
+            }
+
         };
 
         
