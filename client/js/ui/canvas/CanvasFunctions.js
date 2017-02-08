@@ -199,6 +199,8 @@ define([
 
                     } else if (canvasGuiApi.enabled) {
                         hoverPiece = null;
+                        selectedTarget = hoverPiece;
+
                         canvasGuiApi.toggleGuiEnabled(false);
                         PipelineAPI.setCategoryKeyValue('GAME_DATA', 'CURRENT_HOVER', null);
                     }
@@ -217,7 +219,7 @@ define([
 
             var currentTargetCallback = function(tpf, ctx) {
 
-                if (selectedTarget) {
+                if (selectedTarget && pieces[selectedTarget.piece.id]) {
 
                     CanvasDraw.drawElementBorders(ctx, configs.elementBorder, configs.size);
 
