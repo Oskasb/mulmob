@@ -34,10 +34,10 @@
         "data": {
           "renderModel": "canvas3d",
           "config":{
-            "callbacks":["followPointer", "inputVector"],
+            "callbacks":["followPointer"],
             "element":{
               "pos":[10, 10],
-              "size":[15, 15],
+              "size":[12, 12],
               "blendMode":"add_color"
             }
           }
@@ -48,10 +48,24 @@
         "data": {
           "renderModel": "canvas3d",
           "config":{
-            "callbacks":["hoverTargets","temporalState"],
+            "callbacks":["hoverTargets"],
             "element":{
               "pos":[0, 0],
-              "size":[10, 10],
+              "size":[25, 25],
+              "blendMode":"add_color"
+            }
+          }
+        }
+      },
+      {
+        "id": "canvas_current_target",
+        "data": {
+          "renderModel": "canvas3d",
+          "config":{
+            "callbacks":["currentTarget"],
+            "element":{
+              "pos":[0, 0],
+              "size":[20, 20],
               "blendMode":"add_color"
             }
           }

@@ -86,11 +86,19 @@
           "canvas3d": {
             "configId": "canvas_input_select"
           }
-        }      },{
+        }
+      },{
         "id":"targetSelectMonitor",
         "data":{
           "canvas3d": {
             "configId": "canvas_target_select"
+          }
+        }
+      },{
+        "id":"currentTargetMonitor",
+        "data":{
+          "canvas3d": {
+            "configId": "canvas_current_target"
           }
         }
       },{

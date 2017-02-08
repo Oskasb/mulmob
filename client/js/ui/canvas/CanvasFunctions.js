@@ -9,7 +9,8 @@ define([
         'ui/canvas/CanvasInputVector',
         'ui/canvas/CanvasInputDebug',
         'ui/canvas/CanvasTemporalState',
-        'ui/canvas/CanvasGraph'
+        'ui/canvas/CanvasGraph',
+        'ui/canvas/CanvasDraw'
     ],
     function(
         evt,
@@ -19,13 +20,15 @@ define([
         CanvasInputVector,
         CanvasInputDebug,
         CanvasTemporalState,
-        CanvasGraph
+        CanvasGraph,
+        CanvasDraw
     ) {
 
         var pieces;
         var camera;
         var ownPiece;
         var widgetConfigs;
+        var selectedTarget;
         var pointerFrustumPos = new goo.Vector3();
 
         var CanvasFunctions = function(canvasGuiApi) {
@@ -112,6 +115,8 @@ define([
                         canvasGuiApi.toggleGuiEnabled(true);
                     }
 
+                    CanvasDraw.drawElementBorders(ctx, configs.elementBorder, configs.size);
+
                     pointerFrustumPos.setDirect(
                         ((mouseState.x-GameScreen.getLeft()) / GameScreen.getWidth()) - 0.5,
                         ((mouseState.y-GameScreen.getTop()) / GameScreen.getHeight()) - 0.5,
@@ -144,52 +149,97 @@ define([
                 piece.getScreenPosition(frustumCoordinates);
                 fitView(frustumCoordinates);
 
-            //    if (piece.isOwnPlayer) {
-                    hoverPiece = piece;
-
-
                 distsq = goo.Vector3.distanceSquared(frustumCoordinates, pointerFrustumPos);
 
                 if (pointerDistance > distsq) {
                     hoverCoords.setVector(frustumCoordinates);
-                    pointerDistance = distsq
+                    pointerDistance = distsq;
+                    hoverPiece = piece;
                 }
 
-       //        }
             };
 
-            var pieces;
+
             var hoverPiece;
             var frustumCoordinates = new goo.Vector3(0, 0, 0);
             var hoverCoords = new goo.Vector3(0, 0, 0);
             var pointerDistance;
 
+            var selectRange = 0.03;
+
             var hoverTargetsCallback = function(tpf, ctx) {
+
                 mouseState = PipelineAPI.readCachedConfigKey('POINTER_STATE', 'mouseState');
-                pointerDistance = 999999999999999999;
+                pointerDistance = selectRange;
                 if (mouseState.action[0]) {
+                    hoverPiece = null;
 
-                    if (!canvasGuiApi.enabled) {
-                        canvasGuiApi.toggleGuiEnabled(true);
-                    }
-
-                    pieces = PipelineAPI.readCachedConfigKey('GAME_DATA', 'PIECES');
+                    CanvasDraw.drawElementBorders(ctx, configs.elementBorder, configs.size);
 
                     for (var key in pieces) {
                         checkPieceForHover(pieces[key]);
                     }
 
-                    canvasGuiApi.setElementPosition(
-                        hoverCoords.x,
-                        hoverCoords.y
-                    )
 
-                } else {
+
+                    if (pointerDistance != selectRange) {
+
+                        if (!canvasGuiApi.enabled) {
+                            canvasGuiApi.toggleGuiEnabled(true);
+                        }
+
+                        canvasGuiApi.setElementPosition(
+                            hoverCoords.x,
+                            hoverCoords.y
+                        );
+
+                        PipelineAPI.setCategoryKeyValue('GAME_DATA', 'CURRENT_HOVER', hoverPiece);
+
+
+
+                    } else if (canvasGuiApi.enabled) {
+                        hoverPiece = null;
+                        canvasGuiApi.toggleGuiEnabled(false);
+                        PipelineAPI.setCategoryKeyValue('GAME_DATA', 'CURRENT_HOVER', null);
+                    }
+                    
+                } else if (canvasGuiApi.enabled) {
+
+                    selectedTarget = hoverPiece;
+
                     canvasGuiApi.toggleGuiEnabled(false);
+                    PipelineAPI.setCategoryKeyValue('GAME_DATA', 'CURRENT_HOVER', null);
+
                 }
 
             };
 
+
+            var currentTargetCallback = function(tpf, ctx) {
+
+                if (selectedTarget) {
+
+                    CanvasDraw.drawElementBorders(ctx, configs.elementBorder, configs.size);
+
+                    if (!canvasGuiApi.enabled) {
+                        canvasGuiApi.toggleGuiEnabled(true);
+                    }
+
+                    selectedTarget.getScreenPosition(frustumCoordinates);
+                    fitView(frustumCoordinates);
+
+                    canvasGuiApi.setElementPosition(
+                        frustumCoordinates.x,
+                        frustumCoordinates.y
+                    );
+
+                } else if (canvasGuiApi.enabled) {
+                    canvasGuiApi.toggleGuiEnabled(false);
+                }
+
+            };
+            
+            
 
             var canvasCallbacks = {
                 radarMap:radarCallback,
@@ -198,7 +248,8 @@ define([
                 temporalState:temporalStateCallback,
                 tpfMonitor:tpfMonitorCallback,
                 followPointer:followPointerCallback,
-                hoverTargets:hoverTargetsCallback
+                hoverTargets:hoverTargetsCallback,
+                currentTarget:currentTargetCallback
             };
 
             for (var i = 0; i < callbackNames.length; i++) {
