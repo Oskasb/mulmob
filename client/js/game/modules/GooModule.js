@@ -5,12 +5,14 @@ define([
         '3d/GooEntityFactory',
         'game/modules/ModuleEffect',
         'game/modules/ModuleEmitter',
+        'game/modules/ModuleModel',
         'Events'
     ],
     function(
         GooEntityFactory,
         ModuleEffect,
         ModuleEmitter,
+        ModuleModel,
         evt
     ) {
 
@@ -25,10 +27,7 @@ define([
                 pos:new MATH.Vec3(0, 0, 0),
                 rot:new MATH.Vec3(0, 0, 0)
             };
-
-            var _this = this;
-    //        console.log(module.data)
-
+            
             this.transform = attachmentPoint.transform;
 
             this.particles = [];
@@ -38,11 +37,20 @@ define([
             this.flicker = 0;
             this.animate = this.applies.animate;
 
-
             if (this.applies) {
 
                 if (this.applies.bundle_model) {
-                    this.attachModuleModel(this.applies.bundle_model, gooParent);
+                    this.moduleModel = new ModuleModel(gooParent);
+                    this.moduleModel.attachModuleModel(this.applies.bundle_model);
+                }
+
+                if (this.applies.module_model_child) {
+                    this.moduleModel = new ModuleModel(gooParent);
+
+                    this.moduleModel.attachEntityToModule(this.applies.module_model_child);
+                    
+                    
+                    
                 }
 
                 this.entity = gooParent;
@@ -63,17 +71,9 @@ define([
             if (this.transform) {
                 this.readWorldTransform(this.transform.pos, this.transform.rot)
             }
-
-
+            
         };
-
-
-
-        GooModule.prototype.attachModuleModel = function(modelName, parentEntity) {
-            evt.fire(evt.list().ATTACH_BUNDLE_ENTITY, {entityName:modelName, parent:parentEntity});
-        };
-
-
+        
 
         GooModule.prototype.activateGooModule = function() {
             if (this.moduleEffect) {
@@ -130,7 +130,17 @@ define([
                     if (this.applies.action) {
                         if (this.applies.action == "applyRotation") {
                         //    console.log(this.module.state.value)
-                            this.transform.rot[1] += this.module.state.value
+
+                            var ang = MATH.radialLerp(this.transform.rot[this.applies.rotation_axis], this.module.state.value, this.applies.rotation_velocity)
+
+                            ang = MATH.radialClamp(ang, this.transform.rot[this.applies.rotation_axis]-this.applies.rotation_velocity*0.2, this.transform.rot[this.applies.rotation_axis]+this.applies.rotation_velocity*0.2);
+
+                            this.transform.rot[this.applies.rotation_axis] = ang;
+
+                            if (this.moduleModel) {
+                                this.moduleModel.applyModuleRotation(this.transform.rot);
+                            }
+                            
                         }
                     }
 

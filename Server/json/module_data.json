@@ -105,11 +105,28 @@
       "applies":{
         "type":"float",
         "action":"applyRotation",
-        "bullet":"cannon_bullet",
-        "exitVelocity":95,
-        "lifeTime":0.4,
-        "game_effect":"cannon_auto_module",
-        "entity_name":"turret"
+        "source":"targeting_system",
+        "rotation_axis":2,
+        "rotation_velocity":0.1,
+        "rotation_min":-6.2,
+        "rotation_max":6.2,
+        "module_model_child":"turret"
+      }
+    },
+
+    "cannon_pitch":{
+      "type":"turret",
+      "id":"cannon_pitch",
+      "initState": 0.01,
+      "applies":{
+        "type":"float",
+        "action":"applyRotation",
+        "source":"targeting_system",
+        "rotation_axis":0,
+        "rotation_velocity":0.1,
+        "rotation_min":0,
+        "rotation_max":1,
+        "module_model_child":"cannon"
       }
     },
 
@@ -121,9 +138,11 @@
       "applies":{
         "type":"string",
         "action":"fireCannon",
+        "yaw_module":"tank_turret",
+        "pitch_module":"cannon_pitch",
         "bullet":"cannon_bullet",
-        "exitVelocity":125,
-        "lifeTime":0.7
+        "exitVelocity":35,
+        "lifeTime":7
       }
     },
 

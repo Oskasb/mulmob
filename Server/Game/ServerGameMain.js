@@ -78,7 +78,7 @@ ServerGameMain.prototype.initGame = function() {
     }
 
 	function applyRotation(piece, action, value, moduleData) {
-		_this.serverWorld.applyModuleControl(piece, moduleData, action, value);
+		_this.serverWorld.applyModuleRotation(piece, moduleData, action, value);
 	}
 
 

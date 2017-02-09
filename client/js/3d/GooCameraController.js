@@ -100,7 +100,7 @@ define(['Events',
         
         playerPiece.spatial.getForwardVector(forVec);
 
-        forVec.scale(20);
+        forVec.scale(4);
         // forVec.addVec(playerPiece.spatial.vel);
         // forVec.scale(0.4);
 

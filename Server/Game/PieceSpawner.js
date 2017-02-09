@@ -125,9 +125,23 @@ PieceSpawner.prototype.spawnBullet = function(sourcePiece, cannonModuleData, now
 
     bullet.spatial.pos.addVec(this.calcVec);
 
+
+    if (apply.yaw_module) {
+    //    console.log(sourcePiece)
+        bullet.spatial.rot[0] -= sourcePiece.getModuleById(apply.yaw_module).state.value;
+    }
+
+
     this.calcVec.setArray(cannonModuleData.transform.pos);
 
     this.calcVec.rotateY(sourcePiece.spatial.rot[0]);
+
+    if (apply.pitch_module) {
+        //    console.log(sourcePiece)
+        bullet.spatial.vel.rotateX(-sourcePiece.getModuleById(apply.pitch_module).state.value*3);
+
+    //    bullet.spatial.vel.setY(10);
+    }
 
     bullet.spatial.pos.addVec(this.calcVec);
 

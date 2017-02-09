@@ -11,6 +11,8 @@ ServerWorld = function(sectorGrid) {
 
 	this.calcVec = new MATH.Vec3(0, 0, 0);
 
+    this.gravityVector = new MATH.Vec3(0, -9, 0);
+
     var _this = this;
     var broadcast = function(piece) {
         _this.broadcastPieceState(piece);
@@ -28,8 +30,13 @@ ServerWorld.prototype.initWorld = function(clients) {
 };
 
 
-ServerWorld.prototype.applyModuleControl = function(sourcePiece, moduleData, action, value) {
+ServerWorld.prototype.applyModuleRotation = function(sourcePiece, moduleData, action, value) {
  //   sourcePiece.pieceControls.setControlState(moduleData, action, value);
+
+    console.log(sourcePiece.getModuleById("tank_turret").state.value);
+
+    sourcePiece.setModuleState(moduleData.id, moduleData.applies.rotation_min + (Math.random()*(moduleData.applies.rotation_max-moduleData.applies.rotation_min)));
+    sourcePiece.processModuleStates();
     sourcePiece.networkDirty = true;
 };
 
@@ -104,9 +111,27 @@ ServerWorld.prototype.broadcastPieceState = function(piece) {
 
 };
 
+
+
+ServerWorld.prototype.applyGravity = function(piece) {
+    piece.spatial.vel.data[1] += this.gravityVector.getY()*piece.temporal.stepTime;
+
+
+};
+
 ServerWorld.prototype.updateWorldPiece = function(piece, currentTime) {
+
 	piece.processTemporalState(currentTime);
+
+    if (piece.spatial.pos.getY() > 0) {
+        this.applyGravity(piece);
+    }
+
 	piece.spatial.updateSpatial(piece.temporal.stepTime);
+
+    if (piece.spatial.pos.getY() < 0) {
+        piece.setState(GAME.ENUMS.PieceStates.TIME_OUT);
+    }
 
 /*
     if (piece.networkDirty) {
@@ -127,6 +152,7 @@ ServerWorld.prototype.updatePieces = function(currentTime) {
 
 	for (var i = 0; i < this.pieces.length; i++) {
 		this.updateWorldPiece(this.pieces[i], currentTime);
+
 		if (this.pieces[i].getState() == GAME.ENUMS.PieceStates.TIME_OUT) {
 			timeouts.push(this.pieces[i]);
 		}

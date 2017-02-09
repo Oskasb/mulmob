@@ -77,7 +77,8 @@ if(typeof(MATH) == "undefined"){
 		var sn = (1-w)*Math.sin(a) + w*Math.sin(b);
 		return Math.atan2(sn,cs);
 	};
-	
+
+
 	MATH.radialToVector = function(angle, distance, store) {
 		store.data[0] = Math.cos(angle)*distance;
 		store.data[2] = Math.sin(angle)*distance;
@@ -204,7 +205,13 @@ if(typeof(MATH) == "undefined"){
 		var cs = Math.cos(ang);
 		var sn = Math.sin(ang);
 		this.setXYZ(this.data[0] * cs - this.data[2] * sn, this.data[1], this.data[0] * sn + this.data[2] * cs);
+		return this;
+	};
 
+	MATH.Vec3.prototype.rotateX = function(ang) {
+		var cs = Math.cos(ang);
+		var sn = Math.sin(ang);
+		this.setXYZ(this.data[0], this.data[1] * cs - this.data[2] * sn, this.data[0] * sn + this.data[2] * cs);
 		return this;
 	};
 
