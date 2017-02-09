@@ -207,8 +207,8 @@ define([
 
 		var cloneSettings = {
 			shareTextures:true,
-			shareUniforms:false,
-			shareMeshData:false,
+			shareUniforms:true,
+			shareMeshData:true,
 			shareMaterials:true
 		};
 
@@ -228,7 +228,7 @@ define([
 
 					var eClone = EntityUtils.clone(gooWorld, entity, cloneSettings);
 
-				//	processForClone(eClone);
+					processForClone(eClone);
 				//	console.log("Built Clone: ",eClone )
 					cb(eClone);
 				}, 0)

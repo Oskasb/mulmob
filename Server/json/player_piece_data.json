@@ -29,7 +29,7 @@
           "radialVelocityClamp":1.8,
           "radialLerpFactor":1,
           "throttleLimit": 0.6,
-          "throttleAmplitude": 50
+          "throttleAmplitude": 25
         }
       },
       "attachment_points":[
