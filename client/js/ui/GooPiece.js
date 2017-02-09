@@ -16,10 +16,6 @@ define([
 
 			this.id = piece.id;
 			this.piece = piece;
-			this.vel = [];
-			this.pos = [];
-			this.rot = [];
-			this.rotVel = [];
 			this.entity = GooEntityFactory.buildRootEntity();
 
 		};
@@ -41,10 +37,10 @@ define([
 
 		GooPiece.prototype.sampleSpatial = function(spatial) {
 
-			spatial.getVelArray(this.vel);
-			spatial.getPosArray(this.pos);
-			spatial.getRotArray(this.rot);
-			spatial.getRotVelArray(this.rotVel);
+		//	spatial.getVelArray(this.vel);
+		//	spatial.getPosArray(this.pos);
+		//	spatial.getRotArray(this.rot);
+		//	spatial.getRotVelArray(this.rotVel);
 
 
 			//	spatial.getPosArray(this.entity.transformComponent.transform.translation.data);
@@ -53,8 +49,8 @@ define([
 			this.entity.transformComponent.transform.translation.y = spatial.pos.getY();
 			this.entity.transformComponent.transform.translation.z = spatial.pos.getZ();
 
-			spatial.getRotArray(this.rot);
-			this.entity.transformComponent.transform.rotation.fromAngles(0, -this.rot[0], 0);
+		//	spatial.getRotArray(this.rot);
+			this.entity.transformComponent.transform.rotation.fromAngles(0, -spatial.rot[0], 0);
 		};
 
 

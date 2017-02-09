@@ -86,7 +86,7 @@ PieceSpawner.prototype.spawnWorldPiece = function(pieceType, posx, posz, rot, ro
     piece.setState(GAME.ENUMS.PieceStates.SPAWN);
     piece.spatial.pos.setXYZ(posx, 0, posz);
     piece.spatial.rot[0] = rot;
-    piece.spatial.rotVel[0] = rotVel;
+    piece.spatial.rotVel.data[0] = rotVel;
     return piece;
     
 };
@@ -149,7 +149,7 @@ PieceSpawner.prototype.spawnBullet = function(sourcePiece, cannonModuleData, now
 
     bullet.spatial.updateSpatial(sourcePiece.temporal.stepTime * 10);
 
-    bullet.spatial.rotVel[0] = 0;
+    bullet.spatial.rotVel.data[0] = 0;
     // bullet.spatial.rot[0] += sourcePiece.spatial.rotVel[0] * sourcePiece.temporal.stepTime * 3;
 
     bullet.pieceControls.actions.applyForward = apply.exitVelocity;

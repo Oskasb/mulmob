@@ -20,19 +20,19 @@ if(typeof(MODEL) == "undefined"){
 		this.sendData = {
 			pos:[0, 0, 0],
 			vel:[0, 0, 0],
-			rot:[0],
-			rotVel:[0]
+			rot:[0, 0, 0],
+			rotVel:[0, 0, 0]
 		};
 		this.pos = new MATH.Vec3(0, 0, 0);
 		this.vel = new MATH.Vec3(0, 0, 0);
 		this.rot = [0];
-		this.rotVel = [0];
+		this.rotVel = new MATH.Vec3(0, 0, 0);
 	};
 
     MODEL.Spatial.prototype.comparePositional = function(spatial) {
         return Math.abs(this.pos.data[0] - spatial.pos.data[0]) +
             Math.abs(this.pos.data[1] - spatial.pos.data[1]) +
-            Math.abs(thi3s.pos.data[2] - spatial.pos.data[2]) +
+            Math.abs(this.pos.data[2] - spatial.pos.data[2]) +
             Math.abs(this.vel.data[0] - spatial.vel.data[0]) +
             Math.abs(this.vel.data[1] - spatial.vel.data[1]) +
             Math.abs(this.vel.data[2] - spatial.vel.data[2]) 
@@ -40,7 +40,7 @@ if(typeof(MODEL) == "undefined"){
 
     MODEL.Spatial.prototype.compareRotational = function(spatial) {
         return Math.abs(this.rot[0] - spatial.rot[0]) +
-            Math.abs(this.rotVel[0] - spatial.rotVel[0])
+            Math.abs(this.rotVel.data[0] - spatial.rotVel.data[0])
     };
 
     MODEL.Spatial.prototype.interpolateFraction = function(start, target, fraction) {
@@ -55,7 +55,7 @@ if(typeof(MODEL) == "undefined"){
 	};
 
     MODEL.Spatial.prototype.interpolateRotVel = function(start, target, fraction) {
-        this.rotVel[0] = MATH.radialLerp(start.rotVel[0], target.rotVel[0], fraction);
+        this.rotVel.data[0] = MATH.radialLerp(start.rotVel.data[0], target.rotVel.data[0], fraction);
     };
 
 
@@ -71,14 +71,14 @@ if(typeof(MODEL) == "undefined"){
         this.pos.setArray(sendData.pos);
         this.vel.setArray(sendData.vel);
         this.rot[0] = sendData.rot[0];
-        this.rotVel[0] = sendData.rotVel[0];
+        this.rotVel.setArray(sendData.rotVel);
     };
 
     MODEL.Spatial.prototype.getSendSpatial = function() {
         this.pos.getArray(this.sendData.pos);
         this.vel.getArray(this.sendData.vel);
         this.sendData.rot[0] = this.rot[0];
-        this.sendData.rotVel[0] = this.rotVel[0];
+		this.rotVel.getArray(this.sendData.rotVel);
         return this.sendData;
     };
 
@@ -86,21 +86,19 @@ if(typeof(MODEL) == "undefined"){
 		this.pos.setVec(spatial.pos);
 		this.vel.setVec(spatial.vel);
 		this.rot[0] = spatial.rot[0];
-		this.rotVel[0] = spatial.rotVel[0];
+		this.rotVel.setVec(spatial.rotVel);
 	};
 
 	MODEL.Spatial.prototype.stop = function() {
 		this.vel[0] = 0;
-		this.rotVel[0] = 0;
+		this.rotVel.data[0] = 0;
 	};
 
 	MODEL.Spatial.prototype.applySteeringVector = function(steerVec, dt,  rotVelClamp, radialLerp) {
-		this.rotVel[0] = steerVec.data[1];
-		this.rotVel[0]-= this.rot[0];
-
-		this.rotVel[0] = MATH.radialClamp(this.rotVel[0], -rotVelClamp, rotVelClamp);
-
-		this.rotVel[0] = MATH.radialLerp(this.rotVel[0], steerVec.data[1], dt*radialLerp);
+		this.rotVel.data[0] = steerVec.data[1];
+		this.rotVel.data[0]-= this.rot[0];
+		this.rotVel.data[0] = MATH.radialClamp(this.rotVel.data[0], -rotVelClamp, rotVelClamp);
+		this.rotVel.data[0] = MATH.radialLerp(this.rotVel.data[0], steerVec.data[1], dt*radialLerp);
 	};
 
 	MODEL.Spatial.prototype.getForwardVector = function(vec3) {
@@ -138,7 +136,7 @@ if(typeof(MODEL) == "undefined"){
 	};
 
 	MODEL.Spatial.prototype.getRotVelArray = function(array) {
-		array[0] = this.rotVel[0];
+		array[0] = this.rotVel.data[0];
 	};
 	
 	MODEL.Spatial.prototype.getVelArray = function(array) {
@@ -158,7 +156,7 @@ if(typeof(MODEL) == "undefined"){
 	};
 
 	MODEL.Spatial.prototype.updateRotation = function(tpf) {
-		this.rot[0] = MATH.angleInsideCircle(this.rot[0] + this.rotVel[0] * tpf);
+		this.rot[0] = MATH.angleInsideCircle(this.rot[0] + this.rotVel.data[0] * tpf);
 	};
 
 	MODEL.Spatial.prototype.updateSpatial = function(tpf) {

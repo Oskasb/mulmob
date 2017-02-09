@@ -226,7 +226,7 @@ ServerWorld.prototype.tickNetworkWorld = function() {
     }
 
     for (var i = 0; i < this.pieces.length; i++) {
-        if (this.pieces[i].spatial.vel.getLength() + Math.abs(this.pieces[i].spatial.rotVel) > 0.1) {
+        if (this.pieces[i].spatial.vel.getLength() + Math.abs(this.pieces[i].spatial.rotVel.data[0]) > 0.1) {
             this.broadcastPieceState(this.pieces[i]);
         }
     }

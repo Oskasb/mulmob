@@ -109,7 +109,7 @@ define([
                         angle = spat.rot[0]+Math.PI*0.5;
 
 
-            CanvasDraw.plotRotationState(ctx, tempRect, angle, spat.rotVel[0], Math.sqrt(radius*20)*1.4, widgetConfigs.inputRadial.spatialColor, widgetConfigs.inputRadial.spatialWidth);
+            CanvasDraw.plotRotationState(ctx, tempRect, angle, spat.rotVel.data[0], Math.sqrt(radius*20)*1.4, widgetConfigs.inputRadial.spatialColor, widgetConfigs.inputRadial.spatialWidth);
 
                         ctx.fillStyle = CanvasDraw.toRgba(widgetConfigs.inputRadial.spatialColor);
 
@@ -127,7 +127,7 @@ define([
 
                         angle = target.rot[0]+Math.PI*0.5;;
 
-            CanvasDraw.plotRotationState(ctx, tempRect, angle, target.rotVel[0], Math.sqrt(radius*20) * 1.2, widgetConfigs.inputRadial.targetColor, widgetConfigs.inputRadial.targetWidth);
+            CanvasDraw.plotRotationState(ctx, tempRect, angle, target.rotVel.data[0], Math.sqrt(radius*20) * 1.2, widgetConfigs.inputRadial.targetColor, widgetConfigs.inputRadial.targetWidth);
                         ctx.fillStyle = CanvasDraw.toRgba(widgetConfigs.inputRadial.targetColor);
 
                         ctx.fillRect(
@@ -143,7 +143,7 @@ define([
 
                         angle = extrap.rot[0]+Math.PI*0.5;;
 
-            CanvasDraw.plotRotationState(ctx, tempRect, angle, target.rotVel[0], Math.sqrt(radius*20) * 1.0, widgetConfigs.inputRadial.extrapColor, widgetConfigs.inputRadial.targetWidth);
+            CanvasDraw.plotRotationState(ctx, tempRect, angle, target.rotVel.data[0], Math.sqrt(radius*20) * 1.0, widgetConfigs.inputRadial.extrapColor, widgetConfigs.inputRadial.targetWidth);
                         ctx.fillStyle = CanvasDraw.toRgba(widgetConfigs.inputRadial.extrapColor);
 
                         ctx.fillRect(

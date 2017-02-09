@@ -113,7 +113,7 @@ define([
                 particle.lifeSpan = piece.temporal.lifeTime;
                 particle.position.setArray(getPosition(particle, tpf));
                 particle.rotation = getRotation(particle, tpf);
-                particle.progress = 0.5 + Math.clamp(piece.spatial.rotVel[0]*0.5, -0.49, 0.49);
+                particle.progress = 0.5 + Math.clamp(piece.spatial.rotVel.data[0]*0.5, -0.49, 0.49);
             };
 
             this.attachModuleEffect(piece.spatial, applies.game_effect, particleUpdate);
@@ -144,7 +144,7 @@ define([
                 particle.lifeSpan = piece.temporal.lifeTime;
                 particle.position.setArray(getPosition(particle, tpf));
                 particle.rotation = getRotation(particle, tpf);
-                particle.progress = 0.5 + Math.clamp(piece.spatial.rotVel[0]*0.5, -0.49, 0.49);
+                particle.progress = 0.5 + Math.clamp(piece.spatial.rotVel.data[0]*0.5, -0.49, 0.49);
             };
 
         };
