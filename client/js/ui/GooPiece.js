@@ -50,7 +50,7 @@ define([
 			this.entity.transformComponent.transform.translation.z = spatial.pos.getZ();
 
 		//	spatial.getRotArray(this.rot);
-			this.entity.transformComponent.transform.rotation.fromAngles(0, -spatial.rot[0], 0);
+			this.entity.transformComponent.transform.rotation.fromAngles(0, -spatial.rot.data[0], 0);
 		};
 
 

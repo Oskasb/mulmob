@@ -77,8 +77,7 @@ define([
 
             function particlesReady() {
                 evt.fire(evt.list().PARTICLES_READY, {});
-                evt.on(evt.list().GAME_EFFECT, playGameEffect);data[0]
-                evt.on(evt.list().PLAY_PARTICLE, playParticle);
+                evt.on(evt.list().GAME_EFFECT, playGameEffect);
             }
             
 

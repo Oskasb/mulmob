@@ -36,9 +36,7 @@ define(function() {
 		CURSOR_START_DRAG:{type:'CURSOR_START_DRAG', args:{data:{}}},
 		CURSOR_DRAG_TO:{type:'CURSOR_DRAG_TO', args:{data:{}}},
 		CURSOR_RELEASE_FAST:{type:'CURSOR_RELEASE_FAST', args:{data:{}}},
-
-		PLAY_PARTICLE:{type:'PLAY_PARTICLE', args:{effect:"string", simulator:"string", pos:{data:[0, 0, 0]}, vel:{data:[0, 0, 0]}, callbacks:{}, density:100}},
-
+		
 		PARTICLE_TEXT:{type:'PARTICLE_TEXT', args:{}},
 		
 		GAME_EFFECT:{type:'GAME_EFFECT', args:{effect:"string", pos:{data:[0, 0, 0]}, vel:{data:[0, 0, 0]}, callbacks:{}}},

@@ -156,11 +156,11 @@ define([
 
                     this.readWorldTransform(this.tempSpatial.pos.data);
                     this.tempSpatial.rot.setXYZ(this.transform.rot[0], this.transform.rot[1]*Math.random(), this.transform.rot[2]);
-                    this.tempSpatial.rot.rotateY(this.piece.spatial.rot);
+                    this.tempSpatial.rot.rotateY(this.piece.spatial.rot.data[0]);
                 //    this.tempSpatial.rot.setY()
                 } else {
                     this.tempSpatial.pos.setVec(this.piece.spatial.pos);
-                    this.tempSpatial.rot.setY(this.piece.spatial.rot);
+                    this.tempSpatial.rot.setVec(this.piece.spatial.rot);
                 }
                 
                 if (this.moduleEffect) {

@@ -85,7 +85,7 @@ PieceSpawner.prototype.spawnWorldPiece = function(pieceType, posx, posz, rot, ro
 
     piece.setState(GAME.ENUMS.PieceStates.SPAWN);
     piece.spatial.pos.setXYZ(posx, 0, posz);
-    piece.spatial.rot[0] = rot;
+    piece.spatial.rot.data[0] = rot;
     piece.spatial.rotVel.data[0] = rotVel;
     return piece;
     
@@ -128,13 +128,13 @@ PieceSpawner.prototype.spawnBullet = function(sourcePiece, cannonModuleData, now
 
     if (apply.yaw_module) {
     //    console.log(sourcePiece)
-        bullet.spatial.rot[0] -= sourcePiece.getModuleById(apply.yaw_module).state.value;
+        bullet.spatial.rot.data[0] -= sourcePiece.getModuleById(apply.yaw_module).state.value;
     }
 
 
     this.calcVec.setArray(cannonModuleData.transform.pos);
 
-    this.calcVec.rotateY(sourcePiece.spatial.rot[0]);
+    this.calcVec.rotateY(sourcePiece.spatial.rot.data[0]);
 
     if (apply.pitch_module) {
         //    console.log(sourcePiece)

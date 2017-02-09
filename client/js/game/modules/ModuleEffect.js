@@ -43,7 +43,7 @@ define([
             }
 
             var getRotation = function() {
-                return -piece.spatial.rot[0]+transform.rot[2];
+                return -piece.spatial.rot.data[0]+transform.rot[2];
             };
 
             var getPosition = function() {
@@ -126,7 +126,7 @@ define([
             if (!applies.state_factor) applies.state_factor = 1;
             
             var getRotation = function() {
-                return -piece.spatial.rot[0]+transform.rot[2];
+                return -piece.spatial.rot.data[0]+transform.rot[2];
             };
 
             var getPosition = function() {
