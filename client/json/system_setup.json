@@ -14,6 +14,7 @@
             "trackTraffic":false,
             "monitorServer":false,
             "monitorSpatial":false,
+            "monitorModules":false,
             "graphPoints":50
         },
         "pipeline":{

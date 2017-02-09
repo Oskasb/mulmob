@@ -43,7 +43,6 @@ require([
     'application/ButtonEventDispatcher',
     'application/ControlStateDispatcher',
     'application/Client',
-    'application/StatusMonitor',
     'application/AnalyticsWrapper',
     'ui/GameScreen',
     'io/PointerCursor'
@@ -55,13 +54,12 @@ require([
     ButtonEventDispatcher,
     ControlStateDispatcher,
     Client,
-    StatusMonitor,
     AnalyticsWrapper,
     GameScreen,
     PointerCursor
 ) {
 
-    new StatusMonitor();
+
     new SystemDetector();
     new ButtonEventDispatcher();
     new DevConfigurator();

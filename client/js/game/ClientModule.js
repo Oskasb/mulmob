@@ -56,11 +56,16 @@ define([
                 return;
             }
 
+
+/*
             if (this.state.value != serverState[this.id][0].value) {
-    //            console.log("update state", this.id);
+                if (this.id != "inputControls") {
+            //        console.log("update state", this.clientPiece.playerId, this.id, this.state.value);
+                }
+
             //    this.lastValue = this.state.value;
             }
-
+*/
             this.state.value = serverState[this.id][0].value;
 
             if (this.state.value) {

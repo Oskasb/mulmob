@@ -17,11 +17,13 @@ define([
     ) {
 
 
-        var calcVec = new goo.Vector3();
-        var calcVec2 = new goo.Vector3();
-        var calcVec3 = new goo.Vector3();
+
 
         var GooModule = function(module, piece, gooParent, attachmentPoint) {
+
+            this.calcVec = new goo.Vector3();
+            this.calcVec2 = new goo.Vector3();
+            this.calcVec3 = new goo.Vector3();
             
             this.tempSpatial = {
                 pos:new MATH.Vec3(0, 0, 0),
@@ -106,12 +108,12 @@ define([
 
             this.entity.transformComponent.updateWorldTransform();
 
-            this.entity.transformComponent.worldTransform.rotation.toAngles(calcVec);
+            this.entity.transformComponent.worldTransform.rotation.toAngles(this.calcVec);
 
-            calcVec3.setDirect(pos[0], pos[1], pos[2]);
+            this.calcVec3.setDirect(pos[0], pos[1], pos[2]);
 
-            calcVec3.applyPost(this.entity.transformComponent.worldTransform.rotation);
-            this.tempSpatial.pos.setXYZ(calcVec3.x, calcVec3.y, calcVec3.z);
+            this.calcVec3.applyPost(this.entity.transformComponent.worldTransform.rotation);
+            this.tempSpatial.pos.setXYZ(this.calcVec3.x, this.calcVec3.y, this.calcVec3.z);
 
 
             this.tempSpatial.pos.data[0] += this.entity.transformComponent.worldTransform.translation.x;

@@ -4,6 +4,7 @@
 define([
 		'Events',
 		'application/ClientRegistry',
+        'application/debug/SetupDebug',
 		'io/Connection',
 		'application/TimeTracker',
 		'main/ClientWorld',
@@ -15,6 +16,7 @@ define([
 	function(
         evt,
         ClientRegistry,
+        SetupDebug,
         Connection,
         TimeTracker,
         ClientWorld,
@@ -32,6 +34,8 @@ define([
 
         var Client = function(pointerCursor) {
             ClientState = GAME.ENUMS.ClientStates.INITIALIZING;
+
+            new SetupDebug();
 
 			this.pointerCursor = pointerCursor;
 			this.timeTracker = new TimeTracker();

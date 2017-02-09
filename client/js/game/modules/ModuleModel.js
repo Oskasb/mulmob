@@ -16,9 +16,6 @@ define([
         evt
     ) {
 
-        var calcVec = new goo.Vector3();
-        var calcVec2 = new goo.Vector3();
-        var calcVec3 = new goo.Vector3();
 
         var ModuleModel = function (parentEntity) {
             this.parentEntity = parentEntity;

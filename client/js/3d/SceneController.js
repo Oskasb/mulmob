@@ -35,6 +35,7 @@ define([
     
     var SceneController = function() {
         gooController = new GooController();
+        
         spaceFX = new SpaceFX();
         groundFX = new GroundFX();
         function rendererReady(e) {

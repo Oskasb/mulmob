@@ -137,7 +137,7 @@ define([
 				this.playerRemove();
 				return;
 			} else {
-				this.gooPiece.updateGooPiece();
+			//	this.gooPiece.updateGooPiece();
 			}
 
 			if (this.isOwnPlayer) {

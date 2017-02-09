@@ -423,6 +423,23 @@
           },
           "text":"SPATIAL"
         }
+      },{
+        "id":"buttonContainerModules",
+        "data":{
+          "parentId":"panelRoot",
+          "style":["dev_button_container", "coloring_container_dev_panel"]
+        }
+      },{
+        "id":"button",
+        "data":{
+          "parentId":"buttonContainerModules",
+          "style":["dev_panel_button", "coloring_button_dev_panel"],
+          "button":{
+            "id":"dev_panel_button",
+            "event":{"category":"STATUS", "key":"MON_MODULES", "type":"toggle"}
+          },
+          "text":"MODULES"
+        }
       }
     ]
 

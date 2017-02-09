@@ -6,7 +6,6 @@ define([
     'application/Settings',
     'Events',
     '3d/GooCameraController',
-    'ui/GooMonitor',
     'ui/dom/DomUtils',
     'ui/GameScreen'
 ], function(
@@ -14,7 +13,6 @@ define([
     Settings,
     evt,
     GooCameraController,
-    GooMonitor,
     DomUtils,
     GameScreen
 ) {
@@ -29,7 +27,6 @@ define([
     
     var GooController = function() {
         this.cameraController = new GooCameraController();
-        this.gooMonitor = new GooMonitor();
     };
 
     GooController.prototype.setupGooRunner = function(clientTickCallback) {
