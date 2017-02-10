@@ -14,6 +14,18 @@ ServerPieceProcessor = function(broadcast) {
 };
 
 
+ServerPieceProcessor.prototype.getAngleFromPieceToTarget = function(piece, targetPiece) {
+
+    this.calcVec.setVec(targetPiece.spatial.pos);
+    this.calcVec.subVec(piece.spatial.pos);
+    return MATH.vectorXZToAngleAxisY(this.calcVec);
+    
+};
+
+ServerPieceProcessor.prototype.getDistanceFromPieceToTarget = function(piece, targetPiece) {
+    return piece.spatial.pos.getDistance(targetPiece.spatial.pos);
+};
+
 ServerPieceProcessor.prototype.checkProximity = function(players, pieces) {
 
     for (var key in players) {
@@ -91,8 +103,9 @@ ServerPieceProcessor.prototype.playerAgainstPlayers = function(playerA, players)
     }
 
     this.collissions.length = 0;
-
 };
+
+
 
 ServerPieceProcessor.prototype.pieceAgainstPiece = function(pieceA, pieceB) {
 

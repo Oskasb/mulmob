@@ -259,6 +259,7 @@ if(typeof(MODEL) == "undefined"){
 		this.trigger = false;
 		this.triggerShield = false;
 		this.playerName = "init";
+		this.selectedTarget = "init";
 	};
 
 	MODEL.InputState.prototype.setTrigger = function(trigger) {

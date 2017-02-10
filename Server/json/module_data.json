@@ -141,7 +141,7 @@
         "yaw_module":"tank_turret",
         "pitch_module":"cannon_pitch",
         "bullet":"cannon_bullet",
-        "exitVelocity":35,
+        "exitVelocity":75,
         "lifeTime":7
       }
     },
@@ -198,6 +198,21 @@
         "message":"wroom"
       }
     },
+
+    "input_target_select":{
+      "type":"control",
+      "id":"input_target_select",
+
+      "source":"selectedTarget",
+      "initState": null,
+      "applies":{
+        "type":"string",
+        "state":false,
+        "action":"applyControl",
+        "message":"Target Selected"
+      }
+    },
+
 
     "inputControls":{
       "type":"control",

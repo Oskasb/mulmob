@@ -138,7 +138,7 @@ PieceSpawner.prototype.spawnBullet = function(sourcePiece, cannonModuleData, now
 
     if (apply.pitch_module) {
         //    console.log(sourcePiece)
-        bullet.spatial.vel.rotateX(-sourcePiece.getModuleById(apply.pitch_module).state.value*3);
+        bullet.spatial.vel.setY(sourcePiece.getModuleById(apply.pitch_module).state.value * 20);
 
     //    bullet.spatial.vel.setY(10);
     }

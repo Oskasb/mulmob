@@ -29,13 +29,49 @@ ServerWorld.prototype.initWorld = function(clients) {
 	this.connectedClients = clients;
 };
 
+ServerWorld.prototype.getPieceById = function(id) {
+
+
+        if (this.players[id]) {
+            return this.players[id].piece;
+        }
+
+
+    for (var i = 0; i < this.pieces.length; i++) {
+        if (this.pieces[i].id == id) {
+            return this.pieces[i];
+        }
+    }
+
+    console.log("getPieceById:",id,"not found")
+
+};
 
 ServerWorld.prototype.applyModuleRotation = function(sourcePiece, moduleData, action, value) {
  //   sourcePiece.pieceControls.setControlState(moduleData, action, value);
 
-    console.log(sourcePiece.getModuleById("tank_turret").state.value);
+ //   console.log("Turret State:",sourcePiece.getModuleById("tank_turret").state.value);
 
-    sourcePiece.setModuleState(moduleData.id, moduleData.applies.rotation_min + (Math.random()*(moduleData.applies.rotation_max-moduleData.applies.rotation_min)));
+ //   console.log("SelectedTarget State:",sourcePiece.getModuleById("input_target_select").state.value);
+
+    var target = this.getPieceById(sourcePiece.getModuleById("input_target_select").state.value);
+
+    var angle = 0;
+    if (!target) {
+        sourcePiece.setModuleState(moduleData.id, angle);
+    } else {
+
+        if (moduleData.id == 'tank_turret') {
+            angle = this.serverPieceProcessor.getAngleFromPieceToTarget(sourcePiece, target);
+            sourcePiece.setModuleState(moduleData.id, MATH.angleInsideCircle(sourcePiece.spatial.rot.data[0] + angle + Math.PI));
+        }
+
+        if (moduleData.id == 'cannon_pitch') {
+            angle = this.serverPieceProcessor.getDistanceFromPieceToTarget(sourcePiece, target)*0.003;
+            sourcePiece.setModuleState(moduleData.id, MATH.clamp(angle, moduleData.applies.rotation_min, moduleData.applies.rotation_max));
+        }
+    }
+
     sourcePiece.processModuleStates();
     sourcePiece.networkDirty = true;
 };

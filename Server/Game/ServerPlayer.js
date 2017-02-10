@@ -67,6 +67,15 @@ ServerPlayer.prototype.processPlayerInputUpdate = function(data, actionHandlers)
 
 
     for (var key in data) {
+        
+        if (key == 'input_target_select') {
+            console.log("Apply", key, data[key]);
+            this.piece.setModuleState(key, data[key]);
+            this.piece.setSelectedTarget(data[key]);
+            this.piece.processModuleStates();
+            this.piece.networkDirty = true;
+        }
+
         if (key == 'shield') {
             console.log("Apply shields", data.shield);
             this.piece.setModuleState(key, data[key]);

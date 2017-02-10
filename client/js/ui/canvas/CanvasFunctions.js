@@ -209,6 +209,9 @@ define([
 
                     selectedTarget = hoverPiece;
 
+                    PipelineAPI.setCategoryKeyValue("CONTROL_STATE","TOGGLE_TARGET_SELECTED", selectedTarget);
+                //    "event":{"category":"CONTROL_STATE", "key":"TOGGLE_TARGET_SELECTED", "type":"toggle"}
+                    
                     canvasGuiApi.toggleGuiEnabled(false);
                     PipelineAPI.setCategoryKeyValue('GAME_DATA', 'CURRENT_HOVER', null);
 

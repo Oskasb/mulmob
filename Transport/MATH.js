@@ -79,9 +79,15 @@ if(typeof(MATH) == "undefined"){
 	};
 
 
+	
+	
 	MATH.radialToVector = function(angle, distance, store) {
 		store.data[0] = Math.cos(angle)*distance;
 		store.data[2] = Math.sin(angle)*distance;
+	};
+	
+	MATH.vectorXZToAngleAxisY = function(vec) {
+		return Math.atan2(vec.getX(), vec.getZ());
 	};
 
 	MATH.radialClamp = function(value, min, max) {
@@ -214,7 +220,7 @@ if(typeof(MATH) == "undefined"){
 		this.setXYZ(this.data[0], this.data[1] * cs - this.data[2] * sn, this.data[0] * sn + this.data[2] * cs);
 		return this;
 	};
-
+	
 	MATH.Vec3.prototype.radialLerp = function(start, end, frac) {
 		this.data[0] = MATH.radialLerp(start.data[0], end.data[0], frac);
 		this.data[1] = MATH.radialLerp(start.data[1], end.data[1], frac);

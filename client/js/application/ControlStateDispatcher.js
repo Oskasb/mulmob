@@ -21,19 +21,28 @@ define([
         };
 
         var requestTeleport = function(src, data) {
+            console.log("Request Teleport:", src, data)
             evt.fire(evt.list().SEND_SERVER_REQUEST, {id:'InputVector', data:{warp_drive:data}})
         };
 
+        var requestTargetSelect = function(src, data) {
+            if (!data) return;
+            console.log("Request Target Select:", src, data.playerId)
+            evt.fire(evt.list().SEND_SERVER_REQUEST, {id:'InputVector', data:{input_target_select:data.playerId}})
+        };
+        
         var handlers = {
             TOGGLE_SHIELD:requestShields,
             TOGGLE_HYPER:requestHyperDrive,
-            TOGGLE_TELEPORT:requestTeleport
+            TOGGLE_TELEPORT:requestTeleport,
+            TOGGLE_TARGET_SELECTED:requestTargetSelect
         };
 
         var modules = {
             hyper_drive:'TOGGLE_HYPER',
             shield:'TOGGLE_SHIELD',
-            warp_drive:'TOGGLE_TELEPORT'
+            warp_drive:'TOGGLE_TELEPORT',
+            input_target_select:'TOGGLE_TARGET_SELECTED'
         };
         
         var ControlStateDispatcher = function() {

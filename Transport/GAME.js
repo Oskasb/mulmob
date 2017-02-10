@@ -172,6 +172,10 @@ if(typeof(GAME) == "undefined"){
         this.setModuleState('nameplate', name);
 	};
 
+	GAME.Piece.prototype.setSelectedTarget = function(playerId) {
+		this.pieceControls.inputState.selectedTarget = playerId;
+	};
+	
 	GAME.Piece.prototype.readServerModuleState = function(moduleId) {
 		return this.serverState.modules[moduleId];
 	};
