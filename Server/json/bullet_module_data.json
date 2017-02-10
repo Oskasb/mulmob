@@ -9,7 +9,6 @@
       "applies":{
         "type":"string",
         "state":true,
-        "action":"applyAppearance",
         "style":"cannon_bullet",
         "message":"Load Bullet",
         "game_effect":"bullet_trail",
@@ -25,7 +24,6 @@
       "applies":{
         "type":"string",
         "state":true,
-        "action":"applyAppearance",
         "game_effect":"lazer_bullet_effect",
         "remove_effect":"shell_detonate"
       }
@@ -38,7 +36,6 @@
       "applies":{
         "type":"string",
         "state":true,
-        "action":"applyAppearance",
         "game_effect":"plasma_bullet_effect",
         "effect_data":{
           "intensity":0.9,

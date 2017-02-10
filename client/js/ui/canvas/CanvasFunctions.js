@@ -209,7 +209,12 @@ define([
 
                     selectedTarget = hoverPiece;
 
-                    PipelineAPI.setCategoryKeyValue("CONTROL_STATE","TOGGLE_TARGET_SELECTED", selectedTarget);
+                    if (selectedTarget) {
+                        PipelineAPI.setCategoryKeyValue("CONTROL_STATE","TOGGLE_TARGET_SELECTED", selectedTarget.playerId);
+                    } else {
+                        PipelineAPI.setCategoryKeyValue("CONTROL_STATE","TOGGLE_TARGET_SELECTED", null);
+                    }
+
                 //    "event":{"category":"CONTROL_STATE", "key":"TOGGLE_TARGET_SELECTED", "type":"toggle"}
                     
                     canvasGuiApi.toggleGuiEnabled(false);

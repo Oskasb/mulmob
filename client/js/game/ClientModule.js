@@ -67,6 +67,12 @@ define([
             }
 */
             this.state.value = serverState[this.id][0].value;
+            
+            this.notifyModuleStateForUi()
+
+        };
+
+        ClientModule.prototype.notifyModuleStateForUi = function () {
 
             if (this.state.value) {
 
@@ -83,8 +89,9 @@ define([
 
                 this.on = false;
             }
+
         };
-        
+
         ClientModule.prototype.sampleModuleFrame = function () {
             if (this.state.value != this.lastValue) {
                 this.lastValue = this.state.value;

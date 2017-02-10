@@ -4,6 +4,7 @@
 
         var Messages = {
             InputVector:{source:'InputVector', method:'playerInput', target:'gameMain', reflect:false},
+            ModuleStateRequest:{source:'InputVector', method:'playerInput', target:'gameMain', reflect:false},
             InputFire:{source:'InputFire', method:'playerInput', target:'gameMain', reflect:false},
             RegisterPlayer:{source:'ServerGameMain', method:'registerPlayer', target:'gameMain', reflect:false},
 
