@@ -45,6 +45,8 @@
         {"slot":"control"  },
         {"slot":"control"  },
         {"slot":"control"  },
+        {"slot":"control"  },
+        {"slot":"control"  },
         {"slot":"name"     }
       ],
       "default_modules":[
@@ -60,6 +62,8 @@
         "inputControls",
         "input_target_select",
         "input_toggle_attack",
+        "turret_aim_pitch",
+        "turret_aim_yaw",
         "nameplate"
       ]
     }

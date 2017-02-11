@@ -19,8 +19,8 @@ define([
 		this.shadowSize = 25;
 		this.shadowFar = 27;
 		this.shadowType = "basic";
-		this.baseFogNear = 50;
-		this.baseFogFar = 20000;
+		this.baseFogNear = 5;
+		this.baseFogFar = 200;
 		this.sunBoost = 1.5;
 		this.ambientBoost = 0.7;
 		this.lightEntity;
@@ -30,6 +30,7 @@ define([
 	};
 
 	ShaderBuilder.USE_FOG = true;
+	ShaderBuilder.FOG_SETTINGS = [15, 400];
 
 	Lighting.prototype.setBaseFogNearFar = function(fogNear, fogFar) {
 		this.baseFogNear = fogNear;

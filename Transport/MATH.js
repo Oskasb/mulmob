@@ -71,6 +71,10 @@ if(typeof(MATH) == "undefined"){
 		if (angle > MATH.TWO_PI) angle-= MATH.TWO_PI;
 		return angle;
 	};
+
+	MATH.subAngles = function(a, b) {
+		return Math.atan2(Math.sin(a-b), Math.cos(a-b));
+	};
 	
 	MATH.radialLerp = function(a, b, w) {
 		var cs = (1-w)*Math.cos(a) + w*Math.cos(b);

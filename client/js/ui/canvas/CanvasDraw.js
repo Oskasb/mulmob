@@ -90,6 +90,17 @@ define([
 
         };
 
+        CanvasDraw.clearElement = function(ctx, size) {
+            ctx.fillStyle = CanvasDraw.toRgba([0, 0, 0, 1]);
+            ctx.fillRect(
+                0,
+                0,
+                size.width ,
+                size.height
+            );
+        };
+
+
         CanvasDraw.drawElementBorders = function(ctx, elementBorder, size) {
             if (Math.random() > elementBorder.probability) {
                 return;
@@ -105,6 +116,54 @@ define([
             CustomGraphCallbacks.addPointToGraph(ctx, size.width - elementBorder.margin  ,size.height - elementBorder.margin );
             CustomGraphCallbacks.addPointToGraph(ctx,  elementBorder.margin , size.height - elementBorder.margin  );
             CustomGraphCallbacks.addPointToGraph(ctx,  elementBorder.margin , elementBorder.margin );
+            ctx.stroke();
+
+        };
+
+        CanvasDraw.drawTargettingYaw = function(ctx, elementBorder, size, yawAim) {
+            if (Math.random() > elementBorder.probability * 2) {
+                return;
+            }
+
+            ctx.lineWidth = (1-elementBorder.flicker + Math.random()*elementBorder.flicker);
+
+            ctx.strokeStyle = CanvasDraw.randomizedColor(elementBorder.color, elementBorder.flicker);
+
+            yawAim = size.width * Math.sqrt(yawAim)*0.2;
+
+
+            ctx.beginPath();
+            CustomGraphCallbacks.addPointToGraph(ctx,  size.width*0.52 + yawAim, size.height - elementBorder.margin  -5);
+            CustomGraphCallbacks.addPointToGraph(ctx,  size.width*0.52 + yawAim, elementBorder.margin+5);
+            ctx.stroke();
+
+            ctx.beginPath();
+            CustomGraphCallbacks.addPointToGraph(ctx,  size.width*0.48 - yawAim , elementBorder.margin+5);
+            CustomGraphCallbacks.addPointToGraph(ctx,  size.width*0.48 - yawAim,  size.height - elementBorder.margin -5);
+            ctx.stroke();
+
+        };
+
+        CanvasDraw.drawTargettingPitch = function(ctx, elementBorder, size, pitchAim) {
+            if (Math.random() > elementBorder.probability * 2) {
+                return;
+            }
+
+            ctx.lineWidth = (1-elementBorder.flicker + Math.random()*elementBorder.flicker);
+
+            ctx.strokeStyle = CanvasDraw.randomizedColor(elementBorder.color, elementBorder.flicker);
+
+            pitchAim = size.height * Math.sqrt(pitchAim)*0.1;
+
+
+            ctx.beginPath();
+            CustomGraphCallbacks.addPointToGraph(ctx, size.height - elementBorder.margin -5 ,  size.height*0.52 + pitchAim);
+            CustomGraphCallbacks.addPointToGraph(ctx, elementBorder.margin+5                ,  size.height*0.52 + pitchAim);
+            ctx.stroke();
+
+            ctx.beginPath();
+            CustomGraphCallbacks.addPointToGraph(ctx, elementBorder.margin+5                ,  size.height*0.48 - pitchAim);
+            CustomGraphCallbacks.addPointToGraph(ctx, size.height - elementBorder.margin -5 ,  size.height*0.48 - pitchAim);
             ctx.stroke();
 
         };

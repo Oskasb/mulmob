@@ -50,8 +50,8 @@ define(function() {
 	];
 
 	var globals = {
-		baseFogNear: 150,
-		baseFogFar:20000,
+		baseFogNear: 15,
+		baseFogFar:200,
 		baseCycleDuration: 10000,
 		startCycleIndex: 0
 	};

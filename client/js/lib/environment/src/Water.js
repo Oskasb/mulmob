@@ -25,7 +25,7 @@ define([],
 
             this.waterRenderer.waterMaterial.shader.uniforms.doFog = true;
 			this.baseFogNear = 50;
-			this.baseFogFar = 20000;
+			this.baseFogFar = 5000;
 
 		};
 

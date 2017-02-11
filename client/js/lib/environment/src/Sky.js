@@ -19,9 +19,9 @@ define([
 			this.lighting.setupMainLight();
 			this.environment = new DynamicEnvironment(this.lighting);
 			this.skySphere = new DynamicSkysphere(goo);
-			this.skySphere.makeSun();
-			this.clouds = new Clouds();
-			this.clouds.createClouds([0, 1500, 0],[10000, 800, 10000], 8);
+		//	this.skySphere.makeSun();
+		//	this.clouds = new Clouds();
+		//	this.clouds.createClouds([0, 1500, 0],[10000, 800, 10000], 8);
 		};
 
 		Sky.prototype.setEnvData = function(envData) {
@@ -47,15 +47,16 @@ define([
 			this.environment.advanceTime(tpf * this.timeScale);
 			var envState = this.environment.getEnvironmentState();
 			this.skySphere.setColor(envState.fogColor, envState.ambientLight, envState.skyColor, source.translation.data[1]);
-			this.skySphere.setSunColor(envState.sunLight);
-			this.updateSun(camEntity, envState);
+			this.lighting.setFogNearFar(15, 400);
+		//	this.skySphere.setSunColor(envState.sunLight);
+		//	this.updateSun(camEntity, envState);
 		};
 
 		Sky.prototype.updateSun = function(camEntity, envState) {
 			var source = camEntity.transformComponent.worldTransform;
 			//	waterRenderer.waterMaterial.shader.uniforms.sunDirection = [dir[2], dir[0], dir[1]];
 			//   var pos = cameraEntity.transformComponent.worldTransform.translation.data;
-			this.skySphere.setSunXYZ(source.translation.data[0]-envState.sunDir[2]*10000, source.translation.data[1]-envState.sunDir[1]*10000, source.translation.data[2]-envState.sunDir[0]*10000);
+		//	this.skySphere.setSunXYZ(source.translation.data[0]-envState.sunDir[2]*10000, source.translation.data[1]-envState.sunDir[1]*10000, source.translation.data[2]-envState.sunDir[0]*10000);
 			//	GooEffectController.setSunlightDirection(dir);
 		};
 

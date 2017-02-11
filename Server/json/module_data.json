@@ -108,7 +108,7 @@
         "cooldown":0.4,
         "spatial_axis":"yaw",
         "rotation_axis":0,
-        "rotation_velocity":0.8,
+        "rotation_velocity":0.5,
         "rotation_min":-6.2,
         "rotation_max":6.2,
         "module_model_child":"turret"
@@ -127,7 +127,7 @@
         "cooldown":0.4,
         "spatial_axis":"pitch",
         "rotation_axis":0,
-        "rotation_velocity":0.5,
+        "rotation_velocity":0.3,
         "rotation_min":0,
         "rotation_max":0.4,
         "module_model_child":"cannon"
@@ -223,10 +223,31 @@
       "initState": null,
       "applies":{
         "type":"string",
+        "yaw_aim_module_id":"turret_aim_yaw",
+        "pitch_aim_module_id":"turret_aim_pitch",
         "state":false
       }
     },
 
+    "turret_aim_yaw":{
+      "type":"control",
+      "id":"turret_aim_yaw",
+      "initState": null,
+      "applies":{
+        "type":"float",
+        "state":false
+      }
+    },
+
+    "turret_aim_pitch":{
+      "type":"control",
+      "id":"turret_aim_pitch",
+      "initState": null,
+      "applies":{
+        "type":"float",
+        "state":false
+      }
+    },
 
     "inputControls":{
       "type":"control",

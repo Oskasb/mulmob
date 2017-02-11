@@ -11,7 +11,7 @@ function (
 	var Shader = goo.Shader;
 	var Material = goo.Material;
 	var MeshRendererComponent = goo.MeshRendererComponent;
-	
+	var ShaderBuilder = goo.ShaderBuilder;
 	
 	function ParticleRenderer() {
 		this.settings = null;
@@ -52,23 +52,27 @@ function (
 			]
 		}
 
-		var material = new Material(particleShader);
-
-
+		if (simConf.blending.value == "NoBlending") {
+			var material = new Material(particleShader);
+		} else {
+			var material = new Material(particleShader);
+		}
 
 		material.uniforms.alphakill = simConf.alphakill.value;
 		material.blendState.blending = simConf.blending.value;
 
 		if (material.blendState.blending == "NoBlending") {
 			material.depthState.write = true;
+			material.renderQueue = 810;
 		} else {
 			material.depthState.write = false;
+			material.renderQueue = 3010;
 		}
 
 
 
 
-		material.renderQueue = 3010;
+
 		var entity = this.entity = goo.world.createEntity(meshData);
 		entity.set(new MeshRendererComponent(material));
 		entity.name = 'ParticleRenderer';
@@ -346,6 +350,128 @@ function (
 			'gl_FragColor = col;',
 			'}'
 		].join('\n')
+	};
+
+
+
+	var vegetationShader = {
+		processors: [
+			ShaderBuilder.light.processor,
+			function (shader) {
+				if (ShaderBuilder.USE_FOG) {
+					shader.defines.FOG = true;
+					shader.uniforms.fogSettings = ShaderBuilder.FOG_SETTINGS;
+					shader.uniforms.fogColor = ShaderBuilder.FOG_COLOR;
+				} else {
+					delete shader.defines.FOG;
+				}
+			}
+		],
+		attributes : {
+			vertexPosition : MeshData.POSITION,
+			vertexNormal : MeshData.NORMAL,
+			vertexUV0 : MeshData.TEXCOORD0,
+			vertexColor : MeshData.COLOR,
+			base : 'BASE'
+		},
+		uniforms : {
+			viewProjectionMatrix : Shader.VIEW_PROJECTION_MATRIX,
+			worldMatrix : Shader.WORLD_MATRIX,
+			cameraPosition : Shader.CAMERA,
+			diffuseMap : Shader.DIFFUSE_MAP,
+			discardThreshold: -0.01,
+			fogSettings: function () {
+				return ShaderBuilder.FOG_SETTINGS;
+			},
+			fogColor: function () {
+				return ShaderBuilder.FOG_COLOR;
+			},
+			time : Shader.TIME,
+			fadeDistMin : 40.0,
+			fadeDistMax : 50.0
+		},
+		builder: function (shader, shaderInfo) {
+			ShaderBuilder.light.builder(shader, shaderInfo);
+		},
+		vshader: function () {
+			return [
+				'attribute vec3 vertexPosition;',
+				'attribute vec3 vertexNormal;',
+				'attribute vec2 vertexUV0;',
+				'attribute vec4 vertexColor;',
+				'attribute float base;',
+
+				'uniform mat4 viewProjectionMatrix;',
+				'uniform mat4 worldMatrix;',
+				'uniform vec3 cameraPosition;',
+				'uniform float time;',
+				'uniform float fadeDistMin;',
+				'uniform float fadeDistMax;',
+
+				ShaderBuilder.light.prevertex,
+
+				'varying vec3 normal;',
+				'varying vec3 vWorldPos;',
+				'varying vec3 viewPosition;',
+				'varying vec2 texCoord0;',
+				'varying vec4 color;',
+				'varying float dist;',
+
+				'void main(void) {',
+				'vec3 swayPos = vertexPosition;',
+				'swayPos.x += sin(time * 1.0 + swayPos.x * 0.5) * base * sin(time * 1.8 + swayPos.y * 0.6) * 0.1 + 0.08;',
+				'vec4 worldPos = worldMatrix * vec4(swayPos, 1.0);',
+				'vWorldPos = worldPos.xyz;',
+				'gl_Position = viewProjectionMatrix * worldPos;',
+
+				ShaderBuilder.light.vertex,
+
+				'normal = (worldMatrix * vec4(vertexNormal, 0.0)).xyz;',
+				'texCoord0 = vertexUV0;',
+				'color = vertexColor;',
+				'viewPosition = cameraPosition - worldPos.xyz;',
+				'dist = 1.0 - smoothstep(fadeDistMin, fadeDistMax, length(viewPosition.xz));',
+				'}'
+			].join('\n');
+		},
+		fshader: function () {
+			return [
+				'uniform sampler2D diffuseMap;',
+				'uniform float discardThreshold;',
+				'uniform vec2 fogSettings;',
+				'uniform vec3 fogColor;',
+
+				ShaderBuilder.light.prefragment,
+
+				'varying vec3 normal;',
+				'varying vec3 vWorldPos;',
+				'varying vec3 viewPosition;',
+				'varying vec2 texCoord0;',
+				'varying float dist;',
+				'varying vec4 color;',
+
+				'void main(void)',
+				'{',
+				'vec4 final_color = texture2D(diffuseMap, texCoord0) * color;',
+				'if (final_color.a < discardThreshold) discard;',
+				'final_color.a = min(final_color.a, dist);',
+				'if (final_color.a <= 0.0) discard;',
+
+				'vec3 N = normalize(normal);',
+
+				ShaderBuilder.light.fragment,
+
+				'final_color.a = pow(final_color.a, 0.5);',
+
+				'#ifdef FOG',
+				'float d = pow(smoothstep(fogSettings.x, fogSettings.y, length(viewPosition)), 1.0);',
+				'final_color.rgb = mix(final_color.rgb, fogColor, d);',
+				'#endif',
+
+				'gl_FragColor = final_color;',
+				'}'
+			].join('\n');
+		}
 	};
 
 	return ParticleRenderer;

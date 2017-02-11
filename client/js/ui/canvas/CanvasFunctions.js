@@ -231,6 +231,14 @@ define([
 
                     CanvasDraw.drawElementBorders(ctx, configs.elementBorder, configs.size);
 
+                    var yawAim = ownPiece.piece.readServerModuleState('turret_aim_yaw')[0].value;
+                //    console.log(yawAim)
+                    CanvasDraw.drawTargettingYaw(ctx, configs.elementBorder, configs.size, Math.abs(yawAim));
+
+                    var pitchAim = ownPiece.piece.readServerModuleState('turret_aim_pitch')[0].value;
+                    //    console.log(yawAim)
+                    CanvasDraw.drawTargettingPitch(ctx, configs.elementBorder, configs.size, Math.abs(pitchAim));
+                    
                     if (!canvasGuiApi.enabled) {
                         canvasGuiApi.toggleGuiEnabled(true);
                     }
@@ -244,6 +252,7 @@ define([
                     );
 
                 } else if (canvasGuiApi.enabled) {
+                    CanvasDraw.clearElement(ctx, configs.size);
                     canvasGuiApi.toggleGuiEnabled(false);
                 }
 

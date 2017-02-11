@@ -29,9 +29,17 @@ ServerModuleFunctions.prototype.applyModulePitch = function(sourcePiece, moduleD
     } else {
 
         if (moduleData.id == 'cannon_pitch') {
-            angle = this.serverPieceProcessor.getDistanceFromPieceToTarget(sourcePiece, target)*0.007;
-            angle = this.clampModuleRotation(sourcePiece.getModuleById(moduleData.id), angle, clamp);
-            sourcePiece.setModuleState(moduleData.id, MATH.clamp(angle, moduleData.applies.rotation_min, moduleData.applies.rotation_max));
+
+            var pitchAimModuleID = sourcePiece.getModuleById(moduleData.applies.master_module_id).data.applies.pitch_aim_module_id;
+            var targetAngle = this.serverPieceProcessor.getDistanceFromPieceToTarget(sourcePiece, target)*0.007;
+
+            angle = this.clampModuleRotation(sourcePiece.getModuleById(moduleData.id), targetAngle, clamp);
+            angle = MATH.clamp(angle, moduleData.applies.rotation_min, moduleData.applies.rotation_max)
+
+            sourcePiece.setModuleState(moduleData.id, angle);
+
+            sourcePiece.setModuleState(pitchAimModuleID, targetAngle-angle);
+
         }
     }
 
@@ -62,18 +70,30 @@ ServerModuleFunctions.prototype.applyModuleYaw = function(sourcePiece, moduleDat
     } else {
 
         if (moduleData.id == 'tank_turret') {
-            angle = this.serverPieceProcessor.getAngleFromPieceToTarget(sourcePiece, target) ; //  moduleData.transform.rot[moduleData.applies.rotation_axis];
-            angle = MATH.angleInsideCircle(sourcePiece.spatial.yaw() + angle);
 
-            if (isNaN(sourcePiece.getModuleById(moduleData.id).state.value)) return;
+            var yawAimModuleID = sourcePiece.getModuleById(moduleData.applies.master_module_id).data.applies.yaw_aim_module_id;
 
-            console.log("No master module for rotate function", sourcePiece.getModuleById(moduleData.id).state.value);
-            angle = this.clampModuleRotation(sourcePiece.getModuleById(moduleData.id), angle, clamp);
+            var worldAngle = this.serverPieceProcessor.getAngleFromPieceToTarget(sourcePiece, target) ; //  moduleData.transform.rot[moduleData.applies.rotation_axis];
+
+            worldAngle = MATH.angleInsideCircle(sourcePiece.spatial.yaw() + worldAngle);
+
+            if (isNaN(sourcePiece.getModuleById(moduleData.id).state.value)) {
+                console.log("NAN MODULE STATE")
+                return;
+            }
+
+
+            angle = this.clampModuleRotation(sourcePiece.getModuleById(moduleData.id), worldAngle, clamp);
             sourcePiece.setModuleState(moduleData.id, angle);
+
+            var diff = MATH.subAngles(worldAngle, sourcePiece.getModuleById(moduleData.id).state.value);
+            console.log(diff);
+
+            sourcePiece.setModuleState(yawAimModuleID, diff);
+
         }
 
     }
-
-//    sourcePiece.processModuleStates();
+//    sourcePiece.processModuleStates;
     sourcePiece.networkDirty = true;
 };
