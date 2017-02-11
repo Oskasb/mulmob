@@ -302,7 +302,7 @@ if(typeof(GAME) == "undefined"){
 
 	//	if (this.pieceControls.inputState.throttle == 0) {
 			this.spatial.vel.scale(1 - (this.pieceControls.constants.velocityDrag*tickDelta));
-			this.spatial.rotVel.data[0] *= (1 - (this.pieceControls.constants.radialDrag*tickDelta));
+			this.spatial.rotVel.scale(1 - (this.pieceControls.constants.radialDrag*tickDelta));
 	//	}
 
 		this.spatial.updateSpatial(tickDelta);

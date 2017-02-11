@@ -55,16 +55,19 @@ if(typeof(MODEL) == "undefined"){
 	};
 
     MODEL.Spatial.prototype.interpolateRotVel = function(start, target, fraction) {
-        this.rotVel.data[0] = MATH.radialLerp(start.rotVel.data[0], target.rotVel.data[0], fraction);
+		this.setPitchVel(MATH.radialLerp(start.pitchVel(), target.pitchVel(), fraction));
+		this.setYawVel(MATH.radialLerp(start.yawVel(), target.yawVel(), fraction));
+		this.setRollVel(MATH.radialLerp(start.rollVel(), target.rollVel(), fraction))
     };
-
 
     MODEL.Spatial.prototype.interpolatePositions = function(start, target, fraction) {
         this.pos = this.pos.interpolateFromTo(start.pos, target.pos, fraction);
     };
 
 	MODEL.Spatial.prototype.interpolateRotational = function(start, target, fraction) {
-		this.rot.data[0] = MATH.radialLerp(start.rot.data[0], target.rot.data[0], fraction);
+		this.setPitch(MATH.radialLerp(start.pitch(), target.pitch(), fraction));
+		this.setYaw(MATH.radialLerp(start.yaw(), target.yaw(), fraction));
+		this.setRoll(MATH.radialLerp(start.roll(), target.roll(), fraction))
 	};
 	
 	MODEL.Spatial.prototype.setSendData = function(sendData) {
@@ -90,15 +93,12 @@ if(typeof(MODEL) == "undefined"){
 	};
 
 	MODEL.Spatial.prototype.stop = function() {
-		this.vel[0] = 0;
-		this.rotVel.data[0] = 0;
+		this.vel.scale(0);
+		this.rotVel.scale(0);
 	};
 
 	MODEL.Spatial.prototype.applySteeringVector = function(steerVec, dt,  rotVelClamp, radialLerp) {
-		this.rotVel.data[0] = steerVec.data[1];
-		this.rotVel.data[0]-= this.rot.data[0];
-		this.rotVel.data[0] = MATH.radialClamp(this.rotVel.data[0], -rotVelClamp, rotVelClamp);
-		this.rotVel.data[0] = MATH.radialLerp(this.rotVel.data[0], steerVec.data[1], dt*radialLerp);
+		this.setYawVel(MATH.radialLerp(MATH.radialClamp(steerVec.data[1] - this.yaw(), -rotVelClamp, rotVelClamp), steerVec.data[1], dt*radialLerp));
 	};
 
 	MODEL.Spatial.prototype.getForwardVector = function(vec3) {
@@ -192,19 +192,8 @@ if(typeof(MODEL) == "undefined"){
 	MODEL.Spatial.prototype.posY = function() {
 		return this.pos.getY();
 	};
-	
-	MODEL.Spatial.prototype.getRotArray = function(array) {
-		array[0] = this.rot.data[0];
-	};
 
-	MODEL.Spatial.prototype.getRotVelArray = function(array) {
-		array[0] = this.rotVel.data[0];
-	};
 	
-	MODEL.Spatial.prototype.getVelArray = function(array) {
-		this.vel.getArray(array);
-	};
-
 	MODEL.Spatial.prototype.getVelVec = function() {
 		return this.vel;
 	};
