@@ -30,8 +30,7 @@ define([
             this.transform = attachmentPoint.transform;
 
             this.moduleSpatial = new MODEL.Spatial();
-            this.moduleSpatial.setSpatial(this.transform);
-
+            this.moduleSpatial.setSpatial(attachmentPoint.transform);
 
             this.particles = [];
             this.piece = piece;
@@ -58,7 +57,7 @@ define([
 
                 if (this.applies.game_effect) {
                     this.moduleEffect = new ModuleEffect();
-                    this.moduleEffect.setupEffectModelData(this.applies, this.piece, this.tempSpatial, this.transform);
+                    this.moduleEffect.setupEffectModelData(this.applies, this.piece, this.tempSpatial);
                 } else if (this.applies.emit_effect) {
                     this.moduleEmitter = new ModuleEmitter();
                     this.moduleEmitter.setupEmitEffectData(this.applies, this.piece, this.tempSpatial, this.transform);
@@ -67,10 +66,6 @@ define([
                 if (this.applies.spawn_effect) {
                     evt.fire(evt.list().GAME_EFFECT, {effect:module.data.applies.spawn_effect, pos:piece.spatial.pos, vel:piece.spatial.vel});
                 }
-            }
-
-            if (this.transform) {
-                //    this.readWorldTransform(this.transform.pos, this.transform.rot)
             }
 
         };
@@ -142,10 +137,6 @@ define([
             if (!this.applies) return;
             if (!this.transform) return;
 
-
-        //    this.tempSpatial.setSpatial(this.piece.spatial);
-            //    this.tempSpatial.pos.addVec(this.moduleSpatial.pos);
-
             if (this.applies.spatial_axis) {
                 var diff = this.angleDiffForAxis(this.module.state.value, this.applies.spatial_axis);
                 this.applyAngleRotationAxisToSpatial(diff, this.transform.rot.data, this.moduleSpatial);
@@ -155,32 +146,18 @@ define([
                 }
             }
 
-            //    this.tempSpatial.pos.setArray(this.transform.pos);
-
-
-
-
 
             if (this.moduleSpatial.getSizeVec().getLengthSquared() > 0.5) {
-                //    console.log("has size:", this.transform.size)
-
                 this.tempSpatial.setPosXYZ(
                     this.moduleSpatial.size.data[0]*(Math.random()-0.5),
                     this.moduleSpatial.size.data[1]*(Math.random()-0.5),
                     this.moduleSpatial.size.data[2]*(Math.random()-0.5)
                 );
-
-
-                    this.inheritEntityWorldTransform(this.tempSpatial.pos.data);
-            //    this.tempSpatial.fromAngles(this.moduleSpatial.pitch(), this.moduleSpatial.yaw(), this.moduleSpatial.roll());
-
+                this.inheritEntityWorldTransform(this.tempSpatial.pos.data);
 
             } else {
                 this.tempSpatial.setSpatial(this.piece.spatial);
-
             }
-            //    this.tempSpatial.rot.setY()
-
 
             this.tempSpatial.addSpatial(this.moduleSpatial);
             this.tempSpatial.fromAngles(this.moduleSpatial.pitch(), this.moduleSpatial.yaw(), this.moduleSpatial.roll());
@@ -202,17 +179,11 @@ define([
             }
 
             if (this.moduleEmitter) {
-
                 if (this.module.on) {
-
                     this.moduleEmitter.updateModuleEmitter(this.module, this.tempSpatial.pos, this.tempSpatial.rot)
                 }
-
             }
-
         };
-
-
 
         return GooModule;
 

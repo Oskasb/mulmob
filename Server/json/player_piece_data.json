@@ -36,7 +36,7 @@
         {"slot":"hull",           "transform":{ "rot":[0, 0, 0],    "pos":[0,    0,  2.1]}},
         {"slot":"shield",         "transform":{ "rot":[0, 0, 0],    "pos":[0,    0,  0.1]}},
         {"slot":"drive",          "transform":{ "rot":[0, 0, 1],    "pos":[0,    0, -0.6]}},
-        {"slot":"drive",          "transform":{ "rot":[0, 0, 1],    "pos":[0,    0, -0.6]}},
+        {"slot":"drive",          "transform":{ "rot":[0, 0, 1],    "pos":[0,    0.4, -0.6], "size":[3, 0.4, 5.1]}},
         {"slot":"weapon",         "transform":{ "rot":[0, 0, 0],    "pos":[0,    2,    0]}},
         {"slot":"turret",         "transform":{ "rot":[0, 0, 1],    "pos":[0,    2,    0]}},
         {"slot":"cannon_pitch",   "transform":{ "rot":[1, 0, 0],    "pos":[0,    2,  0  ]}},
@@ -46,9 +46,9 @@
         {"slot":"control"  },
         {"slot":"control"  },
         {"slot":"name"     }
-      ],4
+      ],
       "default_modules":[
-        "hull",4
+        "hull",
         "shield",
         "hyper_drive",
         "warp_drive",

@@ -53,8 +53,7 @@ define([
                 } else {
                     this.effectData.state[key] = this.effectData.params[key] * amplitude;
                 }
-
-                var effectData = this.effectData.state;
+                
             }
         };
 

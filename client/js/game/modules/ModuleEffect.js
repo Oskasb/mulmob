@@ -20,7 +20,7 @@ define([
             };
         };
 
-        ModuleEffect.prototype.setupEffectModelData = function(applies, piece, tempSpatial, transform) {
+        ModuleEffect.prototype.setupEffectModelData = function(applies, piece, tempSpatial) {
 
             this.applies = applies;
             
@@ -43,73 +43,13 @@ define([
             }
 
             var getRotation = function() {
-                return piece.spatial.yaw()+transform.rot[1];
+                return piece.spatial.yaw()+tempSpatial.yaw();
             };
 
             var getPosition = function() {
-                return piece.spatial.pos.data;
-
-                if  (transform) {
-                    // _this.readWorldTransform(_this.applies.transform.pos, _this.applies.transform.rot);
-                    return tempSpatial.pos.data;
-                } else {
-                    return piece.spatial.pos.data;
-                }
-
+                return tempSpatial.pos.data;
             };
-
-            if (this.applies.animate) {
-
-                var spread = this.applies.animate.spread * (Math.random()-0.5) || 0;
-                var diffusion = this.applies.animate.diffusion || 0;
-                var speed = this.applies.animate.speed || 1;
-                var size = this.applies.animate.size || 1;
-
-                var diffuse = function() {
-                    return 1 - (Math.random()*diffusion)
-                };
-
-                if (this.applies.animate.rotation) {
-                    var rot = this.applies.animate.rotation;
-                    getRotation = function(particle, tpf) {
-                        return particle.rotation + (rot*tpf * (1-spread) + tpf*(1-diffuse()));
-                    };
-                }
-
-
-                var pos = [0, 0, 0];
-
-                if (this.applies.animate.oscillate) {
-
-                    var osc = this.applies.animate.oscillate;
-                    var time = 0;
-
-                    var posX = function() {
-                        return Math.sin(1-spread * time * speed*diffuse())*osc*size;
-                    };
-
-                    var posY = function() {
-                        return Math.cos(1-spread * time * speed)*diffuse()*osc*size;
-                    };
-
-                    getPosition = function(particle, tpf) {
-
-                        time += tpf;
-
-                        //   pos[0] = _this.tempSpatial.rot.data[0];
-                        //   pos[1] = _this.tempSpatial.rot.data[1];
-//
-                        pos[0] = tempSpatial.pos.data[0];
-                        pos[1] = tempSpatial.pos.data[1];
-                        pos[2] = tempSpatial.pos.data[2];
-
-                        pos[0] = pos[0] + posX() + Math.cos(time*spread+diffuse())*size;
-                        pos[1] = pos[1] + posY() + Math.sin(time*spread)*size+diffuse();
-                        return pos;
-                    };
-                }
-            };
-
+            
             var particleUpdate = function(particle, tpf) {
                 particle.lifeSpan = piece.temporal.lifeTime;
                 particle.position.setArray(getPosition(particle, tpf));
