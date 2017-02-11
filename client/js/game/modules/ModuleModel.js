@@ -21,6 +21,7 @@ define([
             this.parentEntity = parentEntity;
             this.moduleEntity;
             this.entityName;
+            this.baseRotation = new goo.Vector3();
         };
 
         ModuleModel.prototype.attachModuleModel = function (modelName) {
@@ -46,7 +47,8 @@ define([
 
             this.moduleEntity = e;
 
-            console.log("Module Entity", this.moduleEntity);
+            this.parentEntity.transformComponent.transform.rotation.toAngles(this.baseRotation);
+            console.log("Module Entity", this.moduleEntity, this.baseRotation);
 
         };
 
@@ -56,7 +58,7 @@ define([
                 this.attachEntityToModule(this.entityName)
             }
 
-            this.moduleEntity.transformComponent.transform.rotation.fromAngles(rot[0], rot[1], rot[2]);
+            this.moduleEntity.transformComponent.transform.rotation.fromAngles(rot[0] - this.baseRotation.x, rot[1] - this.baseRotation.y, rot[2] - this.baseRotation.z);
             this.moduleEntity.transformComponent.setUpdated();
         };
 

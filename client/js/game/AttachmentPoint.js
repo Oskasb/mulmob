@@ -9,45 +9,23 @@ define([
         evt
     ) {
 
-        var transform = function(srcTrf) {
-
-            if (srcTrf.pos) {
-                this.pos = [srcTrf.pos[0], srcTrf.pos[1], srcTrf.pos[2]];
-            }
-
-            if (srcTrf.rot) {
-                this.rot = [srcTrf.rot[0], srcTrf.rot[1], srcTrf.rot[2]];
-            }
-
-            if (srcTrf.size) {
-                this.size = [srcTrf.size[0], srcTrf.size[1], srcTrf.size[2]];
-            }
-
-        };
-
-
-
         var AttachmentPoint = function(apData, defaultModule) {
             this.slot = apData.slot;
-            if (apData.transform) {
-                this.transform = new transform(apData.transform);
-            }
 
+            this.transform = new MODEL.Spatial();
+
+            if (apData.transform) {
+                this.applyTransform(apData.transform)
+            }
+            
             this.data = {module:defaultModule};
         };
 
-        AttachmentPoint.prototype.attachModule = function () {
-            
+        AttachmentPoint.prototype.applyTransform = function (transform) {
+            if (transform.pos) this.transform.setPosXYZ(transform.pos[0], transform.pos[1], transform.pos[2]);
+            if (transform.rot) this.transform.fromAngles(transform.rot[0], transform.rot[1], transform.rot[2]);
+            if (transform.size) this.transform.setSizeXYZ(transform.size[0], transform.size[1], transform.size[2]);
         };
-
-        AttachmentPoint.prototype.sampleModuleFrame = function () {
-
-        };
-
-        AttachmentPoint.prototype.removeClientModule = function () {
-            
-                        
-        };
-        
+                
         return AttachmentPoint
     });

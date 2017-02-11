@@ -23,6 +23,8 @@ if(typeof(MODEL) == "undefined"){
 			rot:[0, 0, 0],
 			rotVel:[0, 0, 0]
 		};
+		this.size = new MATH.Vec3(0, 0, 0);
+		this.extents = new MATH.Vec3(0, 0, 0);
 		this.pos = new MATH.Vec3(0, 0, 0);
 		this.vel = new MATH.Vec3(0, 0, 0);
 		this.rot = new MATH.Vec3(0, 0, 0);
@@ -90,8 +92,18 @@ if(typeof(MODEL) == "undefined"){
 		this.vel.setVec(spatial.vel);
 		this.rot.setVec(spatial.rot);
 		this.rotVel.setVec(spatial.rotVel);
+        this.size.setVec(spatial.size);
 	};
 
+	MODEL.Spatial.prototype.addSpatial = function(spatial) {
+		this.pos.addVec(spatial.pos);
+		this.vel.addVec(spatial.vel);
+		this.addPitch(spatial.pitch());
+		this.addYaw(spatial.yaw());
+		this.addRoll(spatial.roll());
+		
+	};
+	
 	MODEL.Spatial.prototype.stop = function() {
 		this.vel.scale(0);
 		this.rotVel.scale(0);
@@ -103,7 +115,7 @@ if(typeof(MODEL) == "undefined"){
 
 	MODEL.Spatial.prototype.getForwardVector = function(vec3) {
 		
-		vec3.setXYZ(Math.cos(this.rot.data[0] -Math.PI*0.5), 0, Math.sin(this.rot.data[0] -Math.PI*0.5));
+		vec3.setXYZ(Math.cos(this.yaw() -Math.PI*0.5), 0, Math.sin(this.yaw() -Math.PI*0.5));
 		
 		
         return vec3;
@@ -113,8 +125,20 @@ if(typeof(MODEL) == "undefined"){
         vec3.setXYZ(Math.cos(this.rot.data[0] -Math.PI*0.5), 0, Math.sin(this.rot.data[0] -Math.PI*0.5));
         return store;
     };
-    
 
+	MODEL.Spatial.prototype.stop = function() {
+		this.vel.setXYZ(0, 0, 0);
+		this.rotVel.setXYZ(0, 0, 0);
+	};
+
+	MODEL.Spatial.prototype.setPosVec3 = function(vec3) {
+		this.pos.setVec(vec3);
+	};
+
+	MODEL.Spatial.prototype.addPosXYZ = function(x, y, z) {
+		this.pos.addXYZ(z, y, z);
+	};
+	
 	MODEL.Spatial.prototype.setPosXYZ = function(x, y, z) {
 		this.pos.setXYZ(x, y, z);
 	};
@@ -132,11 +156,11 @@ if(typeof(MODEL) == "undefined"){
 	};
 
 	MODEL.Spatial.prototype.yaw = function() {
-		return this.rot.getX();
+		return this.rot.getY();
 	};
 
 	MODEL.Spatial.prototype.roll = function() {
-		return this.rot.getX();
+		return this.rot.getZ();
 	};
 
 
@@ -145,37 +169,55 @@ if(typeof(MODEL) == "undefined"){
 	};
 
 	MODEL.Spatial.prototype.yawVel = function() {
-		return this.rotVel.getX();
+		return this.rotVel.getY();
 	};
 
 	MODEL.Spatial.prototype.rollVel = function() {
-		return this.rotVel.getX();
+		return this.rotVel.getZ();
 	};
 
 	MODEL.Spatial.prototype.setPitchVel = function(angleVelocity) {
-		return this.rotVel.setX(angleVelocity);
+		this.rotVel.setX(angleVelocity);
 	};
 
 	MODEL.Spatial.prototype.setYawVel = function(angleVelocity) {
-		return this.rotVel.setX(angleVelocity);
+		this.rotVel.setY(angleVelocity);
 	};
 
 	MODEL.Spatial.prototype.setRollVel = function(angleVelocity) {
-		return this.rotVel.setX(angleVelocity);
+		this.rotVel.setZ(angleVelocity);
 	};
 
 	MODEL.Spatial.prototype.setPitch = function(angle) {
-		return this.rot.setX(angle);
+		this.rot.setX(angle);
 	};
 
 	MODEL.Spatial.prototype.setYaw = function(angle) {
-		return this.rot.setX(angle);
+		this.rot.setY(angle);
 	};
 
 	MODEL.Spatial.prototype.setRoll = function(angle) {
-		return this.rot.setX(angle);
+		this.rot.setZ(angle);
+	};
+	
+	MODEL.Spatial.prototype.applyPitch = function(angle) {
+		this.rot.rotateX(angle);
 	};
 
+	MODEL.Spatial.prototype.applyYaw = function(angle) {
+		this.rot.rotateY(angle);
+	};
+
+	MODEL.Spatial.prototype.applyRoll = function(angle) {
+		this.rot.rotateZ(angle);
+	};
+
+	MODEL.Spatial.prototype.fromAngles = function(x, y, z) {
+		this.setPitch(x);
+		this.setYaw(y);
+		this.setRoll(z);
+	};
+	
 	MODEL.Spatial.prototype.addPitch = function(angle) {
 		this.setPitch(MATH.angleInsideCircle(this.pitch() + angle));
 	};
@@ -187,7 +229,19 @@ if(typeof(MODEL) == "undefined"){
 	MODEL.Spatial.prototype.addRoll = function(angle) {
 		this.setRoll(MATH.angleInsideCircle(this.roll() + angle));
 	};
-	
+
+	MODEL.Spatial.prototype.pitchTowards = function(angle, lerpFactor) {
+		this.addPitch(MATH.radialLerp(MATH.angleInsideCircle(this.pitch() - angle), angle, lerpFactor));
+	};
+
+	MODEL.Spatial.prototype.yawTowards = function(angle, lerpFactor) {
+		this.addYaw(MATH.radialLerp(MATH.angleInsideCircle(this.yaw() - angle), angle, lerpFactor));
+	};
+
+	MODEL.Spatial.prototype.rollTowards = function(angle, lerpFactor) {
+		this.addRoll(MATH.radialLerp(MATH.angleInsideCircle(this.roll() - angle), angle, lerpFactor));
+	};
+
 	
 	MODEL.Spatial.prototype.posY = function() {
 		return this.pos.getY();
@@ -206,10 +260,30 @@ if(typeof(MODEL) == "undefined"){
 		this.vel.addVec(velVec);
 	};
 
+	MODEL.Spatial.prototype.addVelXYZ = function(x, y, z) {
+		this.vel.addXYZ(x, y, z);
+	};
+
+	MODEL.Spatial.prototype.setSizeXYZ = function(x, y, z) {
+		this.size.addXYZ(x, y, z);
+	};
+
+	MODEL.Spatial.prototype.getSizeVec = function() {
+		return this.size;
+	};
+
+	MODEL.Spatial.prototype.getExtents = function() {
+		this.extents.setVec(this.size);
+		this.extents.rotateX(this.pitch());
+		this.extents.rotateY(this.yaw());
+		this.extents.rotateZ(this.roll());
+		return this.extents;
+	};
+
 	MODEL.Spatial.prototype.updateRotation = function(tpf) {
 		this.addPitch(this.pitchVel() 	* tpf);
-		this.addYaw(  this.rollVel() 	* tpf);
-		this.addRoll( this.yawVel() 	* tpf);
+		this.addYaw(  this.yawVel() 	* tpf);
+		this.addRoll( this.rollVel() 	* tpf);
 	};
 
 	MODEL.Spatial.prototype.updateSpatial = function(tpf) {

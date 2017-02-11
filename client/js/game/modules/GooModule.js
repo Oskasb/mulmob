@@ -24,13 +24,14 @@ define([
             this.calcVec = new goo.Vector3();
             this.calcVec2 = new goo.Vector3();
             this.calcVec3 = new goo.Vector3();
-            
-            this.tempSpatial = {
-                pos:new MATH.Vec3(0, 0, 0),
-                rot:new MATH.Vec3(0, 0, 0)
-            };
-            
+
+            this.tempSpatial = new MODEL.Spatial();
+
             this.transform = attachmentPoint.transform;
+
+            this.moduleSpatial = new MODEL.Spatial();
+            this.moduleSpatial.setSpatial(this.transform);
+
 
             this.particles = [];
             this.piece = piece;
@@ -50,9 +51,7 @@ define([
                     this.moduleModel = new ModuleModel(gooParent);
 
                     this.moduleModel.attachEntityToModule(this.applies.module_model_child);
-                    
-                    
-                    
+
                 }
 
                 this.entity = gooParent;
@@ -71,11 +70,11 @@ define([
             }
 
             if (this.transform) {
-                this.readWorldTransform(this.transform.pos, this.transform.rot)
+                //    this.readWorldTransform(this.transform.pos, this.transform.rot)
             }
-            
+
         };
-        
+
 
         GooModule.prototype.activateGooModule = function() {
             if (this.moduleEffect) {
@@ -86,9 +85,8 @@ define([
 
         GooModule.prototype.removeModule = function() {
 
-
             if (this.applies.remove_effect) {
-                this.tempSpatial.rot.setXYZ(0, 0, 0);
+                this.tempSpatial.stop();
                 evt.fire(evt.list().GAME_EFFECT, {effect:this.applies.remove_effect, pos:this.piece.spatial.pos, vel:this.tempSpatial.rot});
             }
 
@@ -96,100 +94,120 @@ define([
                 this.moduleEffect.gameEffect.removeGooEffect();
             }
 
-
             this.entity.removeFromWorld();
         };
 
 
-
-
-
-        GooModule.prototype.readWorldTransform = function(pos) {
+        GooModule.prototype.inheritEntityWorldTransform = function(pos) {
 
             this.entity.transformComponent.updateWorldTransform();
-
             this.entity.transformComponent.worldTransform.rotation.toAngles(this.calcVec);
-
             this.calcVec3.setDirect(pos[0], pos[1], pos[2]);
-
             this.calcVec3.applyPost(this.entity.transformComponent.worldTransform.rotation);
-            this.tempSpatial.pos.setXYZ(this.calcVec3.x, this.calcVec3.y, this.calcVec3.z);
+            this.calcVec3.addVector(this.entity.transformComponent.worldTransform.translation);
+            this.tempSpatial.setPosXYZ(this.calcVec3.x, this.calcVec3.y, this.calcVec3.z);
+
+        };
+
+        GooModule.prototype.calcLocalTargetAngle = function(stateValue) {
+            return stateValue;
+            var ang = MATH.radialLerp(this.transform.rot[this.applies.rotation_axis], stateValue, this.applies.rotation_velocity);
+
+            ang = MATH.radialClamp(ang, this.transform.rot[this.applies.rotation_axis]-this.applies.rotation_velocity*0.2, this.transform.rot[this.applies.rotation_axis]+this.applies.rotation_velocity*0.2);
+
+            return ang;
+        };
+
+        GooModule.prototype.angleDiffForAxis = function(angle, axis) {
+            return angle // - this.piece.spatial[axis]();
+        };
 
 
-            this.tempSpatial.pos.data[0] += this.entity.transformComponent.worldTransform.translation.x;
-            this.tempSpatial.pos.data[1] += this.entity.transformComponent.worldTransform.translation.y;
-            this.tempSpatial.pos.data[2] += this.entity.transformComponent.worldTransform.translation.z;
+        GooModule.prototype.applyAngleRotationAxisToSpatial = function(angle, rotation, spatial) {
+            spatial.fromAngles(
+                angle*rotation[0],
+                angle*rotation[1],
+                angle*rotation[2]
+            );
+        }
 
+
+        GooModule.prototype.randomPosWithinExtents = function(angle, axis) {
+            return angle // - this.piece.spatial[axis]();
         };
 
 
         GooModule.prototype.updateGooModule = function() {
 
-            if (this.applies) {
+            if (!this.applies) return;
+            if (!this.transform) return;
 
-                if (this.transform) {
 
-                    if (this.applies.action) {
-                        if (this.applies.action == "applyPitch" || this.applies.action == "applyYaw") {
-                        //    console.log(this.module.state.value)
+        //    this.tempSpatial.setSpatial(this.piece.spatial);
+            //    this.tempSpatial.pos.addVec(this.moduleSpatial.pos);
 
-                            var ang = MATH.radialLerp(this.transform.rot[this.applies.rotation_axis], this.module.state.value, this.applies.rotation_velocity)
+            if (this.applies.spatial_axis) {
+                var diff = this.angleDiffForAxis(this.module.state.value, this.applies.spatial_axis);
+                this.applyAngleRotationAxisToSpatial(diff, this.transform.rot.data, this.moduleSpatial);
 
-                            ang = MATH.radialClamp(ang, this.transform.rot[this.applies.rotation_axis]-this.applies.rotation_velocity*0.2, this.transform.rot[this.applies.rotation_axis]+this.applies.rotation_velocity*0.2);
+                if (this.moduleModel) {
+                    this.moduleModel.applyModuleRotation(this.moduleSpatial.rot.data);
+                }
+            }
 
-                            this.transform.rot[this.applies.rotation_axis] = ang;
+            //    this.tempSpatial.pos.setArray(this.transform.pos);
 
-                            if (this.moduleModel) {
-                                this.moduleModel.applyModuleRotation(this.transform.rot);
-                            }
-                            
-                        }
-                    }
 
-                    this.tempSpatial.pos.setArray(this.transform.pos)
 
-                    if (this.transform.size) {
-                    //    console.log("has size:", this.transform.size)
+            this.tempSpatial.setSpatial(this.moduleSpatial);
 
-                        this.tempSpatial.pos.data[0] += this.transform.size[0]*(Math.random()-0.5);
-                        this.tempSpatial.pos.data[1] += this.transform.size[1]*(Math.random()-0.5);
-                        this.tempSpatial.pos.data[2] += this.transform.size[2]*(Math.random()-0.5);
-                    }
+            if (this.moduleSpatial.getSizeVec().getLengthSquared() > 0.5) {
+                //    console.log("has size:", this.transform.size)
 
-                    this.readWorldTransform(this.tempSpatial.pos.data);
-                    this.tempSpatial.rot.setXYZ(this.transform.rot[0], this.transform.rot[1]*Math.random(), this.transform.rot[2]);
-                    this.tempSpatial.rot.rotateY(this.piece.spatial.rot.data[0]);
-                //    this.tempSpatial.rot.setY()
+            //    this.tempSpatial.addPosXYZ(
+            //        this.moduleSpatial.size[0]*(Math.random()-0.5),
+            //        this.moduleSpatial.size[1]*(Math.random()-0.5),
+            //        this.moduleSpatial.size[2]*(Math.random()-0.5)
+            //    );
+
+
+                    this.inheritEntityWorldTransform(this.tempSpatial.pos.data);
+            //    this.tempSpatial.fromAngles(this.moduleSpatial.pitch(), this.moduleSpatial.yaw(), this.moduleSpatial.roll());
+                this.tempSpatial.applyYaw(this.piece.spatial.yaw());
+
+            } else {
+                this.tempSpatial.addSpatial(this.piece.spatial);
+
+            }
+            //    this.tempSpatial.rot.setY()
+
+
+            if (this.moduleEffect) {
+
+
+
+                if (this.module.on) {
+
+                    this.moduleEffect.updateModuleEffect(this.module, this.tempSpatial.pos, this.tempSpatial.rot)
+
                 } else {
-                    this.tempSpatial.pos.setVec(this.piece.spatial.pos);
-                    this.tempSpatial.rot.setVec(this.piece.spatial.rot);
-                }
-                
-                if (this.moduleEffect) {
-
-                    if (this.module.on) {
-
-                        this.moduleEffect.updateModuleEffect(this.module, this.tempSpatial.pos, this.tempSpatial.rot)
-
-                    } else {
-                        if (this.moduleEffect.gameEffect.started) {
-                            if (!this.moduleEffect.gameEffect.paused) {
-                                this.moduleEffect.gameEffect.pauseGooEffect();
-                            }
+                    if (this.moduleEffect.gameEffect.started) {
+                        if (!this.moduleEffect.gameEffect.paused) {
+                            this.moduleEffect.gameEffect.pauseGooEffect();
                         }
                     }
                 }
+            }
 
-                if (this.moduleEmitter) {
+            if (this.moduleEmitter) {
 
-                    if (this.module.on) {
+                if (this.module.on) {
 
-                        this.moduleEmitter.updateModuleEmitter(this.module, this.tempSpatial.pos, this.tempSpatial.rot)
-                    }
-
+                    this.moduleEmitter.updateModuleEmitter(this.module, this.tempSpatial.pos, this.tempSpatial.rot)
                 }
 
             }
+
         };
 
 

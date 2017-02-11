@@ -115,13 +115,10 @@ ServerWorld.prototype.broadcastPieceState = function(piece) {
         piece.setState(GAME.ENUMS.PieceStates.TIME_OUT);
         this.removePiece(piece);
     }
-
 };
 
-
-
 ServerWorld.prototype.applyGravity = function(piece) {
-    piece.spatial.vel.data[1] += this.gravityVector.getY()*piece.temporal.stepTime;
+    piece.spatial.addVelXYZ(0, this.gravityVector.getY()*piece.temporal.stepTime, 0);
 
 
 };

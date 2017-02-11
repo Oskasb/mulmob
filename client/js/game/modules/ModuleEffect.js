@@ -43,10 +43,11 @@ define([
             }
 
             var getRotation = function() {
-                return -piece.spatial.rot.data[0]+transform.rot[2];
+                return piece.spatial.yaw()+transform.rot[1];
             };
 
             var getPosition = function() {
+                return piece.spatial.pos.data;
 
                 if  (transform) {
                     // _this.readWorldTransform(_this.applies.transform.pos, _this.applies.transform.rot);
@@ -113,7 +114,6 @@ define([
                 particle.lifeSpan = piece.temporal.lifeTime;
                 particle.position.setArray(getPosition(particle, tpf));
                 particle.rotation = getRotation(particle, tpf);
-                particle.progress = 0.5 + Math.clamp(piece.spatial.rotVel.data[0]*0.5, -0.49, 0.49);
             };
 
             this.attachModuleEffect(piece.spatial, applies.game_effect, particleUpdate);
@@ -144,7 +144,7 @@ define([
                 particle.lifeSpan = piece.temporal.lifeTime;
                 particle.position.setArray(getPosition(particle, tpf));
                 particle.rotation = getRotation(particle, tpf);
-                particle.progress = 0.5 + Math.clamp(piece.spatial.rotVel.data[0]*0.5, -0.49, 0.49);
+                particle.progress = 0.5 + Math.clamp(piece.spatial.yawVel()*0.5, -0.49, 0.49);
             };
 
         };

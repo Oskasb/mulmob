@@ -54,7 +54,7 @@ ServerModuleFunctions.prototype.applyModuleYaw = function(sourcePiece, moduleDat
     } else {
 
         if (moduleData.id == 'tank_turret') {
-            angle = this.serverPieceProcessor.getAngleFromPieceToTarget(sourcePiece, target) + moduleData.applies.rotation_offset; //  moduleData.transform.rot[moduleData.applies.rotation_axis];
+            angle = this.serverPieceProcessor.getAngleFromPieceToTarget(sourcePiece, target); //  moduleData.transform.rot[moduleData.applies.rotation_axis];
             sourcePiece.setModuleState(moduleData.id, MATH.angleInsideCircle(sourcePiece.spatial.yaw() + angle));
         }
 
