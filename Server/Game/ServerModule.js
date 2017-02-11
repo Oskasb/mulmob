@@ -5,9 +5,21 @@ ServerModule = function(moduleId, data, piece, serverModuleCallbacks) {
     this.serverModuleCallbacks = serverModuleCallbacks;
     this.state = {value:null};
     this.lastValue = 'noValue';
+    this.masterState;
     this.getState = [];
     this.time = 0;
+    this.delay = data.applies.delay || 0.1;
+    this.cooldown = data.applies.cooldown || 0.5;
 };
+
+ServerModule.prototype.getModuleCooldown = function() {
+    return this.cooldown;
+};
+
+ServerModule.prototype.getModuleDelay = function() {
+    return this.delay;
+};
+
 
 ServerModule.prototype.setModuleState = function(state) {
 
@@ -90,14 +102,13 @@ ServerModule.prototype.processInputState = function(controls, actionCallback) {
 
         // only used for legacy fire cannon
         if (typeof(actionCallback) == 'function') {
-            console.log("call action cb", this.data.applies.action)
+            console.log("call action cb", this.data.applies.action);
         //    actionCallback(this.data.applies.action, this.state.value, this.data);
         }
     }
 
-
-
     this.lastValue = this.state.value;
+
 
 };
 
@@ -105,9 +116,24 @@ ServerModule.prototype.processServerModuleState = function(tpf) {
 //    if (this.state.value == this.lastValue) return;
     this.time += tpf;
 
-    if (this.time < 1) return;
-    this.time = 0;
+    if (this.data.applies.master_module_id) {
 
+        if (this.masterState == this.piece.getModuleById(this.data.applies.master_module_id).state.value) {
+
+        } else {
+            this.masterState = this.piece.getModuleById(this.data.applies.master_module_id).state.value;
+            this.time = this.getModuleDelay();
+        }
+
+        if (!this.masterState) {
+            return;
+        }
+    }
+
+
+    if (this.time < this.getModuleCooldown()) return;
+    this.time = 0;
+    
     if (this.data.applies.action) {
         
         if (typeof(this.serverModuleCallbacks[this.data.applies.action]) == 'function') {

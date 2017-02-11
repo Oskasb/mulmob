@@ -2,6 +2,7 @@ ServerModuleFunctions = function(serverGameMain, serverWorld, pieceSpawner) {
     this.serverGameMain = serverGameMain;
     this.serverWorld = serverWorld;
     this.pieceSpawner = pieceSpawner;
+    this.serverPieceProcessor = this.serverWorld.serverPieceProcessor;
 };
 
 ServerModuleFunctions.prototype.initModuleControls = function(serverGameMain) {
@@ -9,26 +10,56 @@ ServerModuleFunctions.prototype.initModuleControls = function(serverGameMain) {
 };
 
 
+ServerModuleFunctions.prototype.applyModulePitch = function(sourcePiece, moduleData) {
 
-ServerModuleFunctions.prototype.updateModuleState = function(piece, action, value, moduleData) {
+    if (!moduleData.applies.master_module_id) {
+        console.log("No master module for rotate function");
+        return;
+    }
+
+    var target = this.serverWorld.getPieceById(sourcePiece.getModuleById(moduleData.applies.master_module_id).state.value);
+
+    var angle = 0;
+    if (!target) {
+        sourcePiece.setModuleState(moduleData.id, angle);
+    } else {
+
+        if (moduleData.id == 'cannon_pitch') {
+            angle = this.serverPieceProcessor.getDistanceFromPieceToTarget(sourcePiece, target)*0.003;
+            sourcePiece.setModuleState(moduleData.id, MATH.clamp(angle, moduleData.applies.rotation_min, moduleData.applies.rotation_max));
+        }
+    }
+
+    sourcePiece.networkDirty = true;
 
 };
 
-ServerModuleFunctions.prototype.fireCannon = function(piece, action, value, moduleData) {
-    console.log(action, value, moduleData);
+ServerModuleFunctions.prototype.applyModuleYaw = function(sourcePiece, moduleData) {
+    //   sourcePiece.pieceControls.setControlState(moduleData, action, value);
 
-    var bulletPiece = this.pieceSpawner.spawnBullet(piece, moduleData, this.serverGameMain.getNow(), this.serverGameMain.gameConfigs.PIECE_DATA, this.serverGameMain.gameConfigs);
-    this.serverWorld.addWorldPiece(bulletPiece);
-};
+    //   console.log("Turret State:",sourcePiece.getModuleById("tank_turret").state.value);
 
-ServerModuleFunctions.prototype.applyControl = function(piece, action, value, moduleData) {
-    this.serverWorld.applyControlModule(piece, moduleData, action, value);
-};
+//    console.log("SelectedTarget State:",sourcePiece.getModuleById("input_target_select").state.value);
 
-ServerModuleFunctions.prototype.applyRotation = function(piece, action, value, moduleData) {
-    this.serverWorld.applyModuleRotation(piece, moduleData, action, value);
-};
+    if (!moduleData.applies.master_module_id) {
+        console.log("No master module for rotate function");
+        return;
+    }
 
-ServerModuleFunctions.prototype.requestTeleport = function(piece, action, value, moduleData) {
-    piece.requestTeleport();
+    var target = this.serverWorld.getPieceById(sourcePiece.getModuleById(moduleData.applies.master_module_id).state.value);
+
+    var angle = 0;
+    if (!target) {
+        sourcePiece.setModuleState(moduleData.id, angle);
+    } else {
+
+        if (moduleData.id == 'tank_turret') {
+            angle = this.serverPieceProcessor.getAngleFromPieceToTarget(sourcePiece, target) + moduleData.applies.rotation_offset;
+            sourcePiece.setModuleState(moduleData.id, MATH.angleInsideCircle(sourcePiece.spatial.rot.data[0] + angle));
+        }
+
+    }
+
+//    sourcePiece.processModuleStates();
+    sourcePiece.networkDirty = true;
 };

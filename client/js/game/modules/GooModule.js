@@ -130,7 +130,7 @@ define([
                 if (this.transform) {
 
                     if (this.applies.action) {
-                        if (this.applies.action == "applyRotation") {
+                        if (this.applies.action == "applyPitch" || this.applies.action == "applyYaw") {
                         //    console.log(this.module.state.value)
 
                             var ang = MATH.radialLerp(this.transform.rot[this.applies.rotation_axis], this.module.state.value, this.applies.rotation_velocity)

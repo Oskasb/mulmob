@@ -47,36 +47,6 @@ ServerWorld.prototype.getPieceById = function(id) {
 };
 
 
-ServerWorld.prototype.applyModuleRotation = function(sourcePiece, moduleData, value) {
- //   sourcePiece.pieceControls.setControlState(moduleData, action, value);
-
- //   console.log("Turret State:",sourcePiece.getModuleById("tank_turret").state.value);
-
-    console.log("SelectedTarget State:",sourcePiece.getModuleById("input_target_select").state.value);
-
-    var target = this.getPieceById(sourcePiece.getModuleById("input_target_select").state.value);
-
-    var angle = 0;
-    if (!target) {
-        sourcePiece.setModuleState(moduleData.id, angle);
-    } else {
-
-        if (moduleData.id == 'tank_turret') {
-            angle = this.serverPieceProcessor.getAngleFromPieceToTarget(sourcePiece, target);
-            sourcePiece.setModuleState(moduleData.id, MATH.angleInsideCircle(sourcePiece.spatial.rot.data[0] + angle + Math.PI));
-        }
-
-        if (moduleData.id == 'cannon_pitch') {
-            angle = this.serverPieceProcessor.getDistanceFromPieceToTarget(sourcePiece, target)*0.003;
-            sourcePiece.setModuleState(moduleData.id, MATH.clamp(angle, moduleData.applies.rotation_min, moduleData.applies.rotation_max));
-        }
-    }
-
-//    sourcePiece.processModuleStates();
-    sourcePiece.networkDirty = true;
-};
-
-
 ServerWorld.prototype.applyControlModule = function(sourcePiece, moduleData, action, value) {
 //    sourcePiece.pieceControls.setControlState(moduleData, action, value);
     sourcePiece.networkDirty = true;

@@ -102,8 +102,11 @@
       "initState": 0.01,
       "applies":{
         "type":"float",
-        "action":"applyRotation",
+        "action":"applyYaw",
         "master_module_id":"input_target_select",
+        "delay":0,
+        "cooldown":0.5,
+        "rotation_offset":3.14159265359,
         "rotation_axis":2,
         "rotation_velocity":0.1,
         "rotation_min":-6.2,
@@ -118,7 +121,11 @@
       "initState": 0.01,
       "applies":{
         "type":"float",
-        "action":"applyRotation",
+        "action":"applyPitch",
+        "master_module_id":"input_target_select",
+        "delay":1,
+        "cooldown":0.4,
+        "rotation_offset":0,
         "rotation_axis":0,
         "rotation_velocity":0.1,
         "rotation_min":0,
@@ -130,12 +137,13 @@
     "auto_cannon":{
       "type":"weapon",
       "id":"auto_cannon",
-
       "initState": true,
       "applies":{
         "type":"string",
         "action":"fireCannon",
-        "master_module_id":"input_target_select",
+        "master_module_id":"input_toggle_attack",
+        "delay":0.3,
+        "cooldown":1.2,
         "yaw_module":"tank_turret",
         "pitch_module":"cannon_pitch",
         "bullet":"cannon_bullet",
@@ -153,6 +161,7 @@
         "type":"string",
         "action":"fireCannon",
         "bullet":"lazer_beam_bullet",
+        "master_module_id":"input_toggle_attack",
         "exitVelocity":340,
         "lifeTime":0.16,
         "game_effect":"cannon_lazer_module"
@@ -168,6 +177,7 @@
         "type":"boolean",
         "action":"fireCannon",
         "bullet":"plasma_bullet",
+        "master_module_id":"input_toggle_attack",
         "exitVelocity":65,
         "lifeTime":0.7,
         "game_effect":"cannon_plasma_module"

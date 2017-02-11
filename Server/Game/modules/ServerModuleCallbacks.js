@@ -2,6 +2,9 @@ ServerModuleCallbacks = function(serverGameMain, serverWorld, pieceSpawner) {
     this.serverGameMain = serverGameMain;
     this.serverWorld = serverWorld;
     this.pieceSpawner = pieceSpawner;
+    
+    this.serverModuleFunctions = new ServerModuleFunctions(serverGameMain, serverWorld, pieceSpawner);
+    
 };
 
 ServerModuleCallbacks.prototype.getCallback = function(callback) {
@@ -26,8 +29,12 @@ ServerModuleCallbacks.prototype.applyControl = function(piece, value, moduleData
 //    this.serverWorld.applyControlModule(piece, moduleData, value);
 };
 
-ServerModuleCallbacks.prototype.applyRotation = function(piece, value, moduleData) {
-    this.serverWorld.applyModuleRotation(piece, moduleData, value);
+ServerModuleCallbacks.prototype.applyPitch = function(piece, value, moduleData) {
+    this.serverModuleFunctions.applyModulePitch(piece, moduleData, value);
+};
+
+ServerModuleCallbacks.prototype.applyYaw = function(piece, value, moduleData) {
+    this.serverModuleFunctions.applyModuleYaw(piece, moduleData, value);
 };
 
 ServerModuleCallbacks.prototype.requestTeleport = function(piece, action, value, moduleData) {
