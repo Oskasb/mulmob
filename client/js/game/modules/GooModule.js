@@ -101,7 +101,7 @@ define([
         GooModule.prototype.inheritEntityWorldTransform = function(pos) {
 
             this.entity.transformComponent.updateWorldTransform();
-            this.entity.transformComponent.worldTransform.rotation.toAngles(this.calcVec);
+        //    this.entity.transformComponent.worldTransform.rotation.toAngles(this.calcVec);
             this.calcVec3.setDirect(pos[0], pos[1], pos[2]);
             this.calcVec3.applyPost(this.entity.transformComponent.worldTransform.rotation);
             this.calcVec3.addVector(this.entity.transformComponent.worldTransform.translation);
@@ -159,32 +159,34 @@ define([
 
 
 
-            this.tempSpatial.setSpatial(this.moduleSpatial);
+
 
             if (this.moduleSpatial.getSizeVec().getLengthSquared() > 0.5) {
                 //    console.log("has size:", this.transform.size)
 
-            //    this.tempSpatial.addPosXYZ(
-            //        this.moduleSpatial.size[0]*(Math.random()-0.5),
-            //        this.moduleSpatial.size[1]*(Math.random()-0.5),
-            //        this.moduleSpatial.size[2]*(Math.random()-0.5)
-            //    );
+                this.tempSpatial.setPosXYZ(
+                    this.moduleSpatial.size.data[0]*(Math.random()-0.5),
+                    this.moduleSpatial.size.data[1]*(Math.random()-0.5),
+                    this.moduleSpatial.size.data[2]*(Math.random()-0.5)
+                );
 
 
                     this.inheritEntityWorldTransform(this.tempSpatial.pos.data);
             //    this.tempSpatial.fromAngles(this.moduleSpatial.pitch(), this.moduleSpatial.yaw(), this.moduleSpatial.roll());
-                this.tempSpatial.applyYaw(this.piece.spatial.yaw());
+
 
             } else {
-                this.tempSpatial.addSpatial(this.piece.spatial);
+                this.tempSpatial.setSpatial(this.piece.spatial);
 
             }
             //    this.tempSpatial.rot.setY()
 
 
+            this.tempSpatial.addSpatial(this.moduleSpatial);
+            this.tempSpatial.fromAngles(this.moduleSpatial.pitch(), this.moduleSpatial.yaw(), this.moduleSpatial.roll());
+            this.tempSpatial.applyYaw(this.piece.spatial.yaw());
+
             if (this.moduleEffect) {
-
-
 
                 if (this.module.on) {
 

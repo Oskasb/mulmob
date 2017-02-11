@@ -98,10 +98,6 @@ if(typeof(MODEL) == "undefined"){
 	MODEL.Spatial.prototype.addSpatial = function(spatial) {
 		this.pos.addVec(spatial.pos);
 		this.vel.addVec(spatial.vel);
-		this.addPitch(spatial.pitch());
-		this.addYaw(spatial.yaw());
-		this.addRoll(spatial.roll());
-		
 	};
 	
 	MODEL.Spatial.prototype.stop = function() {
