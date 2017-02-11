@@ -127,6 +127,55 @@ if(typeof(MODEL) == "undefined"){
 		return this.pos.getX();
 	};
 
+	MODEL.Spatial.prototype.pitch = function() {
+		return this.rot.getX();
+	};
+
+	MODEL.Spatial.prototype.yaw = function() {
+		return this.rot.getX();
+	};
+
+	MODEL.Spatial.prototype.roll = function() {
+		return this.rot.getX();
+	};
+
+
+	MODEL.Spatial.prototype.pitchVel = function() {
+		return this.rotVel.getX();
+	};
+
+	MODEL.Spatial.prototype.yawVel = function() {
+		return this.rotVel.getX();
+	};
+
+	MODEL.Spatial.prototype.rollVel = function() {
+		return this.rotVel.getX();
+	};
+
+	MODEL.Spatial.prototype.setPitchVel = function(angleVelocity) {
+		return this.rotVel.setX(angleVelocity);
+	};
+
+	MODEL.Spatial.prototype.setYawVel = function(angleVelocity) {
+		return this.rotVel.setX(angleVelocity);
+	};
+
+	MODEL.Spatial.prototype.setRollVel = function(angleVelocity) {
+		return this.rotVel.setX(angleVelocity);
+	};
+
+	MODEL.Spatial.prototype.setPitch = function(angle) {
+		return this.rot.setX(angle);
+	};
+
+	MODEL.Spatial.prototype.setYaw = function(angle) {
+		return this.rot.setX(angle);
+	};
+
+	MODEL.Spatial.prototype.setRoll = function(angle) {
+		return this.rot.setX(angle);
+	};
+	
 	MODEL.Spatial.prototype.posY = function() {
 		return this.pos.getY();
 	};
@@ -156,7 +205,10 @@ if(typeof(MODEL) == "undefined"){
 	};
 
 	MODEL.Spatial.prototype.updateRotation = function(tpf) {
-		this.rot.data[0] = MATH.angleInsideCircle(this.rot.data[0] + this.rotVel.data[0] * tpf);
+		this.setPitch(MATH.angleInsideCircle(this.pitch() + this.pitchVel() * tpf));
+		this.setYaw(  MATH.angleInsideCircle(this.yaw()   + this.rollVel() * tpf));
+		this.setRoll( MATH.angleInsideCircle(this.roll()  + this.yawVel() * tpf));
+
 	};
 
 	MODEL.Spatial.prototype.updateSpatial = function(tpf) {
