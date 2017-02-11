@@ -175,6 +175,19 @@ if(typeof(MODEL) == "undefined"){
 	MODEL.Spatial.prototype.setRoll = function(angle) {
 		return this.rot.setX(angle);
 	};
+
+	MODEL.Spatial.prototype.addPitch = function(angle) {
+		this.setPitch(MATH.angleInsideCircle(this.pitch() + angle));
+	};
+
+	MODEL.Spatial.prototype.addYaw = function(angle) {
+		this.setYaw(MATH.angleInsideCircle(this.yaw() + angle));
+	};
+
+	MODEL.Spatial.prototype.addRoll = function(angle) {
+		this.setRoll(MATH.angleInsideCircle(this.roll() + angle));
+	};
+	
 	
 	MODEL.Spatial.prototype.posY = function() {
 		return this.pos.getY();
@@ -205,10 +218,9 @@ if(typeof(MODEL) == "undefined"){
 	};
 
 	MODEL.Spatial.prototype.updateRotation = function(tpf) {
-		this.setPitch(MATH.angleInsideCircle(this.pitch() + this.pitchVel() * tpf));
-		this.setYaw(  MATH.angleInsideCircle(this.yaw()   + this.rollVel() * tpf));
-		this.setRoll( MATH.angleInsideCircle(this.roll()  + this.yawVel() * tpf));
-
+		this.addPitch(this.pitchVel() 	* tpf);
+		this.addYaw(  this.rollVel() 	* tpf);
+		this.addRoll( this.yawVel() 	* tpf);
 	};
 
 	MODEL.Spatial.prototype.updateSpatial = function(tpf) {

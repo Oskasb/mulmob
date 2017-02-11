@@ -85,9 +85,9 @@ PieceSpawner.prototype.spawnWorldPiece = function(pieceType, posx, posz, rot, ro
     this.addAttachmentPoints(piece, config, this.gameConfigs);
 
     piece.setState(GAME.ENUMS.PieceStates.SPAWN);
-    piece.spatial.pos.setXYZ(posx, 0, posz);
-    piece.spatial.rot.data[0] = rot;
-    piece.spatial.rotVel.data[0] = rotVel;
+    piece.spatial.setPosXYZ(posx, 0, posz);
+    piece.spatial.setYaw(rot);
+    piece.spatial.setYawVel(rotVel);
     return piece;
     
 };
@@ -129,13 +129,13 @@ PieceSpawner.prototype.spawnBullet = function(sourcePiece, cannonModuleData, now
 
     if (apply.yaw_module) {
     //    console.log(sourcePiece)
-        bullet.spatial.rot.data[0] -= sourcePiece.getModuleById(apply.yaw_module).state.value;
+        bullet.spatial.addYaw(-sourcePiece.getModuleById(apply.yaw_module).state.value);
     }
 
 
     this.calcVec.setArray(cannonModuleData.transform.pos);
 
-    this.calcVec.rotateY(sourcePiece.spatial.rot.data[0]);
+    this.calcVec.rotateY(sourcePiece.spatial.yaw());
 
     if (apply.pitch_module) {
         //    console.log(sourcePiece)
@@ -150,7 +150,7 @@ PieceSpawner.prototype.spawnBullet = function(sourcePiece, cannonModuleData, now
 
     bullet.spatial.updateSpatial(sourcePiece.temporal.stepTime * 10);
 
-    bullet.spatial.rotVel.data[0] = 0;
+    bullet.spatial.setYawVel(0);
     // bullet.spatial.rot[0] += sourcePiece.spatial.rotVel[0] * sourcePiece.temporal.stepTime * 3;
 
     bullet.pieceControls.actions.applyForward = apply.exitVelocity;

@@ -208,7 +208,6 @@ ServerWorld.prototype.updatePlayers = function(currentTime) {
 		this.players[key].piece.processServerState(currentTime);
 
         this.updateSectorStatus(this.players[key]);
-
 		this.players[key].client.notifyDataFrame();
 		this.playerCount++;
 	}
@@ -220,7 +219,6 @@ ServerWorld.prototype.tickSimulationWorld = function(currentTime) {
     this.updatePieces(currentTime);
     this.updatePlayers(currentTime);
     this.serverPieceProcessor.checkProximity(this.players, this.pieces);
-    
 };
 
 
@@ -233,7 +231,7 @@ ServerWorld.prototype.tickNetworkWorld = function() {
     }
 
     for (var i = 0; i < this.pieces.length; i++) {
-        if (this.pieces[i].spatial.vel.getLength() + Math.abs(this.pieces[i].spatial.rotVel.data[0]) > 0.1) {
+        if (this.pieces[i].spatial.vel.getLength() + Math.abs(this.pieces[i].spatial.rotVel.getLength()) > 0.01) {
             this.broadcastPieceState(this.pieces[i]);
         }
     }
