@@ -5,9 +5,10 @@ ServerModuleFunctions = function(serverGameMain, serverWorld, pieceSpawner) {
     this.serverPieceProcessor = this.serverWorld.serverPieceProcessor;
 };
 
-ServerModuleFunctions.prototype.initModuleControls = function(serverGameMain) {
-
+ServerModuleFunctions.prototype.clampModuleRotation = function(module, angle, clamp) {
+    return MATH.radialClamp(angle , module.state.value - clamp, module.state.value + clamp);
 };
+
 
 
 ServerModuleFunctions.prototype.applyModulePitch = function(sourcePiece, moduleData) {
@@ -19,13 +20,17 @@ ServerModuleFunctions.prototype.applyModulePitch = function(sourcePiece, moduleD
 
     var target = this.serverWorld.getPieceById(sourcePiece.getModuleById(moduleData.applies.master_module_id).state.value);
 
+    var clamp = moduleData.applies.rotation_velocity * moduleData.applies.cooldown;
+
     var angle = 0;
     if (!target) {
+        angle = this.clampModuleRotation(sourcePiece.getModuleById(moduleData.id), angle, clamp);
         sourcePiece.setModuleState(moduleData.id, angle);
     } else {
 
         if (moduleData.id == 'cannon_pitch') {
-            angle = this.serverPieceProcessor.getDistanceFromPieceToTarget(sourcePiece, target)*0.003;
+            angle = this.serverPieceProcessor.getDistanceFromPieceToTarget(sourcePiece, target)*0.007;
+            angle = this.clampModuleRotation(sourcePiece.getModuleById(moduleData.id), angle, clamp);
             sourcePiece.setModuleState(moduleData.id, MATH.clamp(angle, moduleData.applies.rotation_min, moduleData.applies.rotation_max));
         }
     }
@@ -46,16 +51,25 @@ ServerModuleFunctions.prototype.applyModuleYaw = function(sourcePiece, moduleDat
         return;
     }
 
+    var clamp = moduleData.applies.rotation_velocity * moduleData.applies.cooldown;
+
     var target = this.serverWorld.getPieceById(sourcePiece.getModuleById(moduleData.applies.master_module_id).state.value);
 
     var angle = 0;
     if (!target) {
+        angle = this.clampModuleRotation(sourcePiece.getModuleById(moduleData.id), angle, clamp);
         sourcePiece.setModuleState(moduleData.id, angle);
     } else {
 
         if (moduleData.id == 'tank_turret') {
-            angle = this.serverPieceProcessor.getAngleFromPieceToTarget(sourcePiece, target); //  moduleData.transform.rot[moduleData.applies.rotation_axis];
-            sourcePiece.setModuleState(moduleData.id, MATH.angleInsideCircle(sourcePiece.spatial.yaw() + angle));
+            angle = this.serverPieceProcessor.getAngleFromPieceToTarget(sourcePiece, target) ; //  moduleData.transform.rot[moduleData.applies.rotation_axis];
+            angle = MATH.angleInsideCircle(sourcePiece.spatial.yaw() + angle);
+
+            if (isNaN(sourcePiece.getModuleById(moduleData.id).state.value)) return;
+
+            console.log("No master module for rotate function", sourcePiece.getModuleById(moduleData.id).state.value);
+            angle = this.clampModuleRotation(sourcePiece.getModuleById(moduleData.id), angle, clamp);
+            sourcePiece.setModuleState(moduleData.id, angle);
         }
 
     }

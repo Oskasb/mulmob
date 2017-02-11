@@ -118,17 +118,17 @@ define([
         };
 
 
-        GooModule.prototype.applyAngleRotationAxisToSpatial = function(angle, rotation, spatial) {
+        GooModule.prototype.applyAngleRotationAxisToSpatial = function(angle, rotation, spatial, factor) {
             spatial.fromAngles(
-                angle*rotation[0],
-                angle*rotation[1],
-                angle*rotation[2]
+                MATH.radialLerp(spatial.pitch(), angle*rotation[0],  factor),
+                MATH.radialLerp(spatial.yaw(),   angle*rotation[1],  factor),
+                MATH.radialLerp(spatial.roll(),  angle*rotation[2],  factor)
             );
-        }
+        };
 
 
-        GooModule.prototype.randomPosWithinExtents = function(angle, axis) {
-            return angle // - this.piece.spatial[axis]();
+        GooModule.prototype.clampModuleAngle = function(angle, axis) {
+            return MATH.radialClamp(angle , module.state.value - clamp, module.state.value + clamp);
         };
 
 
@@ -139,7 +139,10 @@ define([
 
             if (this.applies.spatial_axis) {
                 var diff = this.angleDiffForAxis(this.module.state.value, this.applies.spatial_axis);
-                this.applyAngleRotationAxisToSpatial(diff, this.transform.rot.data, this.moduleSpatial);
+
+                var factor = this.applies.rotation_velocity * this.applies.cooldown * 0.2;
+
+                this.applyAngleRotationAxisToSpatial(diff, this.transform.rot.data, this.moduleSpatial, factor);
 
                 if (this.moduleModel) {
                     this.moduleModel.applyModuleRotation(this.moduleSpatial.rot.data);

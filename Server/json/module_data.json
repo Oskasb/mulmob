@@ -63,7 +63,7 @@
         "flicker":0.4,
         "effect_data":{
           "intensity":0.3,
-          "strength":332,
+          "strength":32,
           "lifeSpan":0.15
         },
         "game_effect":"hyper_drive",
@@ -105,10 +105,10 @@
         "action":"applyYaw",
         "master_module_id":"input_target_select",
         "delay":0,
-        "cooldown":0.5,
+        "cooldown":0.4,
         "spatial_axis":"yaw",
         "rotation_axis":0,
-        "rotation_velocity":0.1,
+        "rotation_velocity":0.8,
         "rotation_min":-6.2,
         "rotation_max":6.2,
         "module_model_child":"turret"
@@ -127,9 +127,9 @@
         "cooldown":0.4,
         "spatial_axis":"pitch",
         "rotation_axis":0,
-        "rotation_velocity":0.1,
+        "rotation_velocity":0.5,
         "rotation_min":0,
-        "rotation_max":1,
+        "rotation_max":0.4,
         "module_model_child":"cannon"
       }
     },
