@@ -99,11 +99,11 @@ define([
 				this.ownPlayer = clientPiece;
 
 				var handleCursorLine = function(e) {
-					evt.fire(evt.list().SEND_SERVER_REQUEST, {id:'InputVector', data:{vector:evt.args(e).data, playerId:clientPiece.getPieceId()}});
+					evt.fire(evt.list().SEND_SERVER_REQUEST, {id:'ModuleStateRequest', data:{vector:evt.args(e).data, playerId:clientPiece.getPieceId()}});
 				};
 
 				var handleFastClick = function(e) {
-					evt.fire(evt.list().SEND_SERVER_REQUEST, {id:'InputVector', data:{fire:true, playerId:clientPiece.getPieceId()}});
+					evt.fire(evt.list().SEND_SERVER_REQUEST, {id:'ModuleStateRequest', data:{fire:true, playerId:clientPiece.getPieceId()}});
 				};
 
 				evt.on(evt.list().CURSOR_RELEASE_FAST, handleFastClick);

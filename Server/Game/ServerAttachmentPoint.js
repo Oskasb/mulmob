@@ -1,4 +1,4 @@
-ServerAttachmentPoint = function(piece, ap, index, conf, gameConfigs) {
+ServerAttachmentPoint = function(piece, ap, index, conf, gameConfigs, serverModuleCallbacks) {
     this.slot = ap.slot;
     this.index = index;
     var module = {};
@@ -20,7 +20,7 @@ ServerAttachmentPoint = function(piece, ap, index, conf, gameConfigs) {
 
     piece.attachmentPoints[index] = this;
 
-    var module = new ServerModule(this.moduleConfig.id, this.moduleConfig, piece);
+    var module = new ServerModule(this.moduleConfig.id, this.moduleConfig, piece, serverModuleCallbacks);
     module.setModuleState(this.moduleConfig.initState);
     piece.modules[index] = module;
     

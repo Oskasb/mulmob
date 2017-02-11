@@ -1,11 +1,12 @@
-ServerModule = function(moduleId, data, piece) {
+ServerModule = function(moduleId, data, piece, serverModuleCallbacks) {
     this.id = moduleId;
     this.data = data;
     this.piece = piece;
-    this.appliedCallback = function() {};
+    this.serverModuleCallbacks = serverModuleCallbacks;
     this.state = {value:null};
     this.lastValue = 'noValue';
     this.getState = [];
+    this.time = 0;
 };
 
 ServerModule.prototype.setModuleState = function(state) {
@@ -16,7 +17,6 @@ ServerModule.prototype.setModuleState = function(state) {
 
     if (state == undefined) {
         return;
-
     };
 
     this.state.value = state;
@@ -27,52 +27,17 @@ ServerModule.prototype.setApplyCallback = function(callback) {
 };
 
 
-
 ServerModule.prototype.getModuleState = function() {
     this.getState[0] = this.state;
     return this.getState;
 };
 
 
-ServerModule.prototype.processModuleState = function(serverState) {
-    this.setModuleState(serverState.value);
-
-
-    switch (this.data.applies.type) {
-        case "toggle":
-            //       console.log("Toggle type", this);
-            if (this.state.value == this.data.applies.state) {
-                //        this.appliedCallback(this.data.applies.message)
-            }
-            break;
-
-        case "boolean":
-            if (this.state.value == this.data.applies.state) {
-                this.appliedCallback(this.data.applies.message)
-            }
-            break;
-        case "array":
-            this.appliedCallback(this.data.applies.message+' _ '+this.id+' _ '+this.state.value);
-            break;
-        case "string":
-            this.appliedCallback(this.data.applies.message+' _ '+this.id+' _ '+this.state.value);
-            break;
-        case "float":
-            this.appliedCallback(this.data.applies.message+' _ '+this.id+' _ '+this.state.value);
-            break;
-        default:
-            if (this.state.value > Math.abs(this.data.applies.threshold)) {
-                this.appliedCallback(this.data.applies.message+' _ '+this.id+' _ '+this.state.value)
-            }
-    }
-};
-
 ServerModule.prototype.updateControlConstants = function(controls, constants, onOff) {
     for (var key in constants) {
         this.modifyControlConstants(controls, key, constants[key], onOff);
     }
 };
-
 
 ServerModule.prototype.modifyControlConstants = function(controls, constant, modifier, onOff) {
 
@@ -97,7 +62,6 @@ ServerModule.prototype.modifyControlConstants = function(controls, constant, mod
     }
 
     this.lastValue = onOff;
-
 };
 
 ServerModule.prototype.processInputState = function(controls, actionCallback) {
@@ -124,10 +88,39 @@ ServerModule.prototype.processInputState = function(controls, actionCallback) {
     if (typeof(controls.actions[this.data.applies.action]) != undefined) {
         controls.actions[this.data.applies.action] = this.state.value;
 
+        // only used for legacy fire cannon
         if (typeof(actionCallback) == 'function') {
-            actionCallback(this.data.applies.action, this.state.value, this.data);
+            console.log("call action cb", this.data.applies.action)
+        //    actionCallback(this.data.applies.action, this.state.value, this.data);
         }
     }
 
+
+
     this.lastValue = this.state.value;
+
 };
+
+ServerModule.prototype.processServerModuleState = function(tpf) {
+//    if (this.state.value == this.lastValue) return;
+    this.time += tpf;
+
+    if (this.time < 1) return;
+    this.time = 0;
+
+    if (this.data.applies.action) {
+        
+        if (typeof(this.serverModuleCallbacks[this.data.applies.action]) == 'function') {
+            this.serverModuleCallbacks[this.data.applies.action](this.piece, this.state.value, this.data);
+        } else {
+            console.log("ServerModuleCallback missing:", this.data.applies.action); 
+        }
+        
+    } else {
+    //    console.log("Actionless Module", this.id);
+    }
+
+
+};
+
+

@@ -44,15 +44,15 @@ ServerWorld.prototype.getPieceById = function(id) {
     }
 
     console.log("getPieceById:",id,"not found")
-
 };
 
-ServerWorld.prototype.applyModuleRotation = function(sourcePiece, moduleData, action, value) {
+
+ServerWorld.prototype.applyModuleRotation = function(sourcePiece, moduleData, value) {
  //   sourcePiece.pieceControls.setControlState(moduleData, action, value);
 
  //   console.log("Turret State:",sourcePiece.getModuleById("tank_turret").state.value);
 
- //   console.log("SelectedTarget State:",sourcePiece.getModuleById("input_target_select").state.value);
+    console.log("SelectedTarget State:",sourcePiece.getModuleById("input_target_select").state.value);
 
     var target = this.getPieceById(sourcePiece.getModuleById("input_target_select").state.value);
 
@@ -72,9 +72,10 @@ ServerWorld.prototype.applyModuleRotation = function(sourcePiece, moduleData, ac
         }
     }
 
-    sourcePiece.processModuleStates();
+//    sourcePiece.processModuleStates();
     sourcePiece.networkDirty = true;
 };
+
 
 ServerWorld.prototype.applyControlModule = function(sourcePiece, moduleData, action, value) {
 //    sourcePiece.pieceControls.setControlState(moduleData, action, value);

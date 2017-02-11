@@ -1,15 +1,16 @@
-PieceSpawner = function(serverWorld) {
+PieceSpawner = function(serverWorld, serverModuleCallbacks) {
     this.serverWorld = serverWorld;
-    this.pieceData = null;
+    this.serverModuleCallbacks;
     this.pieceCount = 0;
     this.calcVec = new MATH.Vec3(0, 0, 0);
     this.gameConfigs;
 };
 
 
-PieceSpawner.prototype.setupPieceConfigs = function(pieceData) {
-    this.pieceData = pieceData;
+PieceSpawner.prototype.setServerModuleCallbacks = function(serverModuleCallbacks) {
+    this.serverModuleCallbacks = serverModuleCallbacks;
 };
+
 
 PieceSpawner.prototype.notifyConfigsUpdated = function(gameConfigs, players) {
     //   console.log("Module data updated...", gameConfigs.PIECE_DATA);
@@ -43,7 +44,7 @@ PieceSpawner.prototype.buildPieceData = function(pieceType, gameConfigs) {
 
 PieceSpawner.prototype.addAttachmentPoints = function(piece, conf, gameConfigs) {
     for (var i = 0; i < conf.attachment_points.length; i++) {
-        new ServerAttachmentPoint(piece, conf.attachment_points[i], i, conf, gameConfigs)
+        new ServerAttachmentPoint(piece, conf.attachment_points[i], i, conf, gameConfigs, this.serverModuleCallbacks)
     }
 };
 

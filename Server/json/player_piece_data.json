@@ -44,6 +44,7 @@
         {"slot":"engine",  "transform":{ "rot":[-0.2, 1.7,1], "pos":[-1.3,     0  ,   0.3], "size":[ 0.5,     0.4  ,  5.3]}},
         {"slot":"control"  },
         {"slot":"control"  },
+        {"slot":"control"  },
         {"slot":"name"     }
       ],
       "default_modules":[
@@ -58,6 +59,7 @@
         "engine",
         "inputControls",
         "input_target_select",
+        "input_toggle_attack",
         "nameplate"
       ]
     }

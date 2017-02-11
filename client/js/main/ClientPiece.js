@@ -188,7 +188,7 @@ define([
 
 		ClientPiece.prototype.setServerState = function(serverState) {
 
-            this.piece.processModules(serverState.modules);
+        //    this.piece.processModules(serverState.modules);
 
             this.piece.applyNetworkState(serverState);
 

@@ -103,6 +103,7 @@
       "applies":{
         "type":"float",
         "action":"applyRotation",
+        "master_module_id":"input_target_select",
         "rotation_axis":2,
         "rotation_velocity":0.1,
         "rotation_min":-6.2,
@@ -134,6 +135,7 @@
       "applies":{
         "type":"string",
         "action":"fireCannon",
+        "master_module_id":"input_target_select",
         "yaw_module":"tank_turret",
         "pitch_module":"cannon_pitch",
         "bullet":"cannon_bullet",
@@ -195,17 +197,23 @@
       }
     },
 
+    "input_toggle_attack":{
+      "type":"control",
+      "id":"input_toggle_attack",
+      "initState": null,
+      "applies":{
+        "type":"bool",
+        "state":false
+      }
+    },
+
     "input_target_select":{
       "type":"control",
       "id":"input_target_select",
-
-      "source":"selectedTarget",
       "initState": null,
       "applies":{
         "type":"string",
-        "state":false,
-        "action":"applyControl",
-        "message":"Target Selected"
+        "state":false
       }
     },
 
@@ -232,8 +240,7 @@
       "applies":{
         "type":"string",
         "state":true,
-        "action":"applyControl",
-        "message":"Name On"
+        "action":"applyControl"
       }
     }
 

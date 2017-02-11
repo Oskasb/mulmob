@@ -171,15 +171,10 @@ if(typeof(GAME) == "undefined"){
 		this.pieceControls.inputState.playerName = name;
         this.setModuleState('nameplate', name);
 	};
-
-	GAME.Piece.prototype.setSelectedTarget = function(playerId) {
-		this.pieceControls.inputState.selectedTarget = playerId;
-	};
-	
+		
 	GAME.Piece.prototype.readServerModuleState = function(moduleId) {
 		return this.serverState.modules[moduleId];
 	};
-
 
     GAME.Piece.prototype.getModuleById = function(moduleId) {
 
@@ -248,8 +243,8 @@ if(typeof(GAME) == "undefined"){
 		return packet;
 	};
 
+	// CLient Side Modules
 	GAME.Piece.prototype.processModules = function(moduleStates) {
-
 		for (var i = 0; i < this.modules.length; i++) {
 			if (moduleStates[this.modules[i].id]) {
 				this.modules[i].processModuleState(moduleStates[this.modules[i].id][0])
@@ -323,6 +318,7 @@ if(typeof(GAME) == "undefined"){
 
 	GAME.Piece.prototype.processModuleStates = function() {
 		for (var i = 0; i < this.modules.length; i++) {
+			this.modules[i].processServerModuleState(this.temporal.timeDelta);
 			this.modules[i].processInputState(this.pieceControls);
 		}
 	};

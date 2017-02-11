@@ -45,9 +45,7 @@ define([
 
             this.pipeObj = new PipelineObject('MODULE_DATA', this.id, applyModuleData)
         };
-
-
-
+        
 
         ClientModule.prototype.applyModuleServerState = function (serverState) {
 
@@ -55,21 +53,9 @@ define([
                 console.log("No server state for", this.id);
                 return;
             }
-
-
-/*
-            if (this.state.value != serverState[this.id][0].value) {
-                if (this.id != "inputControls") {
-            //        console.log("update state", this.clientPiece.playerId, this.id, this.state.value);
-                }
-
-            //    this.lastValue = this.state.value;
-            }
-*/
-            this.state.value = serverState[this.id][0].value;
             
+            this.state.value = serverState[this.id][0].value;
             this.notifyModuleStateForUi()
-
         };
 
         ClientModule.prototype.notifyModuleStateForUi = function () {

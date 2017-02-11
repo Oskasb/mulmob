@@ -5,9 +5,11 @@ var NETWORK_LOOP;
 ServerGameMain = function(clients, serverWorld) {
 	
     this.pieceSpawner = new PieceSpawner(serverWorld);
-    
+    this.serverModuleHandler = new ServerModuleHandler(new ServerModuleFunctions(this, serverWorld, this.pieceSpawner));
+	
 	this.serverWorld = serverWorld;
     this.serverWorld.setPieceSpawner(this.pieceSpawner);
+    this.pieceSpawner.setServerModuleCallbacks(new ServerModuleCallbacks(this, serverWorld, this.pieceSpawner));
 	this.startTime = process.hrtime();
 	this.processTime = process.hrtime();
 	this.currentTime = 0;
@@ -66,27 +68,10 @@ ServerGameMain.prototype.removeAllPlayers = function() {
 };
 
 ServerGameMain.prototype.initGame = function() {
-	var _this = this;
 
-	function fireCannon(piece, action, value, moduleData) {
-        var bulletPiece = _this.pieceSpawner.spawnBullet(piece, moduleData, _this.getNow(), _this.gameConfigs.PIECE_DATA, _this.gameConfigs)
-        _this.serverWorld.addWorldPiece(bulletPiece);
-	}
+    this.serverModuleHandler.initModuleControls(this);
 
-    function applyControl(piece, action, value, moduleData) {
-        _this.serverWorld.applyControlModule(piece, moduleData, action, value);
-    }
-
-	function applyRotation(piece, action, value, moduleData) {
-		_this.serverWorld.applyModuleRotation(piece, moduleData, action, value);
-	}
-
-
-	this.actionHandlers = {
-		fireCannon:fireCannon,
-		applyRotation:applyRotation,
-        applyControl:applyControl
-	};
+	this.actionHandlers = this.serverModuleHandler;
 	
 	this.serverWorld.initWorld(this.connectedClients);
 };
@@ -103,11 +88,15 @@ ServerGameMain.prototype.playerDiconected = function(clientId) {
 };
 
 
-ServerGameMain.prototype.playerInput = function(data, clientId) {
-    console.log(data, clientId)
+ServerGameMain.prototype.playerModuleRequest = function(data, clientId) {
+
 	var player = this.serverWorld.getPlayer(clientId);
-    if (!player) return;
-	player.processPlayerInputUpdate(data, this.actionHandlers);
+    if (!player) {
+        console.log("No such player!", clientId);
+        return;
+    }
+
+    this.serverModuleHandler.handleModuleControlAction(player.piece, data);
 };
 
 ServerGameMain.prototype.registerPlayer = function(data) {

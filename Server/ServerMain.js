@@ -71,8 +71,7 @@ ServerMain = function() {
 	this.game = {
 		'ping':  new DataSource('ping', new Ping()),
 		'ServerWorld' : new DataSource('ServerWorld', this.serverWorld),
-		'InputFire' : new DataSource('InputFire', this.serverGameMain),
-		'InputVector' : new DataSource('InputVector', this.serverGameMain),
+		'ModuleStateRequest' : new DataSource('ModuleStateRequest', this.serverGameMain),
 		'ServerGameMain' : new DataSource('RegisterPlayer', this.serverGameMain),
 		'Clients' : new DataSource('RegisterClient', this.connectedClients)
 	};
