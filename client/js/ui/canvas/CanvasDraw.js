@@ -129,7 +129,7 @@ define([
 
             ctx.strokeStyle = CanvasDraw.randomizedColor(elementBorder.color, elementBorder.flicker);
 
-            yawAim = size.width * Math.sqrt(yawAim)*0.2;
+            yawAim = size.width * Math.sqrt(yawAim*4)*0.1;
 
 
             ctx.beginPath();
@@ -153,7 +153,7 @@ define([
 
             ctx.strokeStyle = CanvasDraw.randomizedColor(elementBorder.color, elementBorder.flicker);
 
-            pitchAim = size.height * Math.sqrt(pitchAim)*0.1;
+            pitchAim = size.height * Math.sqrt(pitchAim*4)*0.1;
 
 
             ctx.beginPath();

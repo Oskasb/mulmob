@@ -89,6 +89,7 @@ define(['Events',
 
     var lookAtPoint = new goo.Vector3();
     var camPos = new goo.Vector3();
+    var lastLerpPos = new goo.Vector3();
 
 	var updateCamera = function(e) {
         if (!on) return;
@@ -105,19 +106,29 @@ define(['Events',
         // forVec.scale(0.4);
 
 
-        calcVec.setDirect(0, 3 + (Math.sqrt(Math.abs(playerPiece.spatial.vel.getZ()*0.5))), 0);
+        cameraEntity.transformComponent.transform.translation.setVector(lastLerpPos);
+
+        calcVec.setDirect(0, 4 + (Math.sqrt(Math.abs(playerPiece.spatial.vel.getZ()*0.2))), 0);
+
         calcVec.addDirect(forVec.getX(), forVec.getY(), forVec.getZ());
+
         calcVec2.setDirect(playerPiece.spatial.pos.getX(), playerPiece.spatial.pos.getY(), playerPiece.spatial.pos.getZ());
-    //    calcVec.subVector(lastPos);
+        //    calcVec.subVector(lastPos);
 
 
         camPos.setVector(calcVec2)
 
-        camPos.y += Math.max(19 - playerPiece.spatial.vel.getZ()+0.1 + Math.abs(playerPiece.spatial.vel.getX()), 7);
-        camPos.z -= 40 - playerPiece.spatial.vel.getZ()*0.3;
-        camPos.x -= playerPiece.spatial.vel.getX()*0.3;
+        camPos.y += Math.sqrt(Math.max(26 - playerPiece.spatial.vel.getZ()+0.1 + Math.abs(playerPiece.spatial.vel.getX()), 7));
 
-        cameraEntity.transformComponent.transform.translation.setVector(camPos);
+        camPos.z -= 31 - Math.sqrt(Math.sqrt(Math.abs(playerPiece.spatial.vel.getZ()*20.12)) + Math.abs(playerPiece.spatial.vel.getX()*playerPiece.spatial.vel.getX()*0.2));
+        camPos.x -= Math.sqrt(Math.abs(playerPiece.spatial.vel.getX()*0.1));
+
+
+
+        lastLerpPos.lerp(camPos, 0.3);
+        //cameraEntity.transformComponent.transform.translation.setVector(camPos);
+
+        cameraEntity.transformComponent.transform.translation.lerp(lastLerpPos, 0.1);
 
 
     //    cameraEntity.transformComponent.transform.translation.x -= playerPiece.spatial.vel.getX()*3;
