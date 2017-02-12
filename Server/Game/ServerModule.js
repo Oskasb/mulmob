@@ -27,7 +27,7 @@ ServerModule.prototype.setModuleState = function(state) {
         //    console.log("Set Shield module state: ", state)
     }
 
-    if (state == undefined) {
+    if (typeof(state) === 'undefined') {
         return;
     };
 
@@ -133,7 +133,7 @@ ServerModule.prototype.processServerModuleState = function(tpf) {
 
     if (this.time < this.getModuleCooldown()) return;
     this.time = 0;
-    
+
     if (this.data.applies.action) {
         
         if (typeof(this.serverModuleCallbacks[this.data.applies.action]) == 'function') {

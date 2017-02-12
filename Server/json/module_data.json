@@ -127,7 +127,7 @@
         "cooldown":0.4,
         "spatial_axis":"pitch",
         "rotation_axis":0,
-        "rotation_velocity":0.3,
+        "rotation_velocity":0.08,
         "rotation_min":0,
         "rotation_max":0.4,
         "module_model_child":"cannon"
@@ -142,12 +142,12 @@
         "type":"string",
         "action":"fireCannon",
         "master_module_id":"input_toggle_attack",
-        "delay":0.3,
-        "cooldown":1.2,
+        "delay":1.5,
+        "cooldown":5,
         "yaw_module":"tank_turret",
         "pitch_module":"cannon_pitch",
         "bullet":"cannon_bullet",
-        "exitVelocity":75,
+        "exitVelocity":155,
         "lifeTime":7
       }
     },
@@ -225,6 +225,7 @@
         "type":"string",
         "yaw_aim_module_id":"turret_aim_yaw",
         "pitch_aim_module_id":"turret_aim_pitch",
+        "toggle_attack_module_id":"input_toggle_attack",
         "state":false
       }
     },

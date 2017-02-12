@@ -22,6 +22,10 @@ ServerModuleFunctions.prototype.applyModulePitch = function(sourcePiece, moduleD
 
     var clamp = moduleData.applies.rotation_velocity * moduleData.applies.cooldown;
 
+    if (target === sourcePiece) {
+        sourcePiece.getModuleById(sourcePiece.getModuleById(moduleData.applies.master_module_id).data.applies.toggle_attack_module_id).state.value = false;
+    };
+
     var angle = 0;
     if (!target) {
         angle = this.clampModuleRotation(sourcePiece.getModuleById(moduleData.id), angle, clamp);
@@ -31,14 +35,15 @@ ServerModuleFunctions.prototype.applyModulePitch = function(sourcePiece, moduleD
         if (moduleData.id == 'cannon_pitch') {
 
             var pitchAimModuleID = sourcePiece.getModuleById(moduleData.applies.master_module_id).data.applies.pitch_aim_module_id;
-            var targetAngle = this.serverPieceProcessor.getDistanceFromPieceToTarget(sourcePiece, target)*0.007;
+            var targetAngle = this.serverPieceProcessor.getDistanceSquaredFromPieceToTarget(sourcePiece, target)*0.000005;
 
             angle = this.clampModuleRotation(sourcePiece.getModuleById(moduleData.id), targetAngle, clamp);
             angle = MATH.clamp(angle, moduleData.applies.rotation_min, moduleData.applies.rotation_max)
 
             sourcePiece.setModuleState(moduleData.id, angle);
 
-            sourcePiece.setModuleState(pitchAimModuleID, targetAngle-angle);
+            var diff = MATH.subAngles(targetAngle, angle);
+            sourcePiece.setModuleState(pitchAimModuleID, diff);
 
         }
     }
@@ -63,10 +68,16 @@ ServerModuleFunctions.prototype.applyModuleYaw = function(sourcePiece, moduleDat
 
     var target = this.serverWorld.getPieceById(sourcePiece.getModuleById(moduleData.applies.master_module_id).state.value);
 
+    if (target === sourcePiece) {
+        sourcePiece.getModuleById(sourcePiece.getModuleById(moduleData.applies.master_module_id).data.applies.toggle_attack_module_id).state.value = false;
+    };
+
     var angle = 0;
-    if (!target) {
+    if (!target || target === sourcePiece) {
         angle = this.clampModuleRotation(sourcePiece.getModuleById(moduleData.id), angle, clamp);
         sourcePiece.setModuleState(moduleData.id, angle);
+        sourcePiece.setModuleState(moduleData.applies.master_module_id, sourcePiece.id);
+
     } else {
 
         if (moduleData.id == 'tank_turret') {
@@ -87,7 +98,6 @@ ServerModuleFunctions.prototype.applyModuleYaw = function(sourcePiece, moduleDat
             sourcePiece.setModuleState(moduleData.id, angle);
 
             var diff = MATH.subAngles(worldAngle, sourcePiece.getModuleById(moduleData.id).state.value);
-            console.log(diff);
 
             sourcePiece.setModuleState(yawAimModuleID, diff);
 

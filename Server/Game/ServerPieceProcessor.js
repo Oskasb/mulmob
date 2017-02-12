@@ -26,6 +26,10 @@ ServerPieceProcessor.prototype.getDistanceFromPieceToTarget = function(piece, ta
     return piece.spatial.pos.getDistance(targetPiece.spatial.pos);
 };
 
+ServerPieceProcessor.prototype.getDistanceSquaredFromPieceToTarget = function(piece, targetPiece) {
+    return piece.spatial.pos.getDistanceSquared(targetPiece.spatial.pos);
+};
+
 ServerPieceProcessor.prototype.checkProximity = function(players, pieces) {
 
     for (var key in players) {
