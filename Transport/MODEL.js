@@ -255,6 +255,10 @@ if(typeof(MODEL) == "undefined"){
 		return this.vel;
 	};
 
+    MODEL.Spatial.prototype.glueToGround = function() {
+        return this.pos.setY(0);
+    };
+    
     MODEL.Spatial.prototype.getPosVec = function() {
         return this.pos;
     };

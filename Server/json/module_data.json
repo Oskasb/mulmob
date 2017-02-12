@@ -197,13 +197,17 @@
         "state_factor":30,
         "emit_effect":"tank_track_fx",
         "effect_data":{
-          "intensity":1,
+          "intensity":0.3,
           "strength":10,
           "lifeSpan":0.4
 
         },
         "threshold":0.2,
-        "message":"wroom"
+        "message":"wroom",
+        "module_model_child":"track_l",
+        "animate_texture":[0, 1],
+        "animate_speed_scale":0.002,
+        "animate_shake":[0.1,0.1,0.02]
       }
     },
 

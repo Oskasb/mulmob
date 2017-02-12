@@ -149,6 +149,17 @@ define([
                 }
             }
 
+            if (this.applies.animate_texture) {
+                if (this.moduleModel) {
+                    this.moduleModel.applyTextureAnimation(this.module.state.value*this.applies.animate_speed_scale, this.applies.animate_texture);
+                }
+            }
+
+            if (this.applies.animate_shake) {
+                if (this.moduleModel) {
+                    this.moduleModel.applyModuleTranslation(this.module.state.value / this.applies.state_factor, this.applies.animate_shake);
+                }
+            }
 
             if (this.moduleSpatial.getSizeVec().getLengthSquared() > 0.5) {
                 this.tempSpatial.setPosXYZ(
@@ -183,6 +194,11 @@ define([
 
             if (this.moduleEmitter) {
                 if (this.module.on) {
+                    if (this.applies.effect_data.intensity) {
+                        if (this.applies.effect_data.intensity < Math.random()) {
+                            return;
+                        }
+                    }
                     this.moduleEmitter.updateModuleEmitter(this.module, this.tempSpatial.pos, this.tempSpatial.rot)
                 }
             }

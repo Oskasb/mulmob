@@ -29,7 +29,7 @@ ServerWorld.prototype.initWorld = function(clients) {
 	this.connectedClients = clients;
 };
 
-ServerWorld.prototype.getPieceById = function(id) {
+ServerWorld.prototype.3getPieceById = function(id) {
 
 
         if (this.players[id]) {
@@ -203,7 +203,7 @@ ServerWorld.prototype.updatePlayers = function(currentTime) {
 	this.playerCount = 0;
 	for (var key in this.players) {
 		this.players[key].piece.processServerState(currentTime);
-
+        this.players[key].piece.spatial.glueToGround();
         this.updateSectorStatus(this.players[key]);
 		this.players[key].client.notifyDataFrame();
 		this.playerCount++;
