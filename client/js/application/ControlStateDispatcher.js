@@ -51,7 +51,7 @@ define([
                 this.moduleToggled(evt.args(e))
             }.bind(this);
 
-        //    evt.on(evt.list().NOTIFY_MODULE_ONOFF, handleModuleOnOff)
+            evt.on(evt.list().NOTIFY_MODULE_ONOFF, handleModuleOnOff)
         };
 
         ControlStateDispatcher.prototype.moduleToggled = function(args) {

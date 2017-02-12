@@ -26,10 +26,12 @@ ServerModuleFunctions.prototype.applyModulePitch = function(sourcePiece, moduleD
         sourcePiece.getModuleById(sourcePiece.getModuleById(moduleData.applies.master_module_id).data.applies.toggle_attack_module_id).state.value = false;
     };
 
+    var diff = 0;
     var angle = 0;
     if (!target) {
         angle = this.clampModuleRotation(sourcePiece.getModuleById(moduleData.id), angle, clamp);
         sourcePiece.setModuleState(moduleData.id, angle);
+        diff = angle;
     } else {
 
         if (moduleData.id == 'cannon_pitch') {
@@ -42,13 +44,16 @@ ServerModuleFunctions.prototype.applyModulePitch = function(sourcePiece, moduleD
 
             sourcePiece.setModuleState(moduleData.id, angle);
 
-            var diff = MATH.subAngles(targetAngle, angle);
+            diff = MATH.subAngles(targetAngle, angle);
             sourcePiece.setModuleState(pitchAimModuleID, diff);
 
         }
     }
 
-    sourcePiece.networkDirty = true;
+    if (diff > 0.0000001) {
+        sourcePiece.networkDirty = true;
+    }
+
 
 };
 
@@ -72,12 +77,14 @@ ServerModuleFunctions.prototype.applyModuleYaw = function(sourcePiece, moduleDat
         sourcePiece.getModuleById(sourcePiece.getModuleById(moduleData.applies.master_module_id).data.applies.toggle_attack_module_id).state.value = false;
     };
 
+    var diff = 0;
+
     var angle = 0;
     if (!target || target === sourcePiece) {
         angle = this.clampModuleRotation(sourcePiece.getModuleById(moduleData.id), angle, clamp);
         sourcePiece.setModuleState(moduleData.id, angle);
         sourcePiece.setModuleState(moduleData.applies.master_module_id, sourcePiece.id);
-
+        diff = angle;
     } else {
 
         if (moduleData.id == 'tank_turret') {
@@ -97,13 +104,14 @@ ServerModuleFunctions.prototype.applyModuleYaw = function(sourcePiece, moduleDat
             angle = this.clampModuleRotation(sourcePiece.getModuleById(moduleData.id), worldAngle, clamp);
             sourcePiece.setModuleState(moduleData.id, angle);
 
-            var diff = MATH.subAngles(worldAngle, sourcePiece.getModuleById(moduleData.id).state.value);
+            diff = MATH.subAngles(worldAngle, sourcePiece.getModuleById(moduleData.id).state.value);
 
             sourcePiece.setModuleState(yawAimModuleID, diff);
 
         }
-
     }
-//    sourcePiece.processModuleStates;
-    sourcePiece.networkDirty = true;
+
+    if (diff > 0.00001) {
+        sourcePiece.networkDirty = true;
+    }
 };
