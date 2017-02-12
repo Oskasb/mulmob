@@ -144,9 +144,28 @@ define([
 
             var distsq;
 
-            var checkPieceForHover = function(piece) {
+            var checkPieceForSelectable = function(piece) {
 
+                for (var i = 0; i < piece.pieceData.attachment_points.length; i++) {
+                    if (piece.pieceData.attachment_points[i].slot == 'hull') {
+                        return true;
+                    };
+                }
+
+            };
+            
+            var checkPieceForHover = function(piece) {
+                
+                if (!checkPieceForSelectable(piece)) {
+                    return;
+                }
+
+                if (!piece.testFrustumVisible()) {
+                    return;
+                }
+                
                 piece.getScreenPosition(frustumCoordinates);
+                
                 fitView(frustumCoordinates);
 
                 distsq = goo.Vector3.distanceSquared(frustumCoordinates, pointerFrustumPos);

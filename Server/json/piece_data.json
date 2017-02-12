@@ -40,6 +40,25 @@
           "clay_blob_module"
         ]
       },
+      "ground_plane":{
+        "size":5,
+        "controls":{
+          "actions": {
+            "applyForward":1,
+            "timeoutEvent": "EXPLODE"
+          },
+          "constants":{
+            "velocityDrag":0.5,
+            "radialDrag":1
+          }
+        },
+        "attachment_points":[
+          {"slot":"ground" ,   "transform":{"rot":[0, 0, 0], "pos":[0, 0, 0]}}
+        ],
+        "default_modules":[
+          "plane_ground_module"
+        ]
+      },
       "big_space_rock_piece":{
         "size":5,
         "controls":{

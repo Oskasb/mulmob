@@ -4,7 +4,7 @@
     "data":[
       {"id":"sparse",
         "weight":4,
-        "ground":[{"pieceType":"clay_blob_piece", "min":1, "max":1}],
+        "ground":[{"pieceType":"ground_plane", "min":1, "max":1}],
         "spawn":[
           {"pieceType":"small_tree_piece", "min":4, "max":8},
           {"pieceType":"big_tree_piece", "min":2, "max":5}
@@ -12,7 +12,7 @@
 
       {"id":"average",
         "weight":3,
-        "ground":[{"pieceType":"clay_blob_piece", "min":1, "max":1}],
+        "ground":[{"pieceType":"ground_plane", "min":1, "max":1}],
         "spawn":[
           {"pieceType":"small_tree_piece", "min":4, "max":8},
           {"pieceType":"medium_tree_piece", "min":4, "max":8},
@@ -22,7 +22,7 @@
 
       {"id":"dense",
         "weight":3,
-        "ground":[{"pieceType":"clay_blob_piece", "min":1, "max":1}],
+        "ground":[{"pieceType":"ground_plane", "min":1, "max":1}],
         "spawn":[
           {"pieceType":"small_tree_piece", "min":1, "max":8},
           {"pieceType":"medium_tree_piece", "min":1, "max":8},
@@ -33,7 +33,7 @@
 
       {"id":"crowded",
         "weight":2,
-        "ground":[{"pieceType":"clay_blob_piece", "min":1, "max":1}],
+        "ground":[{"pieceType":"ground_plane", "min":1, "max":1}],
         "spawn":[
           {"pieceType":"small_tree_piece", "min":1, "max":8},
           {"pieceType":"medium_tree_piece", "min":1, "max":8},
@@ -44,7 +44,7 @@
       ]},
       {"id":"plasmatic",
         "weight":1,
-        "ground":[{"pieceType":"clay_blob_piece", "min":1, "max":1}],
+        "ground":[{"pieceType":"ground_plane", "min":1, "max":1}],
         "spawn":[
           {"pieceType":"small_tree_piece", "min":1, "max":8},
           {"pieceType":"medium_tree_piece", "min":1, "max":8},
@@ -55,7 +55,7 @@
         ]},
       {"id":"rockness",
         "weight":1,
-        "ground":[{"pieceType":"clay_blob_piece", "min":1, "max":1}],
+        "ground":[{"pieceType":"ground_plane", "min":1, "max":1}],
         "spawn":[
           {"pieceType":"small_tree_piece", "min":1, "max":8},
           {"pieceType":"medium_tree_piece", "min":1, "max":8},

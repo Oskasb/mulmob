@@ -68,8 +68,22 @@ define([
 			camera.getFrustumCoordinates(this.gooPiece.entity.transformComponent.transform.translation, store);
 			store.scale(1/camera.near);
 		};
-		
-        ClientPiece.prototype.addAttachmentPoints = function(attachmentPoints, defaultModules) {
+
+		var testBound = new goo.BoundingSphere(new goo.Vector3(0, 0, 0), 20);
+
+		ClientPiece.prototype.testFrustumVisible = function() {
+			testBound.center.setDirect(this.piece.spatial.posX(), this.piece.spatial.posY(), this.piece.spatial.posZ());
+
+			if (camera.contains(testBound) === goo.Camera.Outside) {
+				return;
+			}
+
+			return true;
+
+		};
+
+
+		ClientPiece.prototype.addAttachmentPoints = function(attachmentPoints, defaultModules) {
 
             this.detachModules();
             this.attachmentPoints.length = 0;

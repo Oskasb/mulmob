@@ -106,6 +106,20 @@
         "remove_effect":"shell_detonate"
       }
     },
+
+    "plane_ground_module": {
+      "id":"plane_ground_module",
+      "type":"terrain",
+      "size":1,
+      "source":"initiate",
+      "initState": true,
+      "applies":{
+        "type":"string",
+        "state":true,
+        "bundle_model":"ground"
+      }
+    },
+
     "clay_blob_module":{
       "id":"clay_blob_module",
       "type":"hull",
