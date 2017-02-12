@@ -82,8 +82,6 @@ if(typeof(MATH) == "undefined"){
 		return Math.atan2(sn,cs);
 	};
 
-
-	
 	
 	MATH.radialToVector = function(angle, distance, store) {
 		store.data[0] = Math.cos(angle)*distance;
@@ -93,7 +91,8 @@ if(typeof(MATH) == "undefined"){
 	MATH.vectorXZToAngleAxisY = function(vec) {
 		return Math.atan2(vec.getX(), vec.getZ()) + Math.PI;
 	};
-
+	
+	
 	MATH.radialClamp = function(value, min, max) {
 
 		var zero = (min + max)/2 + ((max > min) ? Math.PI : 0);

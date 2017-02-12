@@ -3,16 +3,18 @@
 
 define(['Events',
     'PipelineAPI',
-    'EnvironmentAPI'
+    'EnvironmentAPI',
+    '3d/camera/CameraFunctions'
 ], function(
     evt,
     PipelineAPI,
-    EnvironmentAPI
-
+    EnvironmentAPI,
+    CameraFunctions
     ) {
 
     var Camera = goo.Camera;
     var CameraComponen = goo.CameraComponent;
+    var cameraFunctions;
     var EntityUtils = goo.EntityUtils;
     var Vector3 = goo.Vector3;
     var Matrix3x3 = goo.Matrix3x3;
@@ -67,8 +69,7 @@ define(['Events',
 
         evt.fire(evt.list().CAMERA_READY, {goo:g00, camera:cameraEntity});
 
-        lastPos = new MATH.Vec3(0, 0, 0);
-        forVec = new MATH.Vec3(0, 0, 0);
+
         evt.on(evt.list().CLIENT_TICK, updateCamera);
 
         var camTick = function() {
@@ -79,84 +80,22 @@ define(['Events',
         
         
         evt.on(evt.list().CAMERA_TICK, camTick);
-        
+        cameraFunctions = new CameraFunctions();
     };
 
 
     var lastPos;
     var ownPiece;
+    var tpf;
 
-
-    var lookAtPoint = new goo.Vector3();
-    var camPos = new goo.Vector3();
-    var lastLerpPos = new goo.Vector3();
-
-	var updateCamera = function(e) {
+    var updateCamera = function(e) {
         if (!on) return;
-        EnvironmentAPI.updateCameraFrame(evt.args(e).tpf, cameraEntity);
-
+        tpf = evt.args(e).tpf
         ownPiece = PipelineAPI.readCachedConfigKey('GAME_DATA', 'OWN_PLAYER').ownPiece;
-
-        playerPiece = ownPiece.piece;
-        
-        playerPiece.spatial.getForwardVector(forVec);
-
-        forVec.scale(4);
-        // forVec.addVec(playerPiece.spatial.vel);
-        // forVec.scale(0.4);
-
-
-        cameraEntity.transformComponent.transform.translation.setVector(lastLerpPos);
-
-        calcVec.setDirect(0, 4 + (Math.sqrt(Math.abs(playerPiece.spatial.vel.getZ()*0.2))), 0);
-
-        calcVec.addDirect(forVec.getX(), forVec.getY(), forVec.getZ());
-
-        calcVec2.setDirect(playerPiece.spatial.pos.getX(), playerPiece.spatial.pos.getY(), playerPiece.spatial.pos.getZ());
-        //    calcVec.subVector(lastPos);
-
-
-        camPos.setVector(calcVec2)
-
-        camPos.y += Math.sqrt(Math.max(26 - playerPiece.spatial.vel.getZ()+0.1 + Math.abs(playerPiece.spatial.vel.getX()), 7));
-
-        camPos.z -= 31 - Math.sqrt(Math.sqrt(Math.abs(playerPiece.spatial.vel.getZ()*20.12)) + Math.abs(playerPiece.spatial.vel.getX()*playerPiece.spatial.vel.getX()*0.2));
-        camPos.x -= Math.sqrt(Math.abs(playerPiece.spatial.vel.getX()*0.1));
-
-
-
-        lastLerpPos.lerp(camPos, 0.3);
-        //cameraEntity.transformComponent.transform.translation.setVector(camPos);
-
-        cameraEntity.transformComponent.transform.translation.lerp(lastLerpPos, 0.1);
-
-
-    //    cameraEntity.transformComponent.transform.translation.x -= playerPiece.spatial.vel.getX()*3;
-
-
-    //    cameraEntity.transformComponent.transform.translation.setVector(calcVec2);
-    //    cameraEntity.transformComponent.transform.translation.y += Math.max(19 - playerPiece.spatial.vel.getZ()+0.1 + Math.abs(playerPiece.spatial.vel.getX()), 7);
-    //    cameraEntity.transformComponent.transform.translation.z -= 40 - playerPiece.spatial.vel.getZ()*0.3;
-    //    cameraEntity.transformComponent.transform.translation.x -= playerPiece.spatial.vel.getX()*0.3;
-
-
-
-        calcVec2.addVector(calcVec);
-
-        lookAtPoint.lerp(calcVec2, 0.1);
-        
-        cameraEntity.lookAtPoint = lookAtPoint;
-
-        cameraEntity.transformComponent.transform.lookAt(cameraEntity.lookAtPoint, Vector3.UNIT_Y);
-
-    //    cameraEntity.transformComponent.transform.lookAt(calcVec, Vector3.UNIT_Y);
-    //    cameraEntity.transformComponent.transform.rotation.toAngles(calcVec);
-    //    cameraEntity.transformComponent.transform.rotation.rotateZ(-calcVec.z);
-
-    //    cameraEntity.transformComponent.transform.rotation.
-
+        EnvironmentAPI.updateCameraFrame(tpf, cameraEntity);
+        cameraFunctions.updateCamera(tpf,cameraEntity,ownPiece);
         cameraEntity.transformComponent.setUpdated();
-    //    lastPos.setVec(playerPiece.spatial.pos);
+
 	};
 
     evt.on(evt.list().ENGINE_READY, setupGooCamera);

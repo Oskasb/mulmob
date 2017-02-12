@@ -147,6 +147,14 @@ if(typeof(MODEL) == "undefined"){
 		return this.pos.getX();
 	};
 
+    MODEL.Spatial.prototype.posY = function() {
+        return this.pos.getY();
+    };
+
+    MODEL.Spatial.prototype.posZ = function() {
+        return this.pos.getZ();
+    };
+    
 	MODEL.Spatial.prototype.pitch = function() {
 		return this.rot.getX();
 	};
@@ -213,8 +221,15 @@ if(typeof(MODEL) == "undefined"){
 		this.setYaw(y);
 		this.setRoll(z);
 	};
-	
-	MODEL.Spatial.prototype.addPitch = function(angle) {
+
+    MODEL.Spatial.prototype.yawTowards = function(position) {
+
+
+    };
+
+
+
+    MODEL.Spatial.prototype.addPitch = function(angle) {
 		this.setPitch(MATH.angleInsideCircle(this.pitch() + angle));
 	};
 
@@ -226,22 +241,14 @@ if(typeof(MODEL) == "undefined"){
 		this.setRoll(MATH.angleInsideCircle(this.roll() + angle));
 	};
 
-	MODEL.Spatial.prototype.pitchTowards = function(angle, lerpFactor) {
-		this.addPitch(MATH.radialLerp(MATH.angleInsideCircle(this.pitch() - angle), angle, lerpFactor));
+	MODEL.Spatial.prototype.yawTowards = function(posVec, lerpFactor) {
+        calcVec.setVec(posVec);
+        calcVec.subVec(this.pos);
+        this.setYaw(MATH.radialLerp(this.yaw(), MATH.vectorXZToAngleAxisY(calcVec), lerpFactor));
+        this.applyYaw(this.yaw());
 	};
+    	
 
-	MODEL.Spatial.prototype.yawTowards = function(angle, lerpFactor) {
-		this.addYaw(MATH.radialLerp(MATH.angleInsideCircle(this.yaw() - angle), angle, lerpFactor));
-	};
-
-	MODEL.Spatial.prototype.rollTowards = function(angle, lerpFactor) {
-		this.addRoll(MATH.radialLerp(MATH.angleInsideCircle(this.roll() - angle), angle, lerpFactor));
-	};
-
-	
-	MODEL.Spatial.prototype.posY = function() {
-		return this.pos.getY();
-	};
 
 	
 	MODEL.Spatial.prototype.getVelVec = function() {
