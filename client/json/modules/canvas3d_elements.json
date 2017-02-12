@@ -37,7 +37,7 @@
             "callbacks":["followPointer"],
             "element":{
               "pos":[10, 10],
-              "size":[12, 12],
+              "size":[10, 10],
               "blendMode":"add_color"
             }
           }
@@ -51,7 +51,7 @@
             "callbacks":["hoverTargets"],
             "element":{
               "pos":[0, 0],
-              "size":[25, 25],
+              "size":[30, 30],
               "blendMode":"add_color"
             }
           }
@@ -65,7 +65,7 @@
             "callbacks":["currentTarget"],
             "element":{
               "pos":[0, 0],
-              "size":[20, 20],
+              "size":[15, 15],
               "blendMode":"add_color"
             }
           }

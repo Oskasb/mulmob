@@ -111,7 +111,7 @@ define(['PipelineAPI',], function(PipelineAPI) {
 
         calcVec.z -= calcVec.y+ distanceFactor*0.01;
 
-        calcVec.z -= speedFactor*0.01 + distanceFactor*0.01 +(targetPos.z / Math.abs(targetPos.x +1)*5);
+        calcVec.z -= speedFactor*0.01 + distanceFactor*0.01 +Math.clamp(targetPos.z / Math.abs(targetPos.x +1)*5, -100, 2);
 
         lastLerpPos.lerp(calcVec, 0.01);
 

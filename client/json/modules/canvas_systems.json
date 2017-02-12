@@ -155,9 +155,9 @@
           "size":{"height":32, "width":32},
           "zoom":80,
           "pos":{"top":0, "left":0},
-          "worldSection":{"probability":0.8, "color":[0.2,0.2,0.1,0.2], "borderColor":[0.9,0.55,0.2,0.4], "flicker":0.3,  "width":4},
-          "elementBorder":{"probability":0.25, "color":[0.1,0.3,0.5,0.6], "flicker":0.1, "margin":0, "width":1},
-          "raster":{"probability":0.01, "color":[0.9,0.7,0.8,0.1], "flicker":0.9, "width":15},
+          "hoverBorder":{"probability":0.25, "color":[0.1,0.5,0.7,0.6], "flicker":0.1, "margin":0, "width":1},
+          "triggerBorder":{"probability":0.25, "color":[0.7,0.3,0.1,0.4], "flicker":0.3, "margin":0, "width":2},
+          "raster":{"probability":0.01, "color":[0.9,0.7,0.8,0.1], "flicker":0.2, "width":15},
           "tpf":0.01
         }
       },{
@@ -169,7 +169,8 @@
           "zoom":80,
           "pos":{"top":0, "left":0},
           "worldSection":{"probability":0.8, "color":[0.5,0.4,0.1,0.2], "borderColor":[0.9,0.55,0.2,0.4], "flicker":0.3,  "width":4},
-          "elementBorder":{"probability":0.25, "color":[0.2,0.3,0.4,0.4], "flicker":0.1, "margin":1, "width":2},
+          "selectedBorder":{"probability":0.25, "color":[0.2,0.3,0.6,0.4], "flicker":0.1, "margin":2, "width":1},
+          "attackBorder":{"probability":0.3, "color":[0.8,0.2,0.0,0.5], "flicker":0.3, "margin":0, "width":2},
           "raster":{"probability":0.05, "color":[0.9,0.7,0.8,0.1], "flicker":0.9, "width":15},
           "tpf":0.01
         }

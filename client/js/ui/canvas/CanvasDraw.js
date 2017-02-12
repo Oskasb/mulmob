@@ -125,7 +125,7 @@ define([
                 return;
             }
 
-            ctx.lineWidth = (1-elementBorder.flicker + Math.random()*elementBorder.flicker);
+            ctx.lineWidth = elementBorder.width*(1-elementBorder.flicker + Math.random()*elementBorder.flicker);
 
             ctx.strokeStyle = CanvasDraw.randomizedColor(elementBorder.color, elementBorder.flicker);
 
@@ -149,7 +149,7 @@ define([
                 return;
             }
 
-            ctx.lineWidth = (1-elementBorder.flicker + Math.random()*elementBorder.flicker);
+            ctx.lineWidth = elementBorder.width*(1-elementBorder.flicker + Math.random()*elementBorder.flicker);
 
             ctx.strokeStyle = CanvasDraw.randomizedColor(elementBorder.color, elementBorder.flicker);
 

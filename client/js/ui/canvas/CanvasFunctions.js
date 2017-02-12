@@ -163,6 +163,10 @@ define([
                 if (!piece.testFrustumVisible()) {
                     return;
                 }
+
+                if (piece === ownPiece) {
+                    return;
+                }
                 
                 piece.getScreenPosition(frustumCoordinates);
                 
@@ -193,7 +197,7 @@ define([
                 if (mouseState.action[0]) {
                     hoverPiece = null;
 
-                    CanvasDraw.drawElementBorders(ctx, configs.elementBorder, configs.size);
+                    borderData = configs.hoverBorder;
 
                     for (var key in pieces) {
                         checkPieceForHover(pieces[key]);
@@ -212,6 +216,10 @@ define([
                             hoverCoords.y
                         );
 
+                        if (PipelineAPI.readCachedConfigKey("CONTROL_STATE","TOGGLE_TARGET_SELECTED") == hoverPiece.playerId) {
+                            borderData = configs.triggerBorder;
+                        }
+
                         PipelineAPI.setCategoryKeyValue('GAME_DATA', 'CURRENT_HOVER', hoverPiece);
 
 
@@ -223,15 +231,25 @@ define([
                         canvasGuiApi.toggleGuiEnabled(false);
                         PipelineAPI.setCategoryKeyValue('GAME_DATA', 'CURRENT_HOVER', null);
                     }
-                    
+
+                    CanvasDraw.drawElementBorders(ctx, borderData, configs.size);
+
                 } else if (canvasGuiApi.enabled) {
 
                     selectedTarget = hoverPiece;
 
                     if (selectedTarget) {
-                        PipelineAPI.setCategoryKeyValue("CONTROL_STATE","TOGGLE_TARGET_SELECTED", selectedTarget.playerId);
+                        if (PipelineAPI.readCachedConfigKey("CONTROL_STATE","TOGGLE_TARGET_SELECTED") == selectedTarget.playerId) {
+                            PipelineAPI.setCategoryKeyValue('CONTROL_STATE', 'TOGGLE_ATTACK_ENABLED', true);
+                        } else {
+                            PipelineAPI.setCategoryKeyValue("CONTROL_STATE","TOGGLE_TARGET_SELECTED", selectedTarget.playerId);
+                            PipelineAPI.setCategoryKeyValue('CONTROL_STATE', 'TOGGLE_ATTACK_ENABLED', false);
+
+                        }
+
                     } else {
                         PipelineAPI.setCategoryKeyValue("CONTROL_STATE","TOGGLE_TARGET_SELECTED", null);
+                        PipelineAPI.setCategoryKeyValue('CONTROL_STATE', 'TOGGLE_ATTACK_ENABLED', false);
                     }
 
                 //    "event":{"category":"CONTROL_STATE", "key":"TOGGLE_TARGET_SELECTED", "type":"toggle"}
@@ -243,20 +261,25 @@ define([
 
             };
 
-
+            var borderData;
             var currentTargetCallback = function(tpf, ctx) {
 
                 if (selectedTarget && pieces[selectedTarget.piece.id]) {
 
-                    CanvasDraw.drawElementBorders(ctx, configs.elementBorder, configs.size);
+                    if (PipelineAPI.readCachedConfigKey("CONTROL_STATE","TOGGLE_ATTACK_ENABLED") == true) {
+                        borderData = configs.attackBorder
+                    } else {
+                        borderData = configs.selectedBorder
+                    }
+                    CanvasDraw.drawElementBorders(ctx, borderData, configs.size);
 
                     var yawAim = ownPiece.piece.readServerModuleState('turret_aim_yaw')[0].value;
                 //    console.log(yawAim)
-                    CanvasDraw.drawTargettingYaw(ctx, configs.elementBorder, configs.size, Math.abs(yawAim));
+                    CanvasDraw.drawTargettingYaw(ctx, borderData, configs.size, Math.abs(yawAim));
 
                     var pitchAim = ownPiece.piece.readServerModuleState('turret_aim_pitch')[0].value;
                     //    console.log(yawAim)
-                    CanvasDraw.drawTargettingPitch(ctx, configs.elementBorder, configs.size, Math.abs(pitchAim));
+                    CanvasDraw.drawTargettingPitch(ctx, borderData, configs.size, Math.abs(pitchAim));
                     
                     if (!canvasGuiApi.enabled) {
                         canvasGuiApi.toggleGuiEnabled(true);
