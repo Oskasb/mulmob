@@ -29,7 +29,7 @@ ServerWorld.prototype.initWorld = function(clients) {
 	this.connectedClients = clients;
 };
 
-ServerWorld.prototype.3getPieceById = function(id) {
+ServerWorld.prototype.getPieceById = function(id) {
 
 
         if (this.players[id]) {
